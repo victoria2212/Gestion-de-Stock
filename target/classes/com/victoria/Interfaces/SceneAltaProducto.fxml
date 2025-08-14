@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.victoria.Interfaces.AltaProducto">
+    <center>
+        <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+            <VBox spacing="10" alignment="CENTER">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+
+                <Label text="ALTA DE PRODUCTO" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                <GridPane hgap="10" vgap="10">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT"/>
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="200"/>
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="200"/>
+                        <ColumnConstraints/>
+                    </columnConstraints>
+
+                    <!-- Tipo de Producto -->
+                    <Label text="Tipo de Producto" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="cbTipoProducto" prefWidth="200" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <!-- Tipo de Ropa -->
+                    <Label text="Tipo de Ropa" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="cbTipoRopa" prefWidth="200" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <TextField fx:id="txtNuevoTipoRopa" promptText="Añadir otro tipo de ropa +" prefWidth="200" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                    <Button fx:id="btnAddTipoRopa" text="Añadir" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+
+                    <!-- Tipo de Accesorio -->
+                    <Label text="Tipo de Accesorio" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="cbTipoAccesorio" prefWidth="200" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    <TextField fx:id="txtNuevoTipoAccesorio" promptText="Añadir otro tipo de Accesorio +" prefWidth="200" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                    <Button fx:id="btnAddTipoAccesorio" text="Añadir" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+
+                    <!-- Descripción -->
+                    <Label text="Descripción" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtDescripcion" prefWidth="200" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                    <!-- Talle -->
+                    <Label text="Talle" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtTalle" prefWidth="200" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                    <!-- Precio -->
+                    <Label text="Precio" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtPrecio" prefWidth="200" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                    <!-- Color -->
+                    <Label text="Color" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtColor" prefWidth="200" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+                    <!-- Marca -->
+                    <Label text="Marca" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtMarca" prefWidth="200" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+
+                    <!-- Cantidad (último campo dentro del GridPane) -->
+                    <Label text="Cantidad" GridPane.rowIndex="8" GridPane.columnIndex="0" style="-fx-alignment: CENTER_RIGHT;"/>
+                    <Spinner fx:id="spCantidad" prefWidth="200" GridPane.rowIndex="8" GridPane.columnIndex="1" />
+                
+                </GridPane>
+                
+                <!-- Botón Guardar -->
+                <Button text="Guardar" fx:id="guardarButton" onAction="#guardarProducto" 
+                GridPane.rowIndex="13" GridPane.columnIndex="1" alignment="CENTER_RIGHT"/>
+            </VBox>
+        </HBox>
+    </center>
+    <!-- Botón volver -->
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Button fx:id="btnVolver" text="Volver al Menú Principal" onAction="#volverMenuPrincipal"/>
+        </HBox>
+    </bottom>
+</BorderPane>
+
+

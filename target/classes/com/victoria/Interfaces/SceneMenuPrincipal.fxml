@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.victoria.Interfaces.MenuPrincipal">
+
+    <!-- Barra superior con MenuBar y botones -->
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-background-color: #e0ffe0;">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
+
+            <!-- MenuBar Gestion -->
+            <MenuBar>
+                <menus>
+                    <Menu text="Gestión de Stock">
+                        <items>
+                            <MenuItem fx:id="menuItemGestionRopa" text="Gestión de Ropa" />
+                            <MenuItem fx:id="menuItemGestionAccs" text="Gestión de Accesorios" />
+                        </items>
+                    </Menu>
+                </menus>
+            </MenuBar>
+
+            <!-- Botones normales -->
+            <Button fx:id="btnAltaProductos" text="Alta de Productos" prefWidth="140" />
+
+               <!-- MenuBar Stock -->
+            <MenuBar>
+                <menus>
+                    <Menu text="Visualización de Stock">
+                        <items>
+                            <MenuItem fx:id="menuItemVisualizacionRopa" text="Visualización de Ropa" />
+                            <MenuItem fx:id="menuItemVisualizacionAccs" text="Visualización de Accesorios" />
+                        </items>
+                    </Menu>
+                </menus>
+            </MenuBar>
+
+            <Button fx:id="btnEmpleados" text="Empleados" prefWidth="140" />
+        </HBox>
+    </top>
+
+    <!-- Centro vacío (para cargar vistas dinámicas) -->
+    <center>
+        <StackPane fx:id="mainContent" />
+    </center>
+
+    <!-- Parte inferior: Contacto -->
+    <bottom>
+        <VBox spacing="8" style="-fx-background-color: #f0f0f0; -fx-border-color: #4682b4;">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
+            <Label text="Contacto" style="-fx-font-weight: bold; -fx-font-size: 13px;" />
+            <HBox spacing="10">
+                <Label text="📞" />
+                <Label text="3424232655" />
+            </HBox>
+            <HBox spacing="10">
+                <Label text="📧" />
+                <Label text="dharma.vip@hotmail.com" />
+            </HBox>
+            <HBox spacing="10">
+                <Label text="📍" />
+                <Label text="General Paz 5786" />
+            </HBox>
+        </VBox>
+    </bottom>
+
+</BorderPane>
+
+

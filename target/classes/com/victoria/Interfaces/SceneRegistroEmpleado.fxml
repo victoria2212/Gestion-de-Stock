@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.victoria.Interfaces.RegistroEmpleado">
+    <center>
+        <VBox spacing="15" alignment="CENTER" maxWidth="500">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <Label text="Registro de nuevo empleado" style="-fx-font-size: 18px;"/>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Nombre:" minWidth="150"/>
+                <TextField fx:id="campoNombre" promptText="Nombre completo" HBox.hgrow="ALWAYS"/>
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Apellido:" minWidth="150"/>
+                <TextField fx:id="campoApellido" promptText="Apellido completo" HBox.hgrow="ALWAYS"/>
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="DNI:" minWidth="150"/>
+                <TextField fx:id="campoDni" promptText="Solo números" HBox.hgrow="ALWAYS"/>
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Dirección:" minWidth="150"/>
+                <TextField fx:id="campoDireccion" promptText="Ej: 25 de Mayo 123" HBox.hgrow="ALWAYS"/>
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Rol:" minWidth="150"/>
+                <ComboBox fx:id="campoRol" promptText="Seleccione un rol" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+            </HBox>
+            
+            <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Contraseña Administrador:" minWidth="150"/>
+
+            <!-- Contenedor de contraseña y botón -->
+            <HBox spacing="5" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                <!-- Campo oculto -->
+                <PasswordField fx:id="campoContrasenaAdmin" promptText="Ingrese la contraseña" HBox.hgrow="ALWAYS"/>
+                <!-- Campo visible (oculto por defecto) -->
+                <TextField fx:id="campoContrasenaAdminVisible" promptText="Ingrese la contraseña" HBox.hgrow="ALWAYS" visible="false" managed="false"/>
+
+                <!-- Botón para alternar -->
+                <Button fx:id="botonVerContrasena" text="👁" onAction="#toggleVerContrasena" focusTraversable="false"/>
+            </HBox>
+        </HBox>
+
+            <HBox spacing="20" alignment="CENTER" style="-fx-padding: 10 0 0 0;">
+                <Button text="Volver al Inicio" onAction="#inicioSesion"/>
+                <Button text="Registrar" onAction="#registrarEmpleado"/>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>
