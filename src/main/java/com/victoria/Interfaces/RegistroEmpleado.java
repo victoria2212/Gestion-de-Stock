@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.victoria.Clases.Empleado;
 import com.victoria.Gestores.GestorEmpleado;
+import com.victoria.navegation.Navegador;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -79,17 +80,9 @@ public class RegistroEmpleado {
             //ACA TENGO QUE VER SI EN SERIO SE GUARDO CORRECTAMENTE, PORQUE PUEDE QUE TIRE EL MENSAJE PERO NO SE HAYA GUARDADO
             mostrarAlerta("Empleado registrado con éxito.");
             limpiarCampos();
-           // VOLVEMOS a la pantalla de inicio de sesión en la misma ventana
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("SceneInicioSesion.fxml"));
-            Parent root = loader.load();
-            Stage stageActual = (Stage) campoDni.getScene().getWindow();
-            stageActual.setScene(new Scene(root));
-            stageActual.setTitle("Inicio de Sesión");
-        }  catch (Exception e) {
-            e.printStackTrace();
-            mostrarAlerta("Error al cargar Inicio de Sesión.");
-        }
+           // VOLVEMOS a la pantalla de inicio de sesión en la misma ventana        
+            Navegador.cambiarVista("/com/victoria/Interfaces/SceneInicioSesion.fxml");
+                        
         } else {
             mostrarAlerta("Este empleado ya existe en el sistema.");
             campoDni.clear();
@@ -118,18 +111,11 @@ public class RegistroEmpleado {
                 campoContrasenaAdmin.setManaged(true);
             }
     }
-    @FXML private void inicioSesion(){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("SceneInicioSesion.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) campoDni.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Inicio de Sesion");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @FXML
+    private void inicioSesion() {
+    Navegador.cambiarVista("/com/victoria/Interfaces/SceneInicioSesion.fxml");
     }
-
+    
     private void limpiarCampos() {
         campoDni.clear();
         campoNombre.clear();

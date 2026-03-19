@@ -2,6 +2,7 @@ package com.victoria.Interfaces;
 
 
 import com.victoria.Gestores.GestorEmpleado;
+import com.victoria.navegation.Navegador;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,7 +13,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-
 import java.io.IOException;
 
 
@@ -36,54 +36,30 @@ public class InicioSesion {
     private void handleIngresar() {
 
         String dniTexto = campoDni.getText().trim();
-        
        // Validar que no esté vacío
         if (dniTexto.isEmpty()) {
             mostrarAlerta("Debe ingresar su DNI.");
             return;
         }
-        
+
         int dni=Integer.parseInt(dniTexto);  
 
     // Usar el gestor para consultar en la BD
     GestorEmpleado gestor = GestorEmpleado.getInstance();
         if (gestor.existeEmpleado(dni)) {
             // Aquí podrías cambiar de pantalla
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("SceneMenuPrincipal.fxml"));
-            Parent root = loader.load();
-
-            Stage stageActual = (Stage) campoDni.getScene().getWindow();
-            stageActual.setScene(new Scene(root));
-            stageActual.setTitle("Menú Principal");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            mostrarAlerta("No se pudo cargar la pantalla de Menú Principal.");
-        }
+            Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
+        
         } else {
             mostrarAlerta("El DNI ingresado no se encuentra registrado.");
         }
     }
 
-    
     // Este método se ejecuta cuando el usuario hace clic en "Registrarse"
+        
     @FXML
-    private void registrarse(ActionEvent event) {
- 
-     try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("SceneRegistroEmpleado.fxml"));
-        Parent root = loader.load();
-
-        // Obtener la ventana actual
-        Stage stageActual = (Stage) campoDni.getScene().getWindow();
-        stageActual.setScene(new Scene(root));
-        stageActual.setTitle("Registro de Empleado");
-
-    } catch (IOException e) {
-        e.printStackTrace();
-        mostrarAlerta("No se pudo cargar la pantalla de registro.");
-    }
+    private void registrarEmpleado() {
+    Navegador.cambiarVista("/com/victoria/Interfaces/SceneRegistroEmpleado.fxml");
     }
 
     // Método para mostrar mensajes en pantalla

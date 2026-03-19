@@ -8,6 +8,7 @@ import com.victoria.Clases.Ropa;
 import com.victoria.Clases.Stock;
 import com.victoria.Gestores.GestorProducto;
 import com.victoria.Gestores.GestorStock;
+import com.victoria.navegation.Navegador;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -220,16 +221,9 @@ public class AltaProducto {
     }
     @FXML
     private void volverMenuPrincipal() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("SceneMenuPrincipal.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) guardarButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Menú Principal");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
     }
+   
     private double parsePrecio(String precioStr) throws NumberFormatException {
         if (precioStr == null || precioStr.trim().isEmpty()) {
             throw new NumberFormatException("Precio vacío");

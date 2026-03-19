@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.victoria.Dto.RopaStockDTO;
 import com.victoria.Gestores.GestorStock;
+import com.victoria.navegation.Navegador;
 
 public class VisualizarStockRopa {
     public GestorStock gestorStock = GestorStock.getInstance();
@@ -55,6 +56,10 @@ public class VisualizarStockRopa {
     // Método para volver al menú principal
     @FXML
     private void volverMenuPrincipal() {
+    Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
+    }
+    /*@FXML
+    private void volverMenuPrincipal() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("SceneMenuPrincipal.fxml"));
             Parent root = loader.load();
@@ -64,7 +69,7 @@ public class VisualizarStockRopa {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
     private void cargarDatos() {
     List<RopaStockDTO> listaDTO = gestorStock.obtenerStockRopa();
     ObservableList<RopaStockDTO> listaRopaStock = FXCollections.observableArrayList(listaDTO);

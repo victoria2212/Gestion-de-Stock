@@ -7,6 +7,7 @@ import java.util.List;
 import com.victoria.Dto.AccsStockDTO;
 import com.victoria.Dto.RopaStockDTO;
 import com.victoria.Gestores.GestorStock;
+import com.victoria.navegation.Navegador;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -62,6 +63,10 @@ public class GestionStockAccs {
     // Método para volver al menú principal
     @FXML
     private void volverMenuPrincipal() {
+    Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
+    }
+    /*@FXML
+    private void volverMenuPrincipal() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("SceneMenuPrincipal.fxml"));
             Parent root = loader.load();
@@ -71,7 +76,7 @@ public class GestionStockAccs {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
     private void agregarBotonesModificar() {
         colModificar.setCellFactory(col -> new TableCell<>() {
         private final Button btn = new Button("Modificar");
