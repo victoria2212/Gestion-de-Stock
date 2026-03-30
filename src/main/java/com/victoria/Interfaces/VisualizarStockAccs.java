@@ -1,23 +1,20 @@
 package com.victoria.Interfaces;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import com.victoria.Dto.AccsStockDTO;
 import com.victoria.Gestores.GestorStock;
 import com.victoria.navegation.Navegador;
+import com.victoria.utils.FormateadorFechas;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
+
 
 public class VisualizarStockAccs {
     public GestorStock gestorStock = GestorStock.getInstance();
@@ -31,7 +28,7 @@ public class VisualizarStockAccs {
     @FXML private TableColumn<AccsStockDTO, String> colMarca;
     @FXML private TableColumn<AccsStockDTO, Integer> colCantidad;
     @FXML private TableColumn<AccsStockDTO, String> colIdentificador;
-    @FXML private TableColumn<AccsStockDTO, LocalDateTime> colFechaActualizacion;
+    @FXML private TableColumn<AccsStockDTO, String> colFechaActualizacion;
     // Inicializador del controlador
 
     @FXML
@@ -48,8 +45,9 @@ public class VisualizarStockAccs {
         colMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
         colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
         colIdentificador.setCellValueFactory(new PropertyValueFactory<>("identificador"));
-        colFechaActualizacion.setCellValueFactory(new PropertyValueFactory<>("fechaActualizacion"));
-
+        colFechaActualizacion.setCellValueFactory(cellData ->
+        new SimpleStringProperty(FormateadorFechas.formatear(cellData.getValue().getFechaActualizacion())));
+        
         cargarDatos();
     }
     // Método para volver al menú principal
@@ -57,18 +55,7 @@ public class VisualizarStockAccs {
     private void volverMenuPrincipal() {
     Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
     }
-    /*@FXML
-    private void volverMenuPrincipal() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("SceneMenuPrincipal.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) tablaStock.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Menú Principal");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
+  
     private void cargarDatos() {
     List<AccsStockDTO> listaDTO = gestorStock.obtenerStockAccs();
     ObservableList<AccsStockDTO> listaAccsStock = FXCollections.observableArrayList(listaDTO);

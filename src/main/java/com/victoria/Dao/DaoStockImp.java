@@ -134,6 +134,12 @@ public class DaoStockImp implements DaoStock{
 	}
 	public void bajaProducto(String id_producto){
 	}
+	public void actualizarAccs(AccsStockDTO accs){
+
+	}
+	public void actualizarRopa(RopaStockDTO ropa){
+		
+	}
 	
 	
 }

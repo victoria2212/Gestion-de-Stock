@@ -1,27 +1,21 @@
 package com.victoria.Interfaces;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import com.victoria.Dto.AccsStockDTO;
-import com.victoria.Dto.RopaStockDTO;
 import com.victoria.Gestores.GestorStock;
 import com.victoria.navegation.Navegador;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
 public class GestionStockAccs {
     
@@ -37,8 +31,8 @@ public class GestionStockAccs {
     @FXML private TableColumn<AccsStockDTO, Integer> colCantidad;
     @FXML private TableColumn<AccsStockDTO, String> colIdentificador;
     @FXML private TableColumn<AccsStockDTO, LocalDateTime> colFechaActualizacion;
-    @FXML private TableColumn<RopaStockDTO, Void> colModificar;
-    @FXML private TableColumn<RopaStockDTO, Void> colEliminar;
+    @FXML private TableColumn<AccsStockDTO, Void> colModificar;
+    @FXML private TableColumn<AccsStockDTO, Void> colEliminar;
     
     // Inicializador del controlador
 
@@ -82,9 +76,11 @@ public class GestionStockAccs {
         private final Button btn = new Button("Modificar");
         {
             btn.setOnAction(e -> {
-                RopaStockDTO item = getTableView().getItems().get(getIndex());
+                AccsStockDTO item = getTableView().getItems().get(getIndex());
                 // Aquí iría tu lógica de gestor para modificar
-                System.out.println("Modificar: " + item.getIdentificador());
+            Navegador.setDato(item);
+            Navegador.cambiarVista("/com/victoria/Interfaces/SceneModificarProducto.fxml");
+
             });
             setAlignment(Pos.CENTER); // Centrar contenido
         }
@@ -105,7 +101,7 @@ public class GestionStockAccs {
 
         {
             btn.setOnAction(e -> {
-                RopaStockDTO item = getTableView().getItems().get(getIndex());
+                AccsStockDTO item = getTableView().getItems().get(getIndex());
                 // Aquí iría tu lógica de gestor para eliminar
                 System.out.println("Eliminar: " + item.getIdentificador());
             });

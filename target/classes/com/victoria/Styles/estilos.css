@@ -1,0 +1,68 @@
+/* ===== GENERAL ===== */
+.root {
+    -fx-font-family: "Segoe UI";
+}
+
+/* ===== MENU BAR ===== */
+.menu-bar {
+    -fx-background-color: transparent;
+}
+
+/* Botón de menú (Gestión / Visualización) */
+.menu-bar .menu {
+    -fx-background-color: linear-gradient(#ffffff, #d6d6d6);
+    -fx-border-color: #a0a0a0;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-padding: 5 15 5 15;
+}
+
+/* Texto del menú */
+.menu-bar .menu .label {
+    -fx-text-fill: black;
+}
+
+/* Hover (azul) */
+.menu-bar .menu:hover {
+    -fx-background-color: linear-gradient(#e3f2fd, #90caf9);
+}
+
+.menu-bar .menu:hover .label {
+    -fx-text-fill: #0d47a1;
+}
+
+/* Seleccionado (cuando está abierto) */
+.menu-bar .menu:showing {
+    -fx-background-color: linear-gradient(#90caf9, #64b5f6);
+}
+
+.menu-bar .menu:showing .label {
+    -fx-text-fill: #0d47a1;
+}
+
+/* ===== ITEMS DEL MENU ===== */
+.menu-item {
+    -fx-background-color: white;
+}
+
+.menu-item:hover {
+    -fx-background-color: #c8f7c5;
+}
+
+/* ===== BOTONES ===== */
+.button {
+    -fx-background-color: linear-gradient(#ffffff, #d6d6d6);
+    -fx-border-color: #a0a0a0;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+}
+
+/* Hover botón */
+.button:hover {
+    -fx-background-color: linear-gradient(#e3f2fd, #90caf9);
+}
+
+/* Click botón */
+.button:pressed {
+    -fx-background-color: linear-gradient(#90caf9, #64b5f6);
+}

@@ -11,4 +11,7 @@ public interface DaoStock {
     public List<RopaStockDTO> obtenerStockRopa();
     public List<AccsStockDTO> obtenerStockAccs();
     public void bajaProducto(String id_producto);
+    public void actualizarAccs(AccsStockDTO accesorio);
+    public void actualizarRopa(RopaStockDTO ropa);
+
 }

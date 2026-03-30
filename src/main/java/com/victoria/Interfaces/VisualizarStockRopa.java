@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -18,6 +19,7 @@ import java.util.List;
 import com.victoria.Dto.RopaStockDTO;
 import com.victoria.Gestores.GestorStock;
 import com.victoria.navegation.Navegador;
+import com.victoria.utils.FormateadorFechas;
 
 public class VisualizarStockRopa {
     public GestorStock gestorStock = GestorStock.getInstance();
@@ -31,7 +33,7 @@ public class VisualizarStockRopa {
     @FXML private TableColumn<RopaStockDTO, String> colMarca;
     @FXML private TableColumn<RopaStockDTO, Integer> colCantidad;
     @FXML private TableColumn<RopaStockDTO, String> colIdentificador;
-    @FXML private TableColumn<RopaStockDTO, LocalDateTime> colFechaActualizacion;
+    @FXML private TableColumn<RopaStockDTO, String> colFechaActualizacion;
 
     // Inicializador del controlador
 
@@ -49,7 +51,9 @@ public class VisualizarStockRopa {
         colMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
         colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
         colIdentificador.setCellValueFactory(new PropertyValueFactory<>("identificador"));
-        colFechaActualizacion.setCellValueFactory(new PropertyValueFactory<>("fechaActualizacion"));
+        colFechaActualizacion.setCellValueFactory(cellData ->
+        new SimpleStringProperty(FormateadorFechas.formatear(cellData.getValue().getFechaActualizacion())));
+        //colFechaActualizacion.setCellValueFactory(new PropertyValueFactory<>("fechaActualizacion"));
 
         cargarDatos();
     }
@@ -58,18 +62,7 @@ public class VisualizarStockRopa {
     private void volverMenuPrincipal() {
     Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
     }
-    /*@FXML
-    private void volverMenuPrincipal() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("SceneMenuPrincipal.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) tablaStock.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Menú Principal");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
+ 
     private void cargarDatos() {
     List<RopaStockDTO> listaDTO = gestorStock.obtenerStockRopa();
     ObservableList<RopaStockDTO> listaRopaStock = FXCollections.observableArrayList(listaDTO);

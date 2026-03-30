@@ -31,6 +31,13 @@ public class GestorStock {
     public List<AccsStockDTO> obtenerStockAccs(){
         return stockDao.obtenerStockAccs();
     }
+    public void actualizarRopa(RopaStockDTO ropa) {
+    stockDao.actualizarRopa(ropa);
+    }
+
+    public void actualizarAccs(AccsStockDTO accs) {
+    stockDao.actualizarAccs(accs);
+    }
 
     
 }

@@ -29,5 +29,8 @@ public class GestorProducto {
     boolean b =productoDao.existeProducto(id);
     return b;
     }
+    public void actualizarProducto(Producto producto){
+        
+    }
 
 }

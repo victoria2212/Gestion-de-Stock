@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.Insets?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.victoria.Interfaces.MenuPrincipal">
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.victoria.Interfaces.MenuPrincipal" stylesheets="@/com/victoria/styles/estilos.css">
 
     <!-- Barra superior con MenuBar y botones -->
     <top>
@@ -15,7 +15,8 @@
             </padding>
 
             <!-- MenuBar Gestion -->
-            <MenuBar>
+            
+            <MenuBar fx:id="menuBarGestion">
                 <menus>
                     <Menu text="Gestión de Stock">
                         <items>

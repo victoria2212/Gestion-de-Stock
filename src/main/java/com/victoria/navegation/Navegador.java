@@ -5,11 +5,21 @@ import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 
 public class Navegador {
-     private static BorderPane root;
+    private static BorderPane root;
+    private static Object dato;
 
     public static void setRoot(BorderPane rootPane) {
         root = rootPane;
-    }    
+    }   
+    public static void setDato(Object d) {
+        dato = d;
+    } 
+    public static Object getDato() {
+        return dato;
+    }
+    public static void limpiarDato() {
+        dato = null;
+    }
      public static void cambiarVista(String fxml) {
         try {
             FXMLLoader loader = new FXMLLoader(

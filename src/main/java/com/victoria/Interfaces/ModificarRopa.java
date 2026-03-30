@@ -1,21 +1,19 @@
 package com.victoria.Interfaces;
 
-import com.victoria.Dto.AccsStockDTO;
+
 import com.victoria.Dto.RopaStockDTO;
 import com.victoria.Gestores.GestorStock;
-import com.victoria.navegation.*;
+import com.victoria.navegation.Navegador;
+
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextField;
 
-public class ModificarProducto {
-    @FXML private ComboBox<String> cbTipoProducto;
+public class ModificarRopa {
+    
     @FXML private ComboBox<String> cbTipoRopa;
-    @FXML private TextField txtNuevoTipoRopa;
-    @FXML private Button btnAddTipoRopa;
-    @FXML private ComboBox<String> cbTipoAccesorio;
-    @FXML private TextField txtNuevoTipoAccesorio;
-    @FXML private Button btnAddTipoAccesorio;
-
     @FXML private TextField txtDescripcion;
     @FXML private TextField txtTalle;
     @FXML private TextField txtPrecio;
@@ -25,15 +23,12 @@ public class ModificarProducto {
 
     private RopaStockDTO ropa;
     private GestorStock gestorStock = new GestorStock();
-    private AccsStockDTO accs;
-    
+
     @FXML
     public void initialize() {
         Object producto = Navegador.getDato();
         
-        if (producto instanceof RopaStockDTO ropa) {
             this.ropa = (RopaStockDTO) producto;
-            cbTipoProducto.setValue("ROPA");
             cbTipoRopa.setValue(ropa.getTipoRopa());
             txtDescripcion.setText(ropa.getDescripcion());
             txtTalle.setText(ropa.getTalle());
@@ -41,36 +36,10 @@ public class ModificarProducto {
             txtColor.setText(ropa.getColor());
             txtMarca.setText(ropa.getMarca());
             
-
             spCantidad.setValueFactory(
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, ropa.getCantidad())
-            );
-
-            cbTipoAccesorio.setDisable(true);
-            txtNuevoTipoAccesorio.setDisable(true);
-            btnAddTipoAccesorio.setDisable(true);
-        }
-        else if (producto instanceof AccsStockDTO accs) {
-            this.accs = (AccsStockDTO) producto;
-            cbTipoProducto.setValue("ACCESORIO");
-            cbTipoAccesorio.setValue(accs.getTipoAccs());
-            txtDescripcion.setText(accs.getDescripcion());
-            txtTalle.setText(accs.getTalle());
-            txtPrecio.setText(String.valueOf(accs.getPrecio()));
-            txtColor.setText(accs.getColor());
-            txtMarca.setText(accs.getMarca());
-           
-
-            spCantidad.setValueFactory(
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, accs.getCantidad())
-            );
-
-            cbTipoRopa.setDisable(true);
-            txtNuevoTipoRopa.setDisable(true);
-            btnAddTipoRopa.setDisable(true);
-        }
+            );       
     }
-
     @FXML
     private void guardarCambios() {
         /*
@@ -101,4 +70,6 @@ public class ModificarProducto {
     private void volverMenuPrincipal() {
         Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
     }
+
+
 }

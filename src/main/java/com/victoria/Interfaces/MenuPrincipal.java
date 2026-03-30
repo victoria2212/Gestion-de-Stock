@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.victoria.navegation.Navegador;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,9 +25,11 @@ public class MenuPrincipal {
     @FXML private MenuItem menuItemGestionAccs;
     @FXML private MenuItem menuItemVisualizacionRopa;
     @FXML private MenuItem menuItemVisualizacionAccs;
+    @FXML private MenuBar menuBarGestion;
 
     @FXML
     public void initialize() {
+        
         btnAltaProductos.setOnAction(e -> abrirAltaProducto());
         btnEmpleados.setOnAction(e -> mostrarMensaje("Empleados clickeado"));
 
@@ -35,6 +38,7 @@ public class MenuPrincipal {
         
         menuItemVisualizacionRopa.setOnAction(this::abrirVisualizacionRopa);
         menuItemVisualizacionAccs.setOnAction(this::abrirVisualizacionAccs);
+        
     }
     @FXML
     private void abrirAltaProducto() {

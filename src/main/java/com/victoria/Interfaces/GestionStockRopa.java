@@ -1,6 +1,5 @@
 package com.victoria.Interfaces;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -11,16 +10,12 @@ import com.victoria.navegation.Navegador;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
 public class GestionStockRopa {
     public GestorStock gestorStock = GestorStock.getInstance();
@@ -65,40 +60,30 @@ public class GestionStockRopa {
     private void volverMenuPrincipal() {
     Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
     }
-    /*@FXML
-    private void volverMenuPrincipal() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("SceneMenuPrincipal.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) tablaStock.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Menú Principal");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
     private void agregarBotonesModificar() {
-        colModificar.setCellFactory(col -> new TableCell<>() {
+    colModificar.setCellFactory(col -> new TableCell<>() {
         private final Button btn = new Button("Modificar");
+
         {
-            btn.setOnAction(e -> {
-                RopaStockDTO item = getTableView().getItems().get(getIndex());
-                // Aquí iría tu lógica de gestor para modificar
-                System.out.println("Modificar: " + item.getIdentificador());
-            });
-            setAlignment(Pos.CENTER); // Centrar contenido
+        btn.setOnAction(e -> {
+                
+            RopaStockDTO item = getTableView().getItems().get(getIndex());
+            Navegador.setDato(item);
+            Navegador.cambiarVista("/com/victoria/Interfaces/SceneModificarProducto.fxml");
+        });
+
+            setAlignment(Pos.CENTER);
         }
+
         @Override
         protected void updateItem(Void item, boolean empty) {
             super.updateItem(item, empty);
-            if (empty) {
-                setGraphic(null);
-            } else {
-                setGraphic(btn);
-                }
-            }
-        });
-    }
+            setGraphic(empty ? null : btn);
+        }
+    });
+}
+   
+   
     private void agregarBotonesEliminar() {
         colEliminar.setCellFactory(col -> new TableCell<>() {
         private final Button btn = new Button("Eliminar");
