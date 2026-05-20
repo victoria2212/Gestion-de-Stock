@@ -1,9 +1,10 @@
 package com.victoria.Dao;
-
+// el DAO es quien habla con la BD
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.victoria.Clases.Producto;
@@ -12,34 +13,93 @@ import com.victoria.Conexion.ConexionDB;
 public class DaoProductoImp implements DaoProducto{
 
     @Override
-    public void altaProducto(Producto producto) {
-    Connection cn = null; //para conectar a la bd
-	PreparedStatement cs = null;//para hacer las consultas SQL
-	ResultSet rs = null; 
-             
-         
-        String consulta = "INSERT INTO producto (id_producto, descripcion, color, marca, talle, precio, tipo, tipoproducto)" 
-                        + "VALUES (?,?,?,?,?,?,?,?);";
-        
-        ConexionDB conexion = new ConexionDB();
-       
-        try {
-			cn = conexion.conectar();
-			cs = cn.prepareStatement(consulta);
-			//INCORPORAMOS PARAMETROS DE ARRIBA (los values)
-			cs.setString(1, producto.getId_producto());
-			cs.setString(2, producto.getDescripcion());
-			cs.setString(3, producto.getColor());
-           	cs.setString(4, producto.getMarca());
-			cs.setString(5, producto.getTalle());
-			cs.setDouble(6, producto.getPrecio());
-			cs.setString(7, producto.getTipo());
-			cs.setString(8, producto.getTipoProducto());
+    public int altaProducto(Producto producto) {
+    
+     int idGenerado = 0;
 
-			//EJECUTAMOS
-			//System.out.println("antes del execute");
-			cs.executeUpdate();
-            System.out.println("Producto creado correctamente.");
+    Connection cn = null;
+    PreparedStatement cs = null;
+    PreparedStatement csUpdate = null;
+    ResultSet rs = null;
+
+    ConexionDB conexion = new ConexionDB();
+
+    String consulta =
+        "INSERT INTO producto " +
+        "(descripcion, color, marca, talle, precio, tipo, tipoproducto, codigo_producto) " +
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+
+    try {
+
+        cn = conexion.conectar();
+
+        // IMPORTANTE:
+        // RETURN_GENERATED_KEYS devuelve el ID autogenerado
+        cs = cn.prepareStatement(
+                consulta,
+                Statement.RETURN_GENERATED_KEYS
+        );
+
+        // INSERT
+        cs.setString(1, producto.getDescripcion());
+        cs.setString(2, producto.getColor());
+        cs.setString(3, producto.getMarca());
+        cs.setString(4, producto.getTalle());
+        cs.setDouble(5, producto.getPrecio());
+        cs.setString(6, producto.getTipo());
+        cs.setString(7, producto.getTipoProducto());
+
+        // temporalmente vacío
+        cs.setString(8, "");
+
+        cs.executeUpdate();
+
+        // RECUPERAR ID AUTOGENERADO
+        rs = cs.getGeneratedKeys();
+
+        if(rs.next()){
+
+            idGenerado = rs.getInt(1);
+
+        }
+
+        // NORMALIZAR TEXTO
+        String tipoNorm = producto.getTipo()
+                .trim()
+                .toUpperCase()
+                .replaceAll("\\s+", "");
+
+        String marcaNorm = producto.getMarca()
+                .trim()
+                .toUpperCase()
+                .replaceAll("\\s+", "");
+
+        String ropaNorm = producto.getTipoProducto()
+                .trim()
+                .toUpperCase()
+                .replaceAll("\\s+", "");
+
+        // GENERAR CODIGO
+        String codigoProducto =
+                tipoNorm + "-" +
+                marcaNorm + "-" +
+                ropaNorm + "-" +
+                idGenerado;
+
+        // GUARDAR CODIGO GENERADO
+        String update =
+            "UPDATE producto " +
+            "SET codigo_producto = ? " +
+            "WHERE id = ?";
+
+        csUpdate = cn.prepareStatement(update);
+
+        csUpdate.setString(1, codigoProducto);
+        csUpdate.setInt(2, idGenerado);
+
+        csUpdate.executeUpdate();
+
+        System.out.println("Producto creado correctamente.");
 		}catch (SQLException e) {
             System.out.println("Error al guardar en base:");
 			e.printStackTrace();
@@ -60,14 +120,45 @@ public class DaoProductoImp implements DaoProducto{
 				e2.printStackTrace();
 			}
 		}
-        System.out.println("Se ejecutó el INSERT correctamente.");
-
+        return idGenerado;
     }
 
     @Override
-    public void bajaProducto(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'bajaProducto'");
+    public void bajaProducto(Integer id) {
+        String consulta = "DELETE FROM producto WHERE id = ?";
+
+    ConexionDB conexion = new ConexionDB();
+
+    Connection cn = null;
+    PreparedStatement ps = null;
+
+    try {
+
+        cn = conexion.conectar();
+
+        ps = cn.prepareStatement(consulta);
+
+        ps.setInt(1, id);
+
+        ps.executeUpdate();
+
+    } catch (SQLException e) {
+
+        e.printStackTrace();
+
+    } finally {
+
+        try {
+
+            if(ps != null) ps.close();
+
+            if(cn != null) cn.close();
+
+        } catch (Exception e2) {
+
+            e2.printStackTrace();
+        }
+    }
     }
 
     @Override
@@ -75,22 +166,41 @@ public class DaoProductoImp implements DaoProducto{
         ArrayList<Producto> productos = new ArrayList<Producto>();
         return productos;
     }
-	public boolean existeProducto(String id_producto) {
-    boolean b = false;
+	public Integer existeProducto( String descripcion,
+        String marca,
+        String color,
+        String talle,
+        String tipo,
+        String tipoProducto) {
+    
+    Integer idProducto = null;
     ConexionDB conexion = new ConexionDB();
-    String consulta = "SELECT 1 FROM producto WHERE id_producto = ?;";
+     String consulta =
+        "SELECT id FROM producto " +
+        "WHERE descripcion = ? " +
+        "AND marca = ? " +
+        "AND color = ? " +
+        "AND talle = ? " +
+        "AND tipo = ? " +
+        "AND tipoproducto = ?;";
     Connection cn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
     try {
         cn = conexion.conectar();
         ps = cn.prepareStatement(consulta);
-        ps.setString(1, id_producto);  // seteás el DNI en la consulta
+        ps.setString(1, descripcion);
+        ps.setString(2, marca);
+        ps.setString(3, color);
+        ps.setString(4, talle);
+        ps.setString(5, tipo);
+        ps.setString(6, tipoProducto);
         rs = ps.executeQuery();
 
         if (rs.next()) {
-            b = true; // se encontró un empleado con ese DNI
+           idProducto = rs.getInt("id"); // si existe devuelve un numero, sino devuelve null
         }
+
 
     } catch (SQLException e) {
         e.printStackTrace();
@@ -103,7 +213,63 @@ public class DaoProductoImp implements DaoProducto{
             e2.printStackTrace();
         }
     }
-        return b; // devuelve true si existe, false si no
+        return idProducto; // devuelve un numero si existe, sino -> null
     }
+    @Override
+    public void modificarProducto(Producto producto){
+         String consulta =
+        "UPDATE producto SET " +
+        "descripcion = ?, " +
+        "talle = ?, " +
+        "precio = ?, " +
+        "color = ?, " +
+        "marca = ? " +
+        "WHERE id = ?;";
+
+    ConexionDB conexion = new ConexionDB();
+
+    Connection cn = null;
+    PreparedStatement ps = null;
+
+    try {
+
+        cn = conexion.conectar();
+
+        ps = cn.prepareStatement(consulta);
+
+        ps.setString(1, producto.getDescripcion());
+        ps.setString(2, producto.getTalle());
+        ps.setDouble(3, producto.getPrecio());
+        ps.setString(4, producto.getColor());
+        ps.setString(5, producto.getMarca());
+
+        // EL ID DEL PRODUCTO A MODIFICAR
+        ps.setInt(6, producto.getId_producto());
+
+        ps.executeUpdate();
+
+        System.out.println("Producto modificado correctamente.");
+
+    } catch (SQLException e) {
+
+        e.printStackTrace();
+
+    } finally {
+
+        try {
+
+            if(ps != null) ps.close();
+
+            if(cn != null) cn.close();
+
+        } catch (Exception e2) {
+
+            e2.printStackTrace();
+
+        }
+    }
+
+    }
+    
 
 }

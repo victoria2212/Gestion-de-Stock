@@ -22,8 +22,8 @@ public class GestorStock {
 		}
 		return gestorStock;
 	}
-    public void registrarStock(String id, int cantidad, LocalDateTime actualizacion){
-    stockDao.registrarStock(id,cantidad,actualizacion);
+    public void registrarStock(Integer id, int cantidad, LocalDateTime actualizacion){
+    stockDao.registrarStock(id, cantidad,actualizacion);
     }
     public List<RopaStockDTO> obtenerStockRopa() {
         return stockDao.obtenerStockRopa(); // este método ya lo hiciste
@@ -31,12 +31,16 @@ public class GestorStock {
     public List<AccsStockDTO> obtenerStockAccs(){
         return stockDao.obtenerStockAccs();
     }
-    public void actualizarRopa(RopaStockDTO ropa) {
-    stockDao.actualizarRopa(ropa);
+    public void actualizarRopa(Integer idProducto, int cantidad) {
+    stockDao.actualizarRopa(idProducto, cantidad);
     }
 
-    public void actualizarAccs(AccsStockDTO accs) {
-    stockDao.actualizarAccs(accs);
+    public void actualizarAccs(Integer idProducto, int cantidad) {
+    stockDao.actualizarAccs(idProducto, cantidad);
+    }
+    public void eliminarProductoStock(Integer idProducto){
+     stockDao.bajaProducto(idProducto);
+
     }
 
     

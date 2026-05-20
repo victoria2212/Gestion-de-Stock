@@ -3,15 +3,16 @@ package com.victoria.Clases;
 public class Producto {
     String descripcion;
     String talle;
-    String id_producto;
+    private Integer id;
     double precio;
     String color;
     String marca;
     String tipo; // el tipo depende del tipoProducto, ejemplo: Gorras si es tipoProducto = Accs, ejemplo: remera si es tipoProducto = Ropa
     String tipoProducto; // esto se refiere a: Remera o Accs
+    String codigoProducto;
 
-    public Producto(String id, String des, String talle, double precio, String color, String marca, String tipo, String tipoProducto) {
-            this.id_producto = id;
+    public Producto(String des, String talle, double precio, String color, String marca, String tipo, String tipoProducto) {
+            
             this.descripcion = des;
             this.talle= talle;
             this.precio = precio;
@@ -19,18 +20,30 @@ public class Producto {
             this.marca= marca;
             this.tipo = tipo;
             this.tipoProducto= tipoProducto;
+            
         }
+    
+    public Producto() {
+        //TODO Auto-generated constructor stub
+    }
+
+    public void setCodigoProducto(String codProd){
+        this.codigoProducto = codProd;
+    }
+    public String getCodigoProducto(){
+        return codigoProducto;
+    }
     public String getTipoProducto() {
         return tipoProducto;
     }
     public void setTipoProducto(String tipoProducto) {
         this.tipoProducto = tipoProducto;
     }
-    public String getId_producto() {
-        return id_producto;
+    public Integer getId_producto() {
+        return id;
     }
-    public void setId_producto(String id_producto) {
-        this.id_producto = id_producto;
+    public void setId_producto(Integer id_producto) {
+        this.id = id_producto;
     }
     public String getTipo() {
         return tipo;
@@ -38,10 +51,8 @@ public class Producto {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    // setters
-    public void setId(String id) {
-        this.id_producto = id;
-    }
+    
+    
     public void setDescripcion(String d) {
         this.descripcion=d;
     }
@@ -57,10 +68,7 @@ public class Producto {
     public void setMarca(String m) {
         this.marca = m;
     }
-    // getters
-    public String getId() {
-        return id_producto;
-    }
+    
     public String getDescripcion() {
         return descripcion;
     }
@@ -90,11 +98,12 @@ public class Producto {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Producto otro = (Producto) obj;
-        return id_producto.equals(otro.id_producto);
+        return id.equals(otro.id);
     }
     @Override
     public int hashCode() {
-        return id_producto.hashCode(); // ← este ya devuelve un int
+        return id.hashCode(); // ← este ya devuelve un int
     }
+
 
 }

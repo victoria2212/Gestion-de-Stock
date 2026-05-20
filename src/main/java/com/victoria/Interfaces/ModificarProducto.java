@@ -1,7 +1,9 @@
 package com.victoria.Interfaces;
 
+import com.victoria.Clases.Producto;
 import com.victoria.Dto.AccsStockDTO;
 import com.victoria.Dto.RopaStockDTO;
+import com.victoria.Gestores.GestorProducto;
 import com.victoria.Gestores.GestorStock;
 import com.victoria.navegation.*;
 import javafx.fxml.FXML;
@@ -25,11 +27,14 @@ public class ModificarProducto {
 
     private RopaStockDTO ropa;
     private GestorStock gestorStock = new GestorStock();
+    private GestorProducto gestorProducto = new GestorProducto();
     private AccsStockDTO accs;
+
+    Object producto = Navegador.getDato();
     
     @FXML
     public void initialize() {
-        Object producto = Navegador.getDato();
+        
         
         if (producto instanceof RopaStockDTO ropa) {
             this.ropa = (RopaStockDTO) producto;
@@ -73,30 +78,170 @@ public class ModificarProducto {
 
     @FXML
     private void guardarCambios() {
-        /*
-         //ropa.setTipoRopa(txtTipoRopa.getText());
-        ropa.setDescripcion(txtDescripcion.getText());
-        ropa.setTalle(txtTalle.getText());
-        ropa.setPrecio(Double.parseDouble(txtPrecio.getText()));
-        ropa.setColor(txtColor.getText());
-        ropa.setMarca(txtMarca.getText());
-        ropa.setCantidad(spCantidad.getValue());
-        if (ropa != null) {
-        gestorStock.actualizarRopa(ropa);
-        } else if (accs != null) {
-        gestorStock.actualizarAccs(accs);
+
+     try {
+
+        // =========================
+        // SI ES ROPA
+        // =========================
+        if (producto instanceof RopaStockDTO ropa) {
+
+            // ACTUALIZAR DTO
+            ropa.setDescripcion(
+                txtDescripcion.getText()
+            );
+
+            ropa.setTalle(
+                txtTalle.getText()
+            );
+
+            ropa.setPrecio(
+                Double.parseDouble(
+                    txtPrecio.getText()
+                )
+            );
+
+            ropa.setColor(
+                txtColor.getText()
+            );
+
+            ropa.setMarca(
+                txtMarca.getText()
+            );
+
+            ropa.setCantidad(
+                spCantidad.getValue()
+            );
+
+            // CREAR PRODUCTO
+            Producto prod = new Producto();
+
+            prod.setId_producto(
+                ropa.getIdentificador()
+            );
+
+            prod.setDescripcion(
+                ropa.getDescripcion()
+            );
+
+            prod.setTalle(
+                ropa.getTalle()
+            );
+
+            prod.setPrecio(
+                ropa.getPrecio()
+            );
+
+            prod.setColor(
+                ropa.getColor()
+            );
+
+            prod.setMarca(
+                ropa.getMarca()
+            );
+
+            // ACTUALIZAR TABLA PRODUCTO
+            gestorProducto.actualizarProducto(prod);
+
+            // ACTUALIZAR STOCK
+            gestorStock.actualizarRopa(
+                ropa.getIdentificador(),
+                ropa.getCantidad()
+            );
+
+            System.out.println(
+                "Ropa actualizada correctamente."
+            );
         }
 
-        /*aca un condicional si es ropa o accesorio
-        gestorStock.actualizarRopa(ropa);
-        gestorStock.actualizarAccs(accs);
+        // =========================
+        // SI ES ACCESORIO
+        // =========================
+        else if (producto instanceof AccsStockDTO accs) {
 
-        Navegador.limpiarDato();
-        Navegador.cambiarVista("/com/victoria/Interfaces/SceneGestionStockRopa.fxml");
-         */
+            // ACTUALIZAR DTO
+            accs.setDescripcion(
+                txtDescripcion.getText()
+            );
+
+            accs.setTalle(
+                txtTalle.getText()
+            );
+
+            accs.setPrecio(
+                Double.parseDouble(
+                    txtPrecio.getText()
+                )
+            );
+
+            accs.setColor(
+                txtColor.getText()
+            );
+
+            accs.setMarca(
+                txtMarca.getText()
+            );
+
+            accs.setCantidad(
+                spCantidad.getValue()
+            );
+
+            // CREAR PRODUCTO
+            Producto prod = new Producto();
+
+            prod.setId_producto(
+                accs.getIdentificador()
+            );
+
+            prod.setDescripcion(
+                accs.getDescripcion()
+            );
+
+            prod.setTalle(
+                accs.getTalle()
+            );
+
+            prod.setPrecio(
+                accs.getPrecio()
+            );
+
+            prod.setColor(
+                accs.getColor()
+            );
+
+            prod.setMarca(
+                accs.getMarca()
+            );
+
+            // ACTUALIZAR TABLA PRODUCTO
+            gestorProducto.actualizarProducto(prod);
+
+            // ACTUALIZAR STOCK
+            gestorStock.actualizarAccs(
+                accs.getIdentificador(),
+                accs.getCantidad()
+            );
+
+            System.out.println(
+                "Accesorio actualizado correctamente."
+            );
+        }
+
+        // VOLVER
+        Navegador.cambiarVista(
+            "/com/victoria/Interfaces/SceneMenuPrincipal.fxml"
+        );
+
+    } catch (Exception e) {
+
+        e.printStackTrace();
+
+    }
+
+    }
+       
 
        
-    }
     @FXML
     private void volverMenuPrincipal() {
         Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");

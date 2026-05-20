@@ -120,9 +120,8 @@ public class AltaProducto {
     }
     @FXML
     private void guardarProducto() {
-    
     Producto producto;
-    String id;
+    Integer id;
     String tipoProducto = cbTipoProducto.getValue();
     String descripcion = txtDescripcion.getText().trim();
     String talle = txtTalle.getText().trim();
@@ -161,24 +160,17 @@ public class AltaProducto {
             mostrarAlerta("Seleccioná un tipo de ropa.");
             return;
         }
-        // Normalizar los componentes del ID
-            String tipoNorm = tipoProducto.trim().toUpperCase().replaceAll("\\s+", "");
-            String marcaNorm = marca.trim().toUpperCase().replaceAll("\\s+", "");
-            String ropaNorm = tipoRopa.trim().toUpperCase().replaceAll("\\s+", "");
-            String talleNorm = talle.trim().toUpperCase().replaceAll("\\s+", "");
-            String colorNorm = color.trim().toUpperCase().replaceAll("\\s+", "");
-            String descNorm = descripcion.trim().toUpperCase().replaceAll("\\s+", "");
-
-        // Generar el ID
-            id = tipoNorm + "-" + marcaNorm + "-" + ropaNorm + "-" + talleNorm + "-" + colorNorm + "-" + descNorm;
+     
             // antes de guardarlo vemos si existe el producto
-            boolean b=false;
-            gestorProducto.existeProducto(id);
+           boolean b=false;
+           Integer id_existe = gestorProducto.existeProducto(descripcion, marca, color, talle, "Ropa", tipoRopa);
+           if (id_existe != null) b= true;
             if(b) {mostrarAlerta("El producto ya existe en el Sistema.");}
             else{
-                Ropa ropa = new Ropa(id, descripcion, talle, precio, color, marca,tipoRopa);
+                Ropa ropa = new Ropa(descripcion, talle, precio, color, marca,tipoRopa);
                 producto= ropa;
-                gestorProducto.altaProducto(producto);
+                id = gestorProducto.altaProducto(producto);
+                System.out.println("ID PRODUCTO: " + id);
                 LocalDateTime now = LocalDateTime.now();
                 gestorStock.registrarStock(id, cantidad, now);
                 mostrarAlerta("Producto guardado correctamente.");
@@ -189,23 +181,18 @@ public class AltaProducto {
         if (tipoAccesorio == null || tipoAccesorio.isEmpty()) {
             mostrarAlerta("Seleccioná un tipo de accesorio.");
             return; }
-        // Normalizar los componentes del ID
-            String tipoNorm = tipoProducto.trim().toUpperCase().replaceAll("\\s+", "");
-            String marcaNorm = marca.trim().toUpperCase().replaceAll("\\s+", "");
-            String accsNorm = tipoAccesorio.trim().toUpperCase().replaceAll("\\s+", "");
-        // Generar el ID
-            id = tipoNorm + "-" + marcaNorm + "-" + accsNorm;
             // antes de guardarlo vemos si existe el producto
             boolean b=false;
-            gestorProducto.existeProducto(id);
+            Integer id_existe = gestorProducto.existeProducto(descripcion,marca,color, talle, "Accesorio", tipoAccesorio);
+            if (id_existe != null) b= true;
             if(b) {
                 mostrarAlerta("El producto ya existe en el Sistema.");}
             else{
-                Accesorio accs = new Accesorio(id, descripcion, talle, precio, color, marca, tipoAccesorio);
+                Accesorio accs = new Accesorio(descripcion, talle, precio, color, marca, tipoAccesorio);
                 producto= accs;
-                gestorProducto.altaProducto(producto);
+                id = gestorProducto.altaProducto(producto);
                 LocalDateTime now = LocalDateTime.now();
-                gestorStock.registrarStock(id, cantidad, now);
+                gestorStock.registrarStock(id,cantidad, now);
                 mostrarAlerta("Producto guardado correctamente.");
                 }
             } 

@@ -27,7 +27,7 @@ public class VisualizarStockAccs {
     @FXML private TableColumn<AccsStockDTO, String> colColor;
     @FXML private TableColumn<AccsStockDTO, String> colMarca;
     @FXML private TableColumn<AccsStockDTO, Integer> colCantidad;
-    @FXML private TableColumn<AccsStockDTO, String> colIdentificador;
+    @FXML private TableColumn<AccsStockDTO, String> colCodigo;
     @FXML private TableColumn<AccsStockDTO, String> colFechaActualizacion;
     // Inicializador del controlador
 
@@ -44,7 +44,7 @@ public class VisualizarStockAccs {
         colColor.setCellValueFactory(new PropertyValueFactory<>("color"));
         colMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
         colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
-        colIdentificador.setCellValueFactory(new PropertyValueFactory<>("identificador"));
+        colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigoProducto"));
         colFechaActualizacion.setCellValueFactory(cellData ->
         new SimpleStringProperty(FormateadorFechas.formatear(cellData.getValue().getFechaActualizacion())));
         

@@ -22,7 +22,7 @@
                 <TableColumn fx:id="colColor" text="Color" prefWidth="80"/>
                 <TableColumn fx:id="colMarca" text="Marca" prefWidth="100"/>
                 <TableColumn fx:id="colCantidad" text="Cantidad" prefWidth="80"/>
-                <TableColumn fx:id="colIdentificador" text="Identificador" prefWidth="120"/>
+                <TableColumn fx:id="colCodigo" text="Codigo" prefWidth="120"/>
                 <TableColumn fx:id="colFechaActualizacion" text="Última fecha de Modificación" prefWidth="180"/>
 
                 <!-- Nueva columna Modificar -->

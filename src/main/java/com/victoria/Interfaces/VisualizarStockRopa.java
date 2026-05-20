@@ -32,7 +32,7 @@ public class VisualizarStockRopa {
     @FXML private TableColumn<RopaStockDTO, String> colColor;
     @FXML private TableColumn<RopaStockDTO, String> colMarca;
     @FXML private TableColumn<RopaStockDTO, Integer> colCantidad;
-    @FXML private TableColumn<RopaStockDTO, String> colIdentificador;
+    @FXML private TableColumn<RopaStockDTO, String> colCodigo;
     @FXML private TableColumn<RopaStockDTO, String> colFechaActualizacion;
 
     // Inicializador del controlador
@@ -50,10 +50,10 @@ public class VisualizarStockRopa {
         colColor.setCellValueFactory(new PropertyValueFactory<>("color"));
         colMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
         colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
-        colIdentificador.setCellValueFactory(new PropertyValueFactory<>("identificador"));
+        colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigoProducto"));
         colFechaActualizacion.setCellValueFactory(cellData ->
         new SimpleStringProperty(FormateadorFechas.formatear(cellData.getValue().getFechaActualizacion())));
-        //colFechaActualizacion.setCellValueFactory(new PropertyValueFactory<>("fechaActualizacion"));
+       
 
         cargarDatos();
     }

@@ -1,9 +1,13 @@
 package com.victoria.Interfaces;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+
+import javafx.beans.property.SimpleStringProperty;
+import com.victoria.utils.FormateadorFechas;
 
 import com.victoria.Dto.AccsStockDTO;
+import com.victoria.Gestores.GestorProducto;
 import com.victoria.Gestores.GestorStock;
 import com.victoria.navegation.Navegador;
 
@@ -11,7 +15,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -20,6 +26,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class GestionStockAccs {
     
     public GestorStock gestorStock = GestorStock.getInstance();
+    public GestorProducto gestorProducto = GestorProducto.getInstance();
     // Tabla y columnas
     @FXML private TableView<AccsStockDTO> tablaStock;
     @FXML private TableColumn<AccsStockDTO, String> colTipoAccs;
@@ -29,8 +36,8 @@ public class GestionStockAccs {
     @FXML private TableColumn<AccsStockDTO, String> colColor;
     @FXML private TableColumn<AccsStockDTO, String> colMarca;
     @FXML private TableColumn<AccsStockDTO, Integer> colCantidad;
-    @FXML private TableColumn<AccsStockDTO, String> colIdentificador;
-    @FXML private TableColumn<AccsStockDTO, LocalDateTime> colFechaActualizacion;
+    @FXML private TableColumn<AccsStockDTO, String> colCodigo;
+    @FXML private TableColumn<AccsStockDTO, String> colFechaActualizacion;
     @FXML private TableColumn<AccsStockDTO, Void> colModificar;
     @FXML private TableColumn<AccsStockDTO, Void> colEliminar;
     
@@ -46,8 +53,9 @@ public class GestionStockAccs {
         colColor.setCellValueFactory(new PropertyValueFactory<>("color"));
         colMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
         colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
-        colIdentificador.setCellValueFactory(new PropertyValueFactory<>("identificador"));
-        colFechaActualizacion.setCellValueFactory(new PropertyValueFactory<>("fechaActualizacion"));
+        colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigoProducto"));
+        colFechaActualizacion.setCellValueFactory(cellData ->
+        new SimpleStringProperty(FormateadorFechas.formatear(cellData.getValue().getFechaActualizacion())));
 
         agregarBotonesModificar();
         agregarBotonesEliminar();
@@ -59,18 +67,7 @@ public class GestionStockAccs {
     private void volverMenuPrincipal() {
     Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
     }
-    /*@FXML
-    private void volverMenuPrincipal() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("SceneMenuPrincipal.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) tablaStock.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Menú Principal");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
+  
     private void agregarBotonesModificar() {
         colModificar.setCellFactory(col -> new TableCell<>() {
         private final Button btn = new Button("Modificar");
@@ -102,8 +99,26 @@ public class GestionStockAccs {
         {
             btn.setOnAction(e -> {
                 AccsStockDTO item = getTableView().getItems().get(getIndex());
-                // Aquí iría tu lógica de gestor para eliminar
-                System.out.println("Eliminar: " + item.getIdentificador());
+                Integer idProducto = item.getIdentificador();
+                Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+
+                alerta.setTitle("Confirmar eliminación");
+
+                alerta.setHeaderText("Eliminar producto");
+
+                alerta.setContentText(
+                    "¿Estás seguro que quieres eliminar el producto: " + item.getTipoAccs() + " "
+                    + item.getDescripcion() +  "?"
+                );
+
+                Optional<ButtonType> resultado = alerta.showAndWait();
+
+                if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+                            gestorStock.eliminarProductoStock(idProducto);
+                            gestorProducto.eliminarProducto(idProducto);
+
+                            cargarDatos();
+                }
             });
             setAlignment(Pos.CENTER); // Centrar contenido
         }
