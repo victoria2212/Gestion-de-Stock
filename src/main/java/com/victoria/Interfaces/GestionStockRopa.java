@@ -3,7 +3,6 @@ package com.victoria.Interfaces;
 import java.util.List;
 import java.util.Optional;
 
-import com.victoria.Dto.AccsStockDTO;
 import com.victoria.Dto.RopaStockDTO;
 import com.victoria.Gestores.GestorProducto;
 import com.victoria.Gestores.GestorStock;

@@ -26,7 +26,7 @@ public class GestorStock {
     stockDao.registrarStock(id, cantidad,actualizacion);
     }
     public List<RopaStockDTO> obtenerStockRopa() {
-        return stockDao.obtenerStockRopa(); // este método ya lo hiciste
+        return stockDao.obtenerStockRopa(); 
     }
     public List<AccsStockDTO> obtenerStockAccs(){
         return stockDao.obtenerStockAccs();

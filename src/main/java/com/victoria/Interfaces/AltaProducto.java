@@ -52,7 +52,7 @@ public class AltaProducto {
         );
 
         cbTipoAccesorio.getItems().addAll(
-            "Gorras", "Gorros", "Medias", "Lentes", "Cintos", "Mochilas"
+            "Gorra", "Gorro", "Medias", "Lentes", "Cinto", "Mochila", "Pulsera", "Collar"
         );
         // Cantidad de Producto -> lo usamos para el stock
         // Crear el ValueFactory con rango y valor inicial

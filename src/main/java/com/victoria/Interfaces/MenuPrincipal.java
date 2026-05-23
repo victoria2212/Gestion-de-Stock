@@ -31,7 +31,7 @@ public class MenuPrincipal {
     public void initialize() {
         
         btnAltaProductos.setOnAction(e -> abrirAltaProducto());
-        btnEmpleados.setOnAction(e -> mostrarMensaje("Empleados clickeado"));
+        btnEmpleados.setOnAction(e -> abrirGestionEmpleado());
 
         menuItemGestionRopa.setOnAction(this::abrirGestionRopa);
         menuItemGestionAccs.setOnAction(this::abrirGestionAccs);
@@ -40,6 +40,12 @@ public class MenuPrincipal {
         menuItemVisualizacionAccs.setOnAction(this::abrirVisualizacionAccs);
         
     }
+
+    @FXML
+    private void abrirGestionEmpleado(){
+      Navegador.cambiarVista("/com/victoria/Interfaces/SceneGestionEmpleados.fxml");
+    }
+
     @FXML
     private void abrirAltaProducto() {
         Navegador.cambiarVista("/com/victoria/Interfaces/SceneAltaProducto.fxml");

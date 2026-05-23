@@ -1,10 +1,12 @@
 package com.victoria.Gestores;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.victoria.Clases.Empleado;
 import com.victoria.Dao.DaoEmpleado;
 import com.victoria.Dao.DaoEmpleadoImp;
+import com.victoria.Dto.EmpleadoDTO;
 
 public class GestorEmpleado {
 
@@ -16,14 +18,15 @@ public class GestorEmpleado {
     - Orquesta operaciones más complejas que involucran múltiples DAOs o decisiones.
      */
 
-     ArrayList<Empleado> empleados;
+     //List<Empleado> empleados;
+     //private List<EmpleadoDTO> empleados;
      private static GestorEmpleado gestorEmp;
      DaoEmpleado empleadoDao;
 
     //constructor
     public GestorEmpleado(){
         empleadoDao = new DaoEmpleadoImp();
-        empleados = new ArrayList<>(empleadoDao.buscarEmpleados());
+        //empleados = new ArrayList<>(empleadoDao.buscarEmpleados());
     }
     public static GestorEmpleado getInstance() {
 		if (gestorEmp == null) {
@@ -32,7 +35,7 @@ public class GestorEmpleado {
 		return gestorEmp;
 	}
     public void agregarEmpleado(Empleado e) {
-		empleados.add(e);
+		//empleados.add(e);
 		empleadoDao.crearEmpleado(e);
 	}
     public Empleado crearEmpleado(Integer dni, String nombre,String apellido, String direccion){
@@ -44,5 +47,9 @@ public class GestorEmpleado {
     b=empleadoDao.existeEmpleado(dni);
     return b;
     }
-
+    public List<EmpleadoDTO> obtenerEmpleados() {
+        return empleadoDao.buscarEmpleados();
+        
+    }
+   
 }

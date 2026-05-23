@@ -1,30 +1,47 @@
 package com.victoria.utils;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class FormateadorFechas {
-     private static final DateTimeFormatter FORMATTER = 
+
+    private static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-    // Método para formatear Timestamp
+    private static final DateTimeFormatter FORMATTER_FECHA =
+            DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    // Timestamp
     public static String formatear(Timestamp timestamp) {
+
         if (timestamp == null) {
             return "";
         }
 
         LocalDateTime fecha = timestamp.toLocalDateTime();
+
         return fecha.format(FORMATTER);
     }
 
-    // (Opcional) Método si en algún momento usás LocalDateTime directo
+    // LocalDateTime
     public static String formatear(LocalDateTime fecha) {
+
         if (fecha == null) {
             return "";
         }
 
         return fecha.format(FORMATTER);
     }
-    
+
+    // LocalDate
+    public static String formatear(LocalDate fecha) {
+
+        if (fecha == null) {
+            return "";
+        }
+
+        return fecha.format(FORMATTER_FECHA);
+    }
 }

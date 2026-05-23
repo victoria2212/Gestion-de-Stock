@@ -4,54 +4,87 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 
 import com.victoria.Clases.Empleado;
 import com.victoria.Conexion.ConexionDB;
+import com.victoria.Dto.EmpleadoDTO;
 
 public class DaoEmpleadoImp implements DaoEmpleado {
 
-    @Override
-    public ArrayList<Empleado> buscarEmpleados() {
-    
-    ArrayList<Empleado> empleados = new ArrayList<>();
+   @Override
+public List<EmpleadoDTO> buscarEmpleados() {
 
-    String consulta = "SELECT dni, nombre, apellido, direccion FROM empleado;";
+    List<EmpleadoDTO> empleados = new ArrayList<>();
+
+    String consulta =
+        "SELECT dni, nombre, apellido, direccion, fecha_alta " +
+        "FROM empleado " +
+        "ORDER BY apellido";
+
     ConexionDB conexion = new ConexionDB();
+
     Connection cn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
 
     try {
+
         cn = conexion.conectar();
+
         ps = cn.prepareStatement(consulta);
+
         rs = ps.executeQuery();
 
         while (rs.next()) {
-            int dni = rs.getInt("dni");
+
+            Integer dni = rs.getInt("dni");
+
             String nombre = rs.getString("nombre");
+
             String apellido = rs.getString("apellido");
+
             String direccion = rs.getString("direccion");
 
-            Empleado emp = new Empleado(dni, nombre, apellido, direccion);
+            LocalDate fechaAlta =
+                rs.getObject("fecha_alta", LocalDate.class);
+
+            EmpleadoDTO emp = new EmpleadoDTO(
+                dni,
+                nombre,
+                apellido,
+                direccion,
+                fechaAlta
+            );
+
             empleados.add(emp);
         }
 
     } catch (SQLException e) {
+
         e.printStackTrace();
+
     } finally {
+
         try {
+
             if (rs != null) rs.close();
+
             if (ps != null) ps.close();
+
             if (cn != null) cn.close();
+
         } catch (Exception e2) {
+
             e2.printStackTrace();
         }
     }
 
     return empleados;
-    }
+}
 
     @Override
     public void crearEmpleado(Empleado empleado) {
@@ -59,7 +92,7 @@ public class DaoEmpleadoImp implements DaoEmpleado {
 		PreparedStatement cs = null;//para hacer las consultas SQL
 		ResultSet rs = null; 
         // DOY DE ALTA A UN EMPLEADO/ CREO UN EMPLEADO
-        String consulta = "INSERT INTO empleado (dni, nombre, apellido, direccion)" 
+        String consulta = "INSERT INTO empleado (dni, nombre, apellido, direccion, dia_de_alta)" 
                         + "VALUES (?,?,?,?);";
         ConexionDB conexion = new ConexionDB();
         try {
@@ -71,6 +104,7 @@ public class DaoEmpleadoImp implements DaoEmpleado {
 			cs.setString(2, empleado.getNombre());
 			cs.setString(3, empleado.getApellido());
             cs.setString(4, empleado.getDireccion());
+            cs.setObject(5, empleado.getDia_de_alta());
 
 			cs.executeUpdate();
             System.out.println("Empleado creado correctamente.");
