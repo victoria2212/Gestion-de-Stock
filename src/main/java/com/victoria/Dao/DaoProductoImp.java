@@ -125,7 +125,8 @@ public class DaoProductoImp implements DaoProducto{
 
     @Override
     public void bajaProducto(Integer id) {
-        String consulta = "DELETE FROM producto WHERE id = ?";
+    
+    String consulta = "DELETE FROM producto WHERE id = ?";
 
     ConexionDB conexion = new ConexionDB();
 

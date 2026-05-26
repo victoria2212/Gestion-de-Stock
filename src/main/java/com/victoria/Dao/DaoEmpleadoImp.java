@@ -161,6 +161,120 @@ public ArrayList<EmpleadoDTO> buscarEmpleados() {
     }
         return b; // devuelve true si existe, false si no
     }
+    @Override
+    public void modificarEmpleado(EmpleadoDTO empleado) {
+
+    String consulta =
+        "UPDATE empleado SET " +
+        "nombre = ?, " +
+        "apellido = ?, " +
+        "direccion = ? " +
+        "WHERE dni = ?;";
+
+    ConexionDB conexion = new ConexionDB();
+
+    Connection cn = null;
+
+    PreparedStatement ps = null;
+
+    try {
+
+        cn = conexion.conectar();
+
+        ps = cn.prepareStatement(consulta);
+
+        // =========================
+        // DATOS A MODIFICAR
+        // =========================
+
+        ps.setString(
+            1,
+            empleado.getNombre()
+        );
+
+        ps.setString(
+            2,
+            empleado.getApellido()
+        );
+
+        ps.setString(
+            3,
+            empleado.getDireccion()
+        );
+
+        // =========================
+        // WHERE DNI
+        // =========================
+
+        ps.setInt(
+            4,
+            empleado.getDni()
+        );
+
+        ps.executeUpdate();
+
+        System.out.println(
+            "Empleado modificado correctamente."
+        );
+
+    } catch (SQLException e) {
+
+        e.printStackTrace();
+
+    } finally {
+
+        try {
+
+            if(ps != null)
+                ps.close();
+
+            if(cn != null)
+                cn.close();
+
+        } catch (Exception e2) {
+
+            e2.printStackTrace();
+            }
+        }
+    }
+    @Override
+    public void eliminarEmpleado(Integer dni){
+    String consulta = "DELETE FROM empleado WHERE dni = ?";
+
+    ConexionDB conexion = new ConexionDB();
+
+    Connection cn = null;
+    PreparedStatement ps = null;
+
+    try {
+
+        cn = conexion.conectar();
+
+        ps = cn.prepareStatement(consulta);
+
+        ps.setInt(1, dni);
+
+        ps.executeUpdate();
+
+    } catch (SQLException e) {
+
+        e.printStackTrace();
+
+    } finally {
+
+        try {
+
+            if(ps != null) ps.close();
+
+            if(cn != null) cn.close();
+
+        } catch (Exception e2) {
+
+            e2.printStackTrace();
+            }
+        }
+
+    }
          
     
 

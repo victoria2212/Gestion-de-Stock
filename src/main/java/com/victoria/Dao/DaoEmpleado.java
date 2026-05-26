@@ -11,6 +11,8 @@ public interface DaoEmpleado {
     public ArrayList<EmpleadoDTO> buscarEmpleados();
     public void crearEmpleado(Empleado empleado);
     public boolean existeEmpleado(Integer dni);
+    void modificarEmpleado(EmpleadoDTO empleado);
+    void eliminarEmpleado(Integer dni);
 
 
 }

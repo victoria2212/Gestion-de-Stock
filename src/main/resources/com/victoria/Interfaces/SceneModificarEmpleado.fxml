@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.victoria.Interfaces.ModificarEmpleado">
+
+    <center>
+
+        <VBox spacing="15"
+               alignment="CENTER"
+               maxWidth="500">
+
+            <padding>
+                <Insets top="20"
+                        right="20"
+                        bottom="20"
+                        left="20"/>
+            </padding>
+
+            <Label text="Modificar Datos de Empleado"
+                   style="-fx-font-size: 18px;"/>
+
+            <!-- NOMBRE -->
+            <HBox spacing="10"
+                   alignment="CENTER_LEFT">
+
+                <Label text="Nombre:"
+                       minWidth="150"/>
+
+                <TextField fx:id="txtNombre"
+                           promptText="Nombre completo"
+                           HBox.hgrow="ALWAYS"/>
+            </HBox>
+
+            <!-- APELLIDO -->
+            <HBox spacing="10"
+                   alignment="CENTER_LEFT">
+
+                <Label text="Apellido:"
+                       minWidth="150"/>
+
+                <TextField fx:id="txtApellido"
+                           promptText="Apellido completo"
+                           HBox.hgrow="ALWAYS"/>
+            </HBox>
+
+            <!-- DNI -->
+            <HBox spacing="10"
+                   alignment="CENTER_LEFT">
+
+                <Label text="DNI:"
+                       minWidth="150"/>
+
+                <TextField fx:id="txtDni"
+                           promptText="Solo números"
+                           editable="false"
+                           HBox.hgrow="ALWAYS"/>
+            </HBox>
+
+            <!-- DIRECCION -->
+            <HBox spacing="10"
+                   alignment="CENTER_LEFT">
+
+                <Label text="Dirección:"
+                       minWidth="150"/>
+
+                <TextField fx:id="txtDireccion"
+                           promptText="Ej: 25 de Mayo 123"
+                           HBox.hgrow="ALWAYS"/>
+            </HBox>
+
+            <!-- FECHA ALTA -->
+            <HBox spacing="10"
+                   alignment="CENTER_LEFT">
+
+                <Label text="Fecha Alta:"
+                       minWidth="150"/>
+
+                <DatePicker fx:id="dpDiaAlta"
+                            disable="true"
+                            HBox.hgrow="ALWAYS"/>
+            </HBox>
+
+            <!-- BOTONES -->
+            <HBox spacing="20"
+                   alignment="CENTER"
+                   style="-fx-padding: 10 0 0 0;">
+
+                <Button text="Volver"
+                        onAction="#volverGestionEmpleado"/>
+
+                <Button text="Guardar Cambios"
+                        onAction="#guardarCambios"/>
+            </HBox>
+
+        </VBox>
+
+    </center>
+
+</BorderPane>

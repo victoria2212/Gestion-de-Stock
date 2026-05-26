@@ -22,6 +22,15 @@ public class EmpleadoDTO {
     this.fechaInicio=fechaInicio;
    }
 
+   public LocalDate getDia_de_alta(){
+      return fechaInicio;
+   }
+
+   public void setDia_de_alta(LocalDate fecha) {
+    this.fechaInicio = fecha;
+   }
+
+
    public Integer getDni() {
     return dni;
    }

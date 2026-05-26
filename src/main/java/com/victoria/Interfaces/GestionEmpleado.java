@@ -140,11 +140,11 @@ public class GestionEmpleado {
 
                     if (resultado.isPresent()
                         && resultado.get() == ButtonType.OK) {
-                        /*
+                        
                         gestorEmpleado.eliminarEmpleado(
                             empleado.getDni()
                         );
-                         */
+                         
                         
 
                         cargarDatos();

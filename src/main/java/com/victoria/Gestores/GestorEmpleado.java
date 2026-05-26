@@ -48,5 +48,11 @@ public class GestorEmpleado {
         return empleadoDao.buscarEmpleados();
         
     }
-    
+    public void modificarEmpleado(EmpleadoDTO empleado) {
+
+    empleadoDao.modificarEmpleado(empleado);
+    }
+    public void eliminarEmpleado(Integer dni){
+    empleadoDao.eliminarEmpleado(dni);
+    }
 }

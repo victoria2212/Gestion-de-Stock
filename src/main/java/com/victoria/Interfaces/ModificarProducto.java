@@ -240,8 +240,6 @@ public class ModificarProducto {
 
     }
        
-
-       
     @FXML
     private void volverMenuPrincipal() {
         Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
