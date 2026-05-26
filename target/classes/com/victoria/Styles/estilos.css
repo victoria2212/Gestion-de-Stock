@@ -66,3 +66,8 @@
 .button:pressed {
     -fx-background-color: linear-gradient(#90caf9, #64b5f6);
 }
+
+.main-content {
+    -fx-background-color: #f5f5f5;
+    -fx-alignment: center;
+}

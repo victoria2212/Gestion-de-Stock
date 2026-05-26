@@ -4,6 +4,9 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.victoria.Interfaces.MenuPrincipal" stylesheets="@/com/victoria/styles/estilos.css">
 
@@ -46,10 +49,25 @@
         </HBox>
     </top>
 
-    <!-- Centro vacío (para cargar vistas dinámicas) -->
-    <center>
-        <StackPane fx:id="mainContent" />
-    </center>
+  <!-- Centro de fondo -->
+<center>
+    <StackPane fx:id="mainContent" styleClass="main-content">
+
+        <ImageView
+                fitWidth="500"
+                preserveRatio="true"
+                opacity="0.12"
+                mouseTransparent="true">
+
+            <image>
+                <Image url="@../images/logodharmavip.png"/>
+            </image>
+
+        </ImageView>
+
+    </StackPane>
+</center>
+
 
     <!-- Parte inferior: Contacto -->
     <bottom>
