@@ -50,6 +50,18 @@ public class GestionEmpleado {
                 )
             )
         );
+        // ===== CENTRAR COLUMNAS =====
+
+        colDni.setStyle("-fx-alignment: CENTER;");
+        colNombre.setStyle("-fx-alignment: CENTER;");
+        colApellido.setStyle("-fx-alignment: CENTER;");
+        colDireccion.setStyle("-fx-alignment: CENTER;");
+        colFechaAlta.setStyle("-fx-alignment: CENTER;");
+
+        colModificar.setStyle("-fx-alignment: CENTER;");
+        colEliminar.setStyle("-fx-alignment: CENTER;");
+
+    // =============================
 
         agregarBotonesModificar();
         agregarBotonesEliminar();

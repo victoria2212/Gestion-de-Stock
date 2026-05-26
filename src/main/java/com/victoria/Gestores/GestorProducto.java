@@ -7,7 +7,7 @@ import com.victoria.Dao.DaoProducto;
 import com.victoria.Dao.DaoProductoImp;
 
 public class GestorProducto {
-    ArrayList<Producto> productos;
+    ArrayList<Producto> productos; // lista de productos
     private static GestorProducto gestorProducto;
     DaoProducto productoDao;
     //constructor

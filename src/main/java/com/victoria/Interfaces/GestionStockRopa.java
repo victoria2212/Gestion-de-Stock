@@ -57,6 +57,24 @@ public class GestionStockRopa {
         colFechaActualizacion.setCellValueFactory(cellData ->
         new SimpleStringProperty(FormateadorFechas.formatear(cellData.getValue().getFechaActualizacion())));
         
+        // ===== CENTRAR COLUMNAS =====
+
+        colTipoRopa.setStyle("-fx-alignment: CENTER;");
+        colDescripcion.setStyle("-fx-alignment: CENTER;");
+        colTalle.setStyle("-fx-alignment: CENTER;");
+        colPrecio.setStyle("-fx-alignment: CENTER;");
+        colColor.setStyle("-fx-alignment: CENTER;");
+        colMarca.setStyle("-fx-alignment: CENTER;");
+        colCantidad.setStyle("-fx-alignment: CENTER;");
+        colCodigo.setStyle("-fx-alignment: CENTER;");
+        colFechaActualizacion.setStyle("-fx-alignment: CENTER;");
+
+        // Centrar botones
+        colModificar.setStyle("-fx-alignment: CENTER;");
+        colEliminar.setStyle("-fx-alignment: CENTER;");
+
+        // ============================
+
         agregarBotonesModificar();
         agregarBotonesEliminar();
 

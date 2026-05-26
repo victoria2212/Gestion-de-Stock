@@ -15,13 +15,13 @@ import com.victoria.Dto.EmpleadoDTO;
 
 public class DaoEmpleadoImp implements DaoEmpleado {
 
-   @Override
-public List<EmpleadoDTO> buscarEmpleados() {
+@Override
+public ArrayList<EmpleadoDTO> buscarEmpleados() {
 
-    List<EmpleadoDTO> empleados = new ArrayList<>();
+    ArrayList<EmpleadoDTO> empleados = new ArrayList<>();
 
     String consulta =
-        "SELECT dni, nombre, apellido, direccion, fecha_alta " +
+        "SELECT dni, nombre, apellido, direccion, dia_de_alta " +
         "FROM empleado " +
         "ORDER BY apellido";
 
@@ -50,7 +50,7 @@ public List<EmpleadoDTO> buscarEmpleados() {
             String direccion = rs.getString("direccion");
 
             LocalDate fechaAlta =
-                rs.getObject("fecha_alta", LocalDate.class);
+                rs.getObject("dia_de_alta", LocalDate.class);
 
             EmpleadoDTO emp = new EmpleadoDTO(
                 dni,
@@ -93,7 +93,7 @@ public List<EmpleadoDTO> buscarEmpleados() {
 		ResultSet rs = null; 
         // DOY DE ALTA A UN EMPLEADO/ CREO UN EMPLEADO
         String consulta = "INSERT INTO empleado (dni, nombre, apellido, direccion, dia_de_alta)" 
-                        + "VALUES (?,?,?,?);";
+                        + "VALUES (?,?,?,?,?);";
         ConexionDB conexion = new ConexionDB();
         try {
 			cn = conexion.conectar();
@@ -108,6 +108,7 @@ public List<EmpleadoDTO> buscarEmpleados() {
 
 			cs.executeUpdate();
             System.out.println("Empleado creado correctamente.");
+            System.out.println("Se ejecutó el INSERT correctamente.");
 		}catch (SQLException e) {
             System.out.println("Error al guardar en base:");
 			e.printStackTrace();
@@ -128,7 +129,6 @@ public List<EmpleadoDTO> buscarEmpleados() {
 				e2.printStackTrace();
 			}
 		}
-        System.out.println("Se ejecutó el INSERT correctamente.");
 	}
 
     public boolean existeEmpleado(Integer dni) {

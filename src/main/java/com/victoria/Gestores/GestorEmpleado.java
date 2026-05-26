@@ -18,16 +18,13 @@ public class GestorEmpleado {
     - Orquesta operaciones más complejas que involucran múltiples DAOs o decisiones.
      */
 
-     //List<Empleado> empleados;
-     //private List<EmpleadoDTO> empleados;
      private static GestorEmpleado gestorEmp;
      DaoEmpleado empleadoDao;
 
     //constructor
     public GestorEmpleado(){
         empleadoDao = new DaoEmpleadoImp();
-        //empleados = new ArrayList<>(empleadoDao.buscarEmpleados());
-    }
+        }
     public static GestorEmpleado getInstance() {
 		if (gestorEmp == null) {
 			gestorEmp = new GestorEmpleado();
@@ -35,7 +32,6 @@ public class GestorEmpleado {
 		return gestorEmp;
 	}
     public void agregarEmpleado(Empleado e) {
-		//empleados.add(e);
 		empleadoDao.crearEmpleado(e);
 	}
     public Empleado crearEmpleado(Integer dni, String nombre,String apellido, String direccion){
@@ -47,9 +43,10 @@ public class GestorEmpleado {
     b=empleadoDao.existeEmpleado(dni);
     return b;
     }
-    public List<EmpleadoDTO> obtenerEmpleados() {
+   
+   public List<EmpleadoDTO> obtenerEmpleados() {
         return empleadoDao.buscarEmpleados();
         
     }
-   
+    
 }
