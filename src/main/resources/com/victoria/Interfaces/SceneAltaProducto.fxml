@@ -47,7 +47,7 @@
                     <TextField fx:id="txtTalle" prefWidth="200" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
 
                     <!-- Precio -->
-                    <Label text="Precio" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                    <Label text="Precio $" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
                     <TextField fx:id="txtPrecio" prefWidth="200" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
 
                     <!-- Color -->

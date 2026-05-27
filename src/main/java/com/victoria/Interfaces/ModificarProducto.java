@@ -34,7 +34,18 @@ public class ModificarProducto {
     
     @FXML
     public void initialize() {
+    
+        cbTipoRopa.getItems().addAll(
+            "Remeras", "Musculosas", "Deportivo", "Pantalones",
+            "Buzos", "Pulovers", "Chombas", "Boxer",
+            "Campera", "Malla", "Bermuda", "Camisa",
+            "Zapatillas");
+
+        cbTipoAccesorio.getItems().addAll(
+            "Gorra", "Gorro", "Medias", "Lentes",
+            "Cinto", "Mochila", "Pulsera", "Collar");
         
+        spCantidad.setEditable(true);
         
         if (producto instanceof RopaStockDTO ropa) {
             this.ropa = (RopaStockDTO) producto;
@@ -74,6 +85,34 @@ public class ModificarProducto {
             txtNuevoTipoRopa.setDisable(true);
             btnAddTipoRopa.setDisable(true);
         }
+        // SOLO NUMEROS 
+        txtPrecio.textProperty().addListener((obs, oldValue, newValue) -> {
+
+        if (!newValue.matches("[0-9.,]*")) {
+            txtPrecio.setText(
+                newValue.replaceAll("[^0-9.,]", "")
+            );
+        }});
+
+        // TALLE EN MAYUSC
+        txtTalle.textProperty().addListener((obs, oldValue, newValue) -> {
+        txtTalle.setText(newValue.toUpperCase());});
+
+        // COLOR EN MAYUSC
+        txtColor.textProperty().addListener((obs, oldValue, newValue) -> {
+        txtColor.setText(newValue.toUpperCase());});
+
+        // MARCA QUE EMPIEZA CON LETRA MAYUSC
+        txtMarca.textProperty().addListener((obs, oldValue, newValue) -> {
+
+        if (!newValue.isEmpty()) {
+
+            String capitalizado = capitalizar(newValue);
+
+            if (!newValue.equals(capitalizado)) {
+                txtMarca.setText(capitalizado);
+            }
+        }});
     }
 
     @FXML
@@ -108,7 +147,9 @@ public class ModificarProducto {
             ropa.setMarca(
                 txtMarca.getText()
             );
-
+            ropa.setTipoRopa(
+                cbTipoRopa.getValue()
+            );
             ropa.setCantidad(
                 spCantidad.getValue()
             );
@@ -139,7 +180,10 @@ public class ModificarProducto {
             prod.setMarca(
                 ropa.getMarca()
             );
-
+            prod.setTipoProducto(
+                ropa.getTipoRopa()
+            );
+            
             // ACTUALIZAR TABLA PRODUCTO
             gestorProducto.actualizarProducto(prod);
 
@@ -181,7 +225,9 @@ public class ModificarProducto {
             accs.setMarca(
                 txtMarca.getText()
             );
-
+            accs.setTipoAccs(
+                cbTipoAccesorio.getValue()
+            );
             accs.setCantidad(
                 spCantidad.getValue()
             );
@@ -212,6 +258,10 @@ public class ModificarProducto {
             prod.setMarca(
                 accs.getMarca()
             );
+            prod.setTipoProducto(
+                accs.getTipoAccs()
+            );
+           
 
             // ACTUALIZAR TABLA PRODUCTO
             gestorProducto.actualizarProducto(prod);
@@ -239,7 +289,14 @@ public class ModificarProducto {
     }
 
     }
-       
+    private String capitalizar(String texto) {
+
+        if (texto == null || texto.isEmpty()) {
+            return texto;
+        }
+    return texto.substring(0,1).toUpperCase() +
+           texto.substring(1).toLowerCase();}       
+    
     @FXML
     private void volverMenuPrincipal() {
         Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");

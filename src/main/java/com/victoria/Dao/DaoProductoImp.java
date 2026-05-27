@@ -224,7 +224,8 @@ public class DaoProductoImp implements DaoProducto{
         "talle = ?, " +
         "precio = ?, " +
         "color = ?, " +
-        "marca = ? " +
+        "marca = ?, " +
+        "tipoproducto = ? " +
         "WHERE id = ?;";
 
     ConexionDB conexion = new ConexionDB();
@@ -243,9 +244,10 @@ public class DaoProductoImp implements DaoProducto{
         ps.setDouble(3, producto.getPrecio());
         ps.setString(4, producto.getColor());
         ps.setString(5, producto.getMarca());
+        ps.setString(6, producto.getTipoProducto());
 
         // EL ID DEL PRODUCTO A MODIFICAR
-        ps.setInt(6, producto.getId_producto());
+        ps.setInt(7, producto.getId_producto());
 
         ps.executeUpdate();
 

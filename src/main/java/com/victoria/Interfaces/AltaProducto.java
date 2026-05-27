@@ -60,6 +60,37 @@ public class AltaProducto {
         spCantidad.setValueFactory(valueFactory);
         // Permitir ingreso manual por teclado
         spCantidad.setEditable(true);
+        
+        // Solo permite números, coma y punto en el combobox del texto
+        
+        txtPrecio.textProperty().addListener((obs, oldValue, newValue) -> {
+    
+            if (!newValue.matches("[0-9.,]*")) {
+                txtPrecio.setText(newValue.replaceAll("[^0-9.,]", ""));
+            }
+        });
+        // ===== TALLE EN MAYUSCULA =====
+        txtTalle.textProperty().addListener((obs, oldValue, newValue) -> {
+            txtTalle.setText(newValue.toUpperCase());
+        });
+
+        // ===== COLOR EN MAYUSCULA =====
+        txtColor.textProperty().addListener((obs, oldValue, newValue) -> {
+            txtColor.setText(newValue.toUpperCase());
+        });
+
+        // ===== MARCA CAPITALIZADA =====
+        txtMarca.textProperty().addListener((obs, oldValue, newValue) -> {
+
+            if (!newValue.isEmpty()) {
+
+                String capitalizado = capitalizar(newValue);
+
+                if (!newValue.equals(capitalizado)) {
+                    txtMarca.setText(capitalizado);
+                }
+            }
+        });
 
         // Agregar un listener para validar el texto ingresado y actualizar el valor del Spinner
            spCantidad.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
@@ -226,5 +257,14 @@ public class AltaProducto {
         alerta.setContentText(mensaje);
         alerta.showAndWait();
     }
+    private String capitalizar(String texto) {
+
+        if (texto == null || texto.isEmpty()) {
+            return texto;
+        }
+
+    return texto.substring(0,1).toUpperCase() +
+           texto.substring(1).toLowerCase();
+        }
 
 }
