@@ -216,9 +216,10 @@ public class DaoProductoImp implements DaoProducto{
     }
         return idProducto; // devuelve un numero si existe, sino -> null
     }
-    @Override
-    public void modificarProducto(Producto producto){
-         String consulta =
+   @Override
+public void modificarProducto(Producto producto) {
+
+    String consulta =
         "UPDATE producto SET " +
         "descripcion = ?, " +
         "talle = ?, " +
@@ -232,6 +233,7 @@ public class DaoProductoImp implements DaoProducto{
 
     Connection cn = null;
     PreparedStatement ps = null;
+    PreparedStatement psUpdate = null; // ← declarada acá afuera
 
     try {
 
@@ -245,11 +247,34 @@ public class DaoProductoImp implements DaoProducto{
         ps.setString(4, producto.getColor());
         ps.setString(5, producto.getMarca());
         ps.setString(6, producto.getTipoProducto());
-
-        // EL ID DEL PRODUCTO A MODIFICAR
         ps.setInt(7, producto.getId_producto());
 
         ps.executeUpdate();
+
+        // ── REGENERAR CÓDIGO PRODUCTO ──────────────────────────
+        String tipoNorm = producto.getTipo()
+                .trim().toUpperCase().replaceAll("\\s+", "");
+
+        String marcaNorm = producto.getMarca()
+                .trim().toUpperCase().replaceAll("\\s+", "");
+
+        String tipoProductoNorm = producto.getTipoProducto()
+                .trim().toUpperCase().replaceAll("\\s+", "");
+
+        String codigoProducto =
+                tipoNorm + "-" +
+                marcaNorm + "-" +
+                tipoProductoNorm + "-" +
+                producto.getId_producto();
+
+        String updateCodigo =
+            "UPDATE producto SET codigo_producto = ? WHERE id = ?";
+
+        psUpdate = cn.prepareStatement(updateCodigo); // ← asignada acá adentro
+        psUpdate.setString(1, codigoProducto);
+        psUpdate.setInt(2, producto.getId_producto());
+        psUpdate.executeUpdate();
+        // ──────────────────────────────────────────────────────
 
         System.out.println("Producto modificado correctamente.");
 
@@ -261,9 +286,9 @@ public class DaoProductoImp implements DaoProducto{
 
         try {
 
-            if(ps != null) ps.close();
-
-            if(cn != null) cn.close();
+            if (ps != null) ps.close();
+            if (psUpdate != null) psUpdate.close(); // ← ahora el finally la ve
+            if (cn != null) cn.close();
 
         } catch (Exception e2) {
 
@@ -271,8 +296,8 @@ public class DaoProductoImp implements DaoProducto{
 
         }
     }
-
-    }
+}
     
 
 }
+

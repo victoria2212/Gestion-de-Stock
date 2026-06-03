@@ -80,8 +80,8 @@ public class RegistroEmpleado {
             //ACA TENGO QUE VER SI EN SERIO SE GUARDO CORRECTAMENTE, PORQUE PUEDE QUE TIRE EL MENSAJE PERO NO SE HAYA GUARDADO
             mostrarAlerta("Empleado registrado con éxito.");
             limpiarCampos();
-           // VOLVEMOS a la pantalla de inicio de sesión en la misma ventana        
-            Navegador.cambiarVista("/com/victoria/Interfaces/SceneInicioSesion.fxml");
+           // pantalla de gestion empleado     
+            Navegador.cambiarVista("/com/victoria/Interfaces/SceneGestionEmpleados.fxml");
                         
         } else {
             mostrarAlerta("Este empleado ya existe en el sistema.");
@@ -113,7 +113,7 @@ public class RegistroEmpleado {
     }
     @FXML
     private void inicioSesion() {
-    Navegador.cambiarVista("/com/victoria/Interfaces/SceneInicioSesion.fxml");
+    Navegador.cambiarVista("/com/victoria/Interfaces/SceneGestionEmpleados.fxml");
     }
     
     private void limpiarCampos() {

@@ -68,6 +68,10 @@ public class GestionEmpleado {
 
         cargarDatos();
     }
+    @FXML
+    private void irARegistroEmpleado() {
+        Navegador.cambiarVista("/com/victoria/Interfaces/SceneRegistroEmpleado.fxml");
+    }
 
     @FXML
     private void volverMenuPrincipal() {

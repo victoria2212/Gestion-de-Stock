@@ -54,7 +54,7 @@
         </HBox>
 
             <HBox spacing="20" alignment="CENTER" style="-fx-padding: 10 0 0 0;">
-                <Button text="Volver al Inicio" onAction="#inicioSesion"/>
+                <Button text="Volver" onAction="#inicioSesion"/>
                 <Button text="Registrar" onAction="#registrarEmpleado"/>
             </HBox>
         </VBox>

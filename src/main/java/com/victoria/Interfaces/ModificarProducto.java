@@ -180,9 +180,8 @@ public class ModificarProducto {
             prod.setMarca(
                 ropa.getMarca()
             );
-            prod.setTipoProducto(
-                ropa.getTipoRopa()
-            );
+            prod.setTipo("Ropa");  // ← agregá esto
+            prod.setTipoProducto(ropa.getTipoRopa());
             
             // ACTUALIZAR TABLA PRODUCTO
             gestorProducto.actualizarProducto(prod);
@@ -258,9 +257,9 @@ public class ModificarProducto {
             prod.setMarca(
                 accs.getMarca()
             );
-            prod.setTipoProducto(
-                accs.getTipoAccs()
-            );
+            
+            prod.setTipo("Accesorio");  // ← agregá esto
+            prod.setTipoProducto(accs.getTipoAccs());
            
 
             // ACTUALIZAR TABLA PRODUCTO

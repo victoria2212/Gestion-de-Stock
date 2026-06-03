@@ -106,7 +106,7 @@ public class ModificarEmpleado {
             // =========================
 
             Navegador.cambiarVista(
-                "/com/victoria/Interfaces/SceneMenuPrincipal.fxml"
+                "/com/victoria/Interfaces/SceneGestionEmpleados.fxml"
             );
 
         } catch (Exception e) {
@@ -114,7 +114,7 @@ public class ModificarEmpleado {
             e.printStackTrace();
         }
     }
-
+ 
    @FXML
     private void volverGestionEmpleado() {
 

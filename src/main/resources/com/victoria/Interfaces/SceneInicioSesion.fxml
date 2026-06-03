@@ -11,10 +11,5 @@
         <TextField fx:id="campoDni" promptText="DNI" />
     </HBox>
     <Button text="Ingresar" onAction="#handleIngresar" defaultButton="true"/>
-    
 
-<HBox alignment="CENTER" spacing="10">
-    <Label text="Si no se encuentra registrado en el Sistema" />
-    <Button text="Registrarse" onAction="#registrarEmpleado"/>
-</HBox>
 </VBox>

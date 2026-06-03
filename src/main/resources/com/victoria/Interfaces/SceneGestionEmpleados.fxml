@@ -39,7 +39,9 @@
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
-
+             <Button text="Agregar Empleado"
+                onAction="#irARegistroEmpleado"/>
+                
             <Button text="Volver al Menú Principal"
                     onAction="#volverMenuPrincipal"/>
 
