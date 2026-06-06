@@ -2,83 +2,175 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.victoria.Interfaces.AltaProducto">
-    <center>
-        <HBox alignment="CENTER" BorderPane.alignment="CENTER">
-            <VBox spacing="10" alignment="CENTER">
-                <padding>
-                    <Insets top="20" right="20" bottom="20" left="20"/>
-                </padding>
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.victoria.Interfaces.AltaProducto"
+           style="-fx-background-color: #BDD5E5;">
 
-                <Label text="ALTA DE PRODUCTO" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+    <!-- CARD BLANCA centrada -->
+    <VBox spacing="14" alignment="TOP_CENTER"
+          style="-fx-background-color: white;
+                 -fx-background-radius: 16;
+                 -fx-border-radius: 16;
+                 -fx-padding: 28 36 28 36;
+                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 16, 0, 0, 4);"
+          maxWidth="760" maxHeight="620"
+          StackPane.alignment="CENTER">
 
-                <GridPane hgap="10" vgap="10">
-                    <columnConstraints>
-                        <ColumnConstraints halignment="RIGHT"/>
-                        <ColumnConstraints hgrow="ALWAYS" minWidth="200"/>
-                        <ColumnConstraints hgrow="ALWAYS" minWidth="200"/>
-                        <ColumnConstraints/>
-                    </columnConstraints>
+        <!-- Título -->
+        <Label text="Alta de Producto"
+               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1a2a4a;"
+               alignment="CENTER" maxWidth="Infinity"/>
+        <Label text="Completá los datos del nuevo producto"
+               style="-fx-font-size: 13px; -fx-text-fill: #6b7c99;"
+               alignment="CENTER" maxWidth="Infinity"/>
 
-                    <!-- Tipo de Producto -->
-                    <Label text="Tipo de Producto" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                    <ComboBox fx:id="cbTipoProducto" prefWidth="200" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <Separator/>
 
-                    <!-- Tipo de Ropa -->
-                    <Label text="Tipo de Ropa" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                    <ComboBox fx:id="cbTipoRopa" prefWidth="200" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-                    <TextField fx:id="txtNuevoTipoRopa" promptText="Añadir otro tipo de ropa +" prefWidth="200" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
-                    <Button fx:id="btnAddTipoRopa" text="Añadir" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+        <!-- FILA: formulario izquierda + foto derecha -->
+        <HBox spacing="32" alignment="TOP_CENTER">
 
-                    <!-- Tipo de Accesorio -->
-                    <Label text="Tipo de Accesorio" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                    <ComboBox fx:id="cbTipoAccesorio" prefWidth="200" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-                    <TextField fx:id="txtNuevoTipoAccesorio" promptText="Añadir otro tipo de Accesorio +" prefWidth="200" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
-                    <Button fx:id="btnAddTipoAccesorio" text="Añadir" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+            <!-- COLUMNA IZQUIERDA: campos -->
+            <GridPane hgap="12" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="130" halignment="RIGHT"/>
+                    <ColumnConstraints minWidth="210"/>
+                </columnConstraints>
 
-                    <!-- Descripción -->
-                    <Label text="Descripción" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                    <TextField fx:id="txtDescripcion" prefWidth="200" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                <Label text="Tipo de Producto" GridPane.rowIndex="0" GridPane.columnIndex="0"
+                       style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+                <ComboBox fx:id="cbTipoProducto" prefWidth="210"
+                          GridPane.rowIndex="0" GridPane.columnIndex="1"
+                          style="-fx-background-radius: 8; -fx-border-radius: 8;
+                                 -fx-border-color: #c5d5e8; -fx-font-size: 13px;"/>
 
-                    <!-- Talle -->
-                    <Label text="Talle" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-                    <TextField fx:id="txtTalle" prefWidth="200" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                <Label text="Tipo de Ropa" GridPane.rowIndex="1" GridPane.columnIndex="0"
+                       style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+                <ComboBox fx:id="cbTipoRopa" prefWidth="210"
+                          GridPane.rowIndex="1" GridPane.columnIndex="1"
+                          style="-fx-background-radius: 8; -fx-border-radius: 8;
+                                 -fx-border-color: #c5d5e8; -fx-font-size: 13px;"/>
 
-                    <!-- Precio -->
-                    <Label text="Precio $" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-                    <TextField fx:id="txtPrecio" prefWidth="200" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+                <Label text="Tipo de Accesorio" GridPane.rowIndex="2" GridPane.columnIndex="0"
+                       style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+                <ComboBox fx:id="cbTipoAccesorio" prefWidth="210"
+                          GridPane.rowIndex="2" GridPane.columnIndex="1"
+                          style="-fx-background-radius: 8; -fx-border-radius: 8;
+                                 -fx-border-color: #c5d5e8; -fx-font-size: 13px;"/>
 
-                    <!-- Color -->
-                    <Label text="Color" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-                    <TextField fx:id="txtColor" prefWidth="200" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+                <Label text="Descripción" GridPane.rowIndex="3" GridPane.columnIndex="0"
+                       style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+                <TextField fx:id="txtDescripcion" prefWidth="210"
+                           GridPane.rowIndex="3" GridPane.columnIndex="1"
+                           style="-fx-background-radius: 8; -fx-border-radius: 8;
+                                  -fx-border-color: #c5d5e8; -fx-font-size: 13px;
+                                  -fx-padding: 6 10 6 10;"/>
 
-                    <!-- Marca -->
-                    <Label text="Marca" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
-                    <TextField fx:id="txtMarca" prefWidth="200" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+                <Label text="Talle" GridPane.rowIndex="4" GridPane.columnIndex="0"
+                       style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+                <TextField fx:id="txtTalle" prefWidth="210"
+                           GridPane.rowIndex="4" GridPane.columnIndex="1"
+                           style="-fx-background-radius: 8; -fx-border-radius: 8;
+                                  -fx-border-color: #c5d5e8; -fx-font-size: 13px;
+                                  -fx-padding: 6 10 6 10;"/>
 
-                    <!-- Cantidad (último campo dentro del GridPane) -->
-                    <Label text="Cantidad" GridPane.rowIndex="8" GridPane.columnIndex="0" style="-fx-alignment: CENTER_RIGHT;"/>
-                    <Spinner fx:id="spCantidad" prefWidth="200" GridPane.rowIndex="8" GridPane.columnIndex="1" />
-                
-                </GridPane>
-                
-                <!-- Botón Guardar -->
-                <Button text="Guardar" fx:id="guardarButton" onAction="#guardarProducto" 
-                GridPane.rowIndex="13" GridPane.columnIndex="1" alignment="CENTER_RIGHT"/>
+                <Label text="Precio $" GridPane.rowIndex="5" GridPane.columnIndex="0"
+                       style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+                <TextField fx:id="txtPrecio" prefWidth="210"
+                           GridPane.rowIndex="5" GridPane.columnIndex="1"
+                           style="-fx-background-radius: 8; -fx-border-radius: 8;
+                                  -fx-border-color: #c5d5e8; -fx-font-size: 13px;
+                                  -fx-padding: 6 10 6 10;"/>
+
+                <Label text="Color" GridPane.rowIndex="6" GridPane.columnIndex="0"
+                       style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+                <TextField fx:id="txtColor" prefWidth="210"
+                           GridPane.rowIndex="6" GridPane.columnIndex="1"
+                           style="-fx-background-radius: 8; -fx-border-radius: 8;
+                                  -fx-border-color: #c5d5e8; -fx-font-size: 13px;
+                                  -fx-padding: 6 10 6 10;"/>
+
+                <Label text="Marca" GridPane.rowIndex="7" GridPane.columnIndex="0"
+                       style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+                <TextField fx:id="txtMarca" prefWidth="210"
+                           GridPane.rowIndex="7" GridPane.columnIndex="1"
+                           style="-fx-background-radius: 8; -fx-border-radius: 8;
+                                  -fx-border-color: #c5d5e8; -fx-font-size: 13px;
+                                  -fx-padding: 6 10 6 10;"/>
+
+                <Label text="Cantidad" GridPane.rowIndex="8" GridPane.columnIndex="0"
+                       style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+                <Spinner fx:id="spCantidad" prefWidth="210"
+                         GridPane.rowIndex="8" GridPane.columnIndex="1"
+                         style="-fx-background-radius: 8; -fx-border-radius: 8;
+                                -fx-border-color: #c5d5e8; -fx-font-size: 13px;"/>
+            </GridPane>
+
+            <!-- SEPARADOR VERTICAL -->
+            <Separator orientation="VERTICAL"/>
+
+            <!-- COLUMNA DERECHA: foto -->
+            <VBox spacing="10" alignment="CENTER" prefWidth="170">
+                <Label text="Foto del Producto"
+                       style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #1a2a4a;"/>
+
+                <StackPane fx:id="placeholderFoto" prefWidth="150" prefHeight="150"
+                           style="-fx-background-color: #f0f5fb;
+                                  -fx-background-radius: 10;
+                                  -fx-border-color: #c5d5e8;
+                                  -fx-border-radius: 10;
+                                  -fx-border-style: dashed;">
+                    <ImageView fx:id="imgPreview" fitWidth="150" fitHeight="150"
+                               preserveRatio="true" visible="false"/>
+                    <Label fx:id="lblSinImagen" text="Sin imagen"
+                           style="-fx-text-fill: #9aafc7; -fx-font-size: 12px;"/>
+                </StackPane>
+
+                <Button fx:id="btnSeleccionarFoto" text="Seleccionar foto..."
+                        onAction="#seleccionarFoto" prefWidth="150"
+                        style="-fx-background-color: transparent;
+                               -fx-border-color: #4a7ab5;
+                               -fx-border-radius: 8;
+                               -fx-background-radius: 8;
+                               -fx-text-fill: #4a7ab5;
+                               -fx-font-size: 12px;
+                               -fx-cursor: hand;
+                               -fx-padding: 6 14 6 14;"/>
+
+                <Label fx:id="lblNombreFoto" text="" wrapText="true" prefWidth="150"
+                       style="-fx-font-size: 11px; -fx-text-fill: #6b7c99;"/>
             </VBox>
-        </HBox>
-    </center>
-    <!-- Botón volver -->
-    <bottom>
-        <HBox alignment="CENTER_RIGHT" spacing="10">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
-            </padding>
-            <Button fx:id="btnVolver" text="Volver al Menú Principal" onAction="#volverMenuPrincipal"/>
-        </HBox>
-    </bottom>
-</BorderPane>
 
+        </HBox>
 
+        <Separator/>
+
+        <!-- Botón Guardar -->
+        <Button text="Guardar Producto" fx:id="guardarButton" onAction="#guardarProducto"
+                maxWidth="Infinity" prefHeight="40"
+                style="-fx-background-color: #4a7ab5;
+                       -fx-text-fill: white;
+                       -fx-font-size: 14px;
+                       -fx-font-weight: bold;
+                       -fx-background-radius: 10;
+                       -fx-border-radius: 10;
+                       -fx-cursor: hand;"/>
+
+        <!-- Botón Volver -->
+        <HBox alignment="CENTER_RIGHT">
+            <Button fx:id="btnVolver" text="← Volver al Menú Principal"
+                    onAction="#volverMenuPrincipal"
+                    style="-fx-background-color: transparent;
+                           -fx-border-color: #4a7ab5;
+                           -fx-border-radius: 8;
+                           -fx-background-radius: 8;
+                           -fx-text-fill: #4a7ab5;
+                           -fx-font-size: 12px;
+                           -fx-cursor: hand;
+                           -fx-padding: 5 12 5 12;"/>
+        </HBox>
+
+    </VBox>
+</StackPane>

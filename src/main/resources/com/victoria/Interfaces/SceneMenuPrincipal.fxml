@@ -75,19 +75,6 @@
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
-            <Label text="Contacto" style="-fx-font-weight: bold; -fx-font-size: 13px;" />
-            <HBox spacing="10">
-                <Label text="📞" />
-                <Label text="3424232655" />
-            </HBox>
-            <HBox spacing="10">
-                <Label text="📧" />
-                <Label text="dharma.vip@hotmail.com" />
-            </HBox>
-            <HBox spacing="10">
-                <Label text="📍" />
-                <Label text="General Paz 5786" />
-            </HBox>
         </VBox>
     </bottom>
 
