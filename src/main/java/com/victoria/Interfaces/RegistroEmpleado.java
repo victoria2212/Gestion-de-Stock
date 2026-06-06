@@ -51,38 +51,33 @@ public class RegistroEmpleado {
         String dni = campoDni.getText().trim();
         String direc = campoDireccion.getText().trim();
         String rol = campoRol.getValue();
-        String contrasenaAdmin = campoContrasenaAdmin.getText().trim();
+        String contrasenaAdmin = campoContrasenaAdmin.isVisible()
+                ? campoContrasenaAdmin.getText().trim()
+                : campoContrasenaAdminVisible.getText().trim();
 
-        // en un futuro puedo hacer las validaciones por separado de cada campo asi muestro una alerta personalizada
         if (nombre.isEmpty() || dni.isEmpty() || direc.isEmpty() || apellido.isEmpty() || rol == null) {
             mostrarAlerta("Todos los campos son obligatorios.");
             return;
         }
-        Integer documento;
-        documento = Integer.parseInt(dni);
-        
+    Integer documento = Integer.parseInt(dni);
+
         if (contrasenaAdmin.isEmpty()) {
             mostrarAlerta("Ingrese la contraseña del administrador para registrar el nuevo empleado.");
             return;
         }
-        
-        //aca tengo que cambiarlo para que saque la contraseña de la base de datos
-        String contraseñaCorrecta = "$BerterO$";  
-        if (!contrasenaAdmin.equals(contraseñaCorrecta)) {
-            mostrarAlerta("Contraseña incorrecta. No puede registrar el empleado.");
-            return;
-        }
 
+    String contraseñaCorrecta = "$BerterO$";
+    if (!contrasenaAdmin.equals(contraseñaCorrecta)) {
+        mostrarAlerta("Contraseña incorrecta. No puede registrar el empleado.");
+        return;
+    }
 
         if (!gestorEmpleado.existeEmpleado(documento)) {
             Empleado nuevoEmpleado = new Empleado(documento, nombre, apellido, direc);
             gestorEmpleado.agregarEmpleado(nuevoEmpleado);
-            //ACA TENGO QUE VER SI EN SERIO SE GUARDO CORRECTAMENTE, PORQUE PUEDE QUE TIRE EL MENSAJE PERO NO SE HAYA GUARDADO
             mostrarAlerta("Empleado registrado con éxito.");
             limpiarCampos();
-           // pantalla de gestion empleado     
             Navegador.cambiarVista("/com/victoria/Interfaces/SceneGestionEmpleados.fxml");
-                        
         } else {
             mostrarAlerta("Este empleado ya existe en el sistema.");
             campoDni.clear();
@@ -91,24 +86,24 @@ public class RegistroEmpleado {
             campoDireccion.clear();
             campoRol.setValue(null);
             campoContrasenaAdmin.clear();
+            campoContrasenaAdminVisible.clear();
         }
-    }
+}
+
     @FXML
-        private void toggleVerContrasena() {
-            if (campoContrasenaAdmin.isVisible()) {
-                // Mostrar el campo visible y ocultar el PasswordField
-                campoContrasenaAdminVisible.setText(campoContrasenaAdmin.getText());
-                campoContrasenaAdmin.setVisible(false);
-                campoContrasenaAdmin.setManaged(false);
-                campoContrasenaAdminVisible.setVisible(true);
-                campoContrasenaAdminVisible.setManaged(true);
-            } else {
-                // Volver al PasswordField
-                campoContrasenaAdmin.setText(campoContrasenaAdminVisible.getText());
-                campoContrasenaAdminVisible.setVisible(false);
-                campoContrasenaAdminVisible.setManaged(false);
-                campoContrasenaAdmin.setVisible(true);
-                campoContrasenaAdmin.setManaged(true);
+    private void toggleVerContrasena() {
+        if (campoContrasenaAdmin.isVisible()) {
+            campoContrasenaAdminVisible.setText(campoContrasenaAdmin.getText());
+            campoContrasenaAdmin.setVisible(false);
+            campoContrasenaAdmin.setManaged(false);
+            campoContrasenaAdminVisible.setVisible(true);
+            campoContrasenaAdminVisible.setManaged(true);
+        } else {
+            campoContrasenaAdmin.setText(campoContrasenaAdminVisible.getText());
+            campoContrasenaAdminVisible.setVisible(false);
+            campoContrasenaAdminVisible.setManaged(false);
+            campoContrasenaAdmin.setVisible(true);
+            campoContrasenaAdmin.setManaged(true);
             }
     }
     @FXML

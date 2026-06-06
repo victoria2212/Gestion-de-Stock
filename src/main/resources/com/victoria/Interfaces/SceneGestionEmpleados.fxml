@@ -42,7 +42,7 @@
              <Button text="Agregar Empleado"
                 onAction="#irARegistroEmpleado"/>
                 
-            <Button text="Volver al Menú Principal"
+            <Button text="Menú Principal"
                     onAction="#volverMenuPrincipal"/>
 
         </HBox>
