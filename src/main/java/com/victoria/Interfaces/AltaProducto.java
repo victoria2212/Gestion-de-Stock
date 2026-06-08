@@ -1,6 +1,8 @@
 package com.victoria.Interfaces;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 
 import com.victoria.Clases.Accesorio;
@@ -42,7 +44,7 @@ public class AltaProducto {
     @FXML private Label lblNombreFoto;
     @FXML private Label lblSinImagen;
 
-    private File fotoSeleccionada = null;
+    private byte[] fotoBytes = null; // ← guardamos los bytes, no el File
 
     @FXML
     public void initialize() {
@@ -130,14 +132,23 @@ public class AltaProducto {
         File archivo = fileChooser.showOpenDialog(stage);
 
         if (archivo != null) {
-            fotoSeleccionada = archivo;
-            Image imagen = new Image(archivo.toURI().toString());
-            imgPreview.setImage(imagen);
-            imgPreview.setVisible(true);
-            lblSinImagen.setVisible(false);
-            // Mostrar nombre corto del archivo
-            String nombre = archivo.getName();
-            lblNombreFoto.setText(nombre.length() > 22 ? nombre.substring(0, 20) + "..." : nombre);
+            try {
+                // Convertir el archivo a bytes para guardar en la BD
+                fotoBytes = Files.readAllBytes(archivo.toPath());
+
+                // Mostrar preview en la UI
+                Image imagen = new Image(archivo.toURI().toString());
+                imgPreview.setImage(imagen);
+                imgPreview.setVisible(true);
+                lblSinImagen.setVisible(false);
+
+                String nombre = archivo.getName();
+                lblNombreFoto.setText(nombre.length() > 22 ? nombre.substring(0, 20) + "..." : nombre);
+
+            } catch (IOException ex) {
+                mostrarAlerta("No se pudo leer la imagen seleccionada.");
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -175,8 +186,6 @@ public class AltaProducto {
             return;
         }
 
-        String rutaFoto = (fotoSeleccionada != null) ? fotoSeleccionada.getAbsolutePath() : null;
-
         if ("Ropa".equals(tipoProducto)) {
             String tipoRopa = cbTipoRopa.getValue();
             Integer id_existe = gestorProducto.existeProducto(descripcion, marca, color, talle, "Ropa", tipoRopa);
@@ -184,11 +193,9 @@ public class AltaProducto {
                 mostrarAlerta("El producto ya existe en el Sistema.");
             } else {
                 Ropa ropa = new Ropa(descripcion, talle, precio, color, marca, tipoRopa);
-                // ropa.setFoto(rutaFoto);
+                ropa.setFoto(fotoBytes); // ← asignamos los bytes
                 producto = ropa;
                 id = gestorProducto.altaProducto(producto);
-                System.out.println("ID PRODUCTO: " + id);
-                if (rutaFoto != null) System.out.println("FOTO: " + rutaFoto);
                 gestorStock.registrarStock(id, cantidad, LocalDateTime.now());
                 mostrarAlerta("Producto guardado correctamente.");
             }
@@ -199,10 +206,9 @@ public class AltaProducto {
                 mostrarAlerta("El producto ya existe en el Sistema.");
             } else {
                 Accesorio accs = new Accesorio(descripcion, talle, precio, color, marca, tipoAccesorio);
-                // accs.setFoto(rutaFoto);
+                accs.setFoto(fotoBytes); // ← asignamos los bytes
                 producto = accs;
                 id = gestorProducto.altaProducto(producto);
-                if (rutaFoto != null) System.out.println("FOTO: " + rutaFoto);
                 gestorStock.registrarStock(id, cantidad, LocalDateTime.now());
                 mostrarAlerta("Producto guardado correctamente.");
             }
@@ -223,7 +229,7 @@ public class AltaProducto {
         txtColor.clear();
         txtMarca.clear();
         spCantidad.getValueFactory().setValue(0);
-        fotoSeleccionada = null;
+        fotoBytes = null;
         imgPreview.setImage(null);
         imgPreview.setVisible(false);
         lblSinImagen.setVisible(true);
