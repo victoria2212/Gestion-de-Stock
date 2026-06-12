@@ -23,6 +23,7 @@
                 <TableColumn fx:id="colNombre" text="Nombre" prefWidth="140"/>
                 <TableColumn fx:id="colApellido" text="Apellido" prefWidth="140"/>
                 <TableColumn fx:id="colDireccion" text="Dirección" prefWidth="220"/>
+                <TableColumn fx:id="colContacto" text="Contacto" />
                 <TableColumn fx:id="colFechaAlta" text="Fecha de Alta" prefWidth="180"/>
 
                 <TableColumn fx:id="colModificar" text="Modificar" prefWidth="100"/>

@@ -7,17 +7,27 @@ public class Empleado {
     String apellido;
     String direccion;
     Integer dni;
+    String contacto;
     private LocalDate dia_de_alta;
 
 
    
-    public Empleado(Integer d,String n, String a, String direccion){
+    public Empleado(Integer d,String n, String a, String direccion, String contacto){
         this.dni=d;
         this.nombre=n;
         this.apellido=a;
         this.direccion = direccion;
+        this.contacto= contacto;
          // FECHA AUTOMÁTICA
         this.dia_de_alta = LocalDate.now();
+
+    }
+
+    public String getContacto(){
+        return contacto;
+    }
+    public void setContacto(String c){
+        this.contacto = c;
     }
     public String getNombre() {
         return nombre;

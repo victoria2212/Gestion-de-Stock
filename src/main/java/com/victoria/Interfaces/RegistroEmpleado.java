@@ -1,22 +1,16 @@
 package com.victoria.Interfaces;
 
-import java.io.IOException;
-
 import com.victoria.Clases.Empleado;
 import com.victoria.Gestores.GestorEmpleado;
 import com.victoria.navegation.Navegador;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 public class RegistroEmpleado {
 
@@ -26,20 +20,27 @@ public class RegistroEmpleado {
     @FXML private TextField campoNombre;
     @FXML private TextField campoApellido;
     @FXML private TextField campoDireccion;
+    @FXML private TextField campoContacto;
     @FXML private ComboBox<String> campoRol;
     @FXML private PasswordField campoContrasenaAdmin;
     @FXML private TextField campoContrasenaAdminVisible;
     @FXML private Button botonVerContrasena;
-    
 
     @FXML
     private void initialize() {
         campoRol.setItems(FXCollections.observableArrayList("Administrador", "Empleado"));
 
-        // Esto hace que solo se pueda ingresar números en campoDni
+        // Restricción: solo números en DNI
         campoDni.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 campoDni.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+        });
+
+        // Restricción: solo números en Contacto — VA ACÁ, en initialize()
+        campoContacto.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                campoContacto.setText(newValue.replaceAll("[^\\d]", ""));
             }
         });
     }
@@ -50,45 +51,43 @@ public class RegistroEmpleado {
         String nombre = campoNombre.getText().trim();
         String dni = campoDni.getText().trim();
         String direc = campoDireccion.getText().trim();
+        String contacto = campoContacto.getText().trim();
         String rol = campoRol.getValue();
         String contrasenaAdmin = campoContrasenaAdmin.isVisible()
                 ? campoContrasenaAdmin.getText().trim()
                 : campoContrasenaAdminVisible.getText().trim();
 
-        if (nombre.isEmpty() || dni.isEmpty() || direc.isEmpty() || apellido.isEmpty() || rol == null) {
+        if (nombre.isEmpty() || dni.isEmpty() || direc.isEmpty() || apellido.isEmpty()
+                || contacto.isEmpty() || rol == null) {
             mostrarAlerta("Todos los campos son obligatorios.");
             return;
         }
-    Integer documento = Integer.parseInt(dni);
+
+        Integer documento = Integer.parseInt(dni);
 
         if (contrasenaAdmin.isEmpty()) {
             mostrarAlerta("Ingrese la contraseña del administrador para registrar el nuevo empleado.");
             return;
         }
 
-    String contraseñaCorrecta = "$BerterO$";
-    if (!contrasenaAdmin.equals(contraseñaCorrecta)) {
-        mostrarAlerta("Contraseña incorrecta. No puede registrar el empleado.");
-        return;
-    }
+        String contraseñaCorrecta = "$BerterO$";
+        if (!contrasenaAdmin.equals(contraseñaCorrecta)) {
+            mostrarAlerta("Contraseña incorrecta. No puede registrar el empleado.");
+            return;
+        }
 
         if (!gestorEmpleado.existeEmpleado(documento)) {
-            Empleado nuevoEmpleado = new Empleado(documento, nombre, apellido, direc);
+            // Pasá contacto al constructor de Empleado si ya lo agregaste al modelo
+            Empleado nuevoEmpleado = new Empleado(documento, nombre, apellido, direc, contacto);
             gestorEmpleado.agregarEmpleado(nuevoEmpleado);
             mostrarAlerta("Empleado registrado con éxito.");
             limpiarCampos();
             Navegador.cambiarVista("/com/victoria/Interfaces/SceneGestionEmpleados.fxml");
         } else {
             mostrarAlerta("Este empleado ya existe en el sistema.");
-            campoDni.clear();
-            campoNombre.clear();
-            campoApellido.clear();
-            campoDireccion.clear();
-            campoRol.setValue(null);
-            campoContrasenaAdmin.clear();
-            campoContrasenaAdminVisible.clear();
+            limpiarCampos();
         }
-}
+    }
 
     @FXML
     private void toggleVerContrasena() {
@@ -104,20 +103,23 @@ public class RegistroEmpleado {
             campoContrasenaAdminVisible.setManaged(false);
             campoContrasenaAdmin.setVisible(true);
             campoContrasenaAdmin.setManaged(true);
-            }
+        }
     }
+
     @FXML
     private void inicioSesion() {
-    Navegador.cambiarVista("/com/victoria/Interfaces/SceneGestionEmpleados.fxml");
+        Navegador.cambiarVista("/com/victoria/Interfaces/SceneGestionEmpleados.fxml");
     }
-    
+
     private void limpiarCampos() {
         campoDni.clear();
         campoNombre.clear();
         campoApellido.clear();
         campoDireccion.clear();
+        campoContacto.clear();           // agregado
         campoRol.getSelectionModel().clearSelection();
         campoContrasenaAdmin.clear();
+        campoContrasenaAdminVisible.clear();
     }
 
     private void mostrarAlerta(String mensaje) {
@@ -128,4 +130,3 @@ public class RegistroEmpleado {
         alert.showAndWait();
     }
 }
-

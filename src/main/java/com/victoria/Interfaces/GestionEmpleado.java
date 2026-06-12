@@ -30,6 +30,7 @@ public class GestionEmpleado {
     @FXML private TableColumn<EmpleadoDTO, String> colNombre;
     @FXML private TableColumn<EmpleadoDTO, String> colApellido;
     @FXML private TableColumn<EmpleadoDTO, String> colDireccion;
+    @FXML private TableColumn<EmpleadoDTO, String> colContacto;
     @FXML private TableColumn<EmpleadoDTO, String> colFechaAlta;
 
     @FXML private TableColumn<EmpleadoDTO, Void> colModificar;
@@ -42,6 +43,7 @@ public class GestionEmpleado {
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colApellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
         colDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
+        colContacto.setCellValueFactory(new PropertyValueFactory<>("contacto"));
 
         colFechaAlta.setCellValueFactory(cellData ->
             new SimpleStringProperty(
@@ -56,6 +58,7 @@ public class GestionEmpleado {
         colNombre.setStyle("-fx-alignment: CENTER;");
         colApellido.setStyle("-fx-alignment: CENTER;");
         colDireccion.setStyle("-fx-alignment: CENTER;");
+        colContacto.setStyle("-fx-alignment: CENTER;");
         colFechaAlta.setStyle("-fx-alignment: CENTER;");
 
         colModificar.setStyle("-fx-alignment: CENTER;");

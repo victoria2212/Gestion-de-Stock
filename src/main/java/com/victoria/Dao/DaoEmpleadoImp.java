@@ -21,7 +21,7 @@ public ArrayList<EmpleadoDTO> buscarEmpleados() {
     ArrayList<EmpleadoDTO> empleados = new ArrayList<>();
 
     String consulta =
-        "SELECT dni, nombre, apellido, direccion, dia_de_alta " +
+        "SELECT dni, nombre, apellido, direccion, contacto, dia_de_alta " +
         "FROM empleado " +
         "ORDER BY apellido";
 
@@ -48,6 +48,8 @@ public ArrayList<EmpleadoDTO> buscarEmpleados() {
             String apellido = rs.getString("apellido");
 
             String direccion = rs.getString("direccion");
+            
+            String contacto = rs.getString("contacto");
 
             LocalDate fechaAlta =
                 rs.getObject("dia_de_alta", LocalDate.class);
@@ -57,6 +59,7 @@ public ArrayList<EmpleadoDTO> buscarEmpleados() {
                 nombre,
                 apellido,
                 direccion,
+                contacto,
                 fechaAlta
             );
 
@@ -83,8 +86,8 @@ public ArrayList<EmpleadoDTO> buscarEmpleados() {
         }
     }
 
-    return empleados;
-}
+        return empleados;
+    }
 
     @Override
     public void crearEmpleado(Empleado empleado) {
@@ -92,8 +95,8 @@ public ArrayList<EmpleadoDTO> buscarEmpleados() {
 		PreparedStatement cs = null;//para hacer las consultas SQL
 		ResultSet rs = null; 
         // DOY DE ALTA A UN EMPLEADO/ CREO UN EMPLEADO
-        String consulta = "INSERT INTO empleado (dni, nombre, apellido, direccion, dia_de_alta)" 
-                        + "VALUES (?,?,?,?,?);";
+        String consulta = "INSERT INTO empleado (dni, nombre, apellido, direccion, contacto, dia_de_alta)" 
+                        + "VALUES (?,?,?,?,?,?);";
         ConexionDB conexion = new ConexionDB();
         try {
 			cn = conexion.conectar();
@@ -104,7 +107,8 @@ public ArrayList<EmpleadoDTO> buscarEmpleados() {
 			cs.setString(2, empleado.getNombre());
 			cs.setString(3, empleado.getApellido());
             cs.setString(4, empleado.getDireccion());
-            cs.setObject(5, empleado.getDia_de_alta());
+            cs.setString(5, empleado.getContacto());
+            cs.setObject(6, empleado.getDia_de_alta());
 
 			cs.executeUpdate();
             System.out.println("Empleado creado correctamente.");
@@ -168,7 +172,8 @@ public ArrayList<EmpleadoDTO> buscarEmpleados() {
         "UPDATE empleado SET " +
         "nombre = ?, " +
         "apellido = ?, " +
-        "direccion = ? " +
+        "direccion = ?, " +
+        "contacto = ? " +
         "WHERE dni = ?;";
 
     ConexionDB conexion = new ConexionDB();
@@ -201,13 +206,17 @@ public ArrayList<EmpleadoDTO> buscarEmpleados() {
             3,
             empleado.getDireccion()
         );
+        ps.setString(
+            4,
+            empleado.getContacto()
+        );
 
         // =========================
         // WHERE DNI
         // =========================
 
         ps.setInt(
-            4,
+            5,
             empleado.getDni()
         );
 

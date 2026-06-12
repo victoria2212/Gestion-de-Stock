@@ -34,8 +34,8 @@ public class GestorEmpleado {
     public void agregarEmpleado(Empleado e) {
 		empleadoDao.crearEmpleado(e);
 	}
-    public Empleado crearEmpleado(Integer dni, String nombre,String apellido, String direccion){
-        return new Empleado(dni,nombre, apellido, direccion);
+    public Empleado crearEmpleado(Integer dni, String nombre,String apellido, String direccion, String contacto){
+        return new Empleado(dni,nombre, apellido, direccion, contacto);
     }
 
     public boolean existeEmpleado(Integer dni){

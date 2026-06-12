@@ -1,103 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.victoria.Interfaces.ModificarEmpleado">
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.victoria.Interfaces.ModificarEmpleado"
+           style="-fx-background-color: #BDD5E5;"
+           alignment="CENTER">
 
-    <center>
+    <!-- CARD BLANCA centrada -->
+    <VBox spacing="14" alignment="TOP_CENTER"
+          style="-fx-background-color: white;
+                 -fx-background-radius: 16;
+                 -fx-border-radius: 16;
+                 -fx-padding: 28 36 28 36;
+                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 16, 0, 0, 4);"
+          maxWidth="560" maxHeight="560"
+          StackPane.alignment="CENTER">
 
-        <VBox spacing="15"
-               alignment="CENTER"
-               maxWidth="500">
+        <!-- Título -->
+        <Label text="Modificar Empleado"
+               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1a2a4a;"
+               alignment="CENTER" maxWidth="Infinity"/>
+        <Label text="Editá los datos del empleado"
+               style="-fx-font-size: 13px; -fx-text-fill: #6b7c99;"
+               alignment="CENTER" maxWidth="Infinity"/>
 
-            <padding>
-                <Insets top="20"
-                        right="20"
-                        bottom="20"
-                        left="20"/>
-            </padding>
+        <Separator/>
 
-            <Label text="Modificar Datos de Empleado"
-                   style="-fx-font-size: 18px;"/>
+        <!-- Formulario -->
+        <GridPane hgap="12" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints minWidth="150" halignment="RIGHT"/>
+                <ColumnConstraints minWidth="280"/>
+            </columnConstraints>
 
-            <!-- NOMBRE -->
-            <HBox spacing="10"
-                   alignment="CENTER_LEFT">
+            <Label text="Nombre" GridPane.rowIndex="0" GridPane.columnIndex="0"
+                   style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+            <TextField fx:id="txtNombre" promptText="Nombre completo" prefWidth="280"
+                       GridPane.rowIndex="0" GridPane.columnIndex="1"
+                       style="-fx-background-radius: 8; -fx-border-radius: 8;
+                              -fx-border-color: #c5d5e8; -fx-font-size: 13px;
+                              -fx-padding: 6 10 6 10;"/>
 
-                <Label text="Nombre:"
-                       minWidth="150"/>
+            <Label text="Apellido" GridPane.rowIndex="1" GridPane.columnIndex="0"
+                   style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+            <TextField fx:id="txtApellido" promptText="Apellido completo" prefWidth="280"
+                       GridPane.rowIndex="1" GridPane.columnIndex="1"
+                       style="-fx-background-radius: 8; -fx-border-radius: 8;
+                              -fx-border-color: #c5d5e8; -fx-font-size: 13px;
+                              -fx-padding: 6 10 6 10;"/>
 
-                <TextField fx:id="txtNombre"
-                           promptText="Nombre completo"
-                           HBox.hgrow="ALWAYS"/>
-            </HBox>
+            <Label text="DNI" GridPane.rowIndex="2" GridPane.columnIndex="0"
+                   style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+            <TextField fx:id="txtDni" promptText="Solo números" prefWidth="280"
+                       editable="false"
+                       GridPane.rowIndex="2" GridPane.columnIndex="1"
+                       style="-fx-background-radius: 8; -fx-border-radius: 8;
+                              -fx-border-color: #c5d5e8; -fx-font-size: 13px;
+                              -fx-padding: 6 10 6 10;
+                              -fx-background-color: #f0f5fb;"/>
 
-            <!-- APELLIDO -->
-            <HBox spacing="10"
-                   alignment="CENTER_LEFT">
+            <Label text="Dirección" GridPane.rowIndex="3" GridPane.columnIndex="0"
+                   style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+            <TextField fx:id="txtDireccion" promptText="Ej: 25 de Mayo 123" prefWidth="280"
+                       GridPane.rowIndex="3" GridPane.columnIndex="1"
+                       style="-fx-background-radius: 8; -fx-border-radius: 8;
+                              -fx-border-color: #c5d5e8; -fx-font-size: 13px;
+                              -fx-padding: 6 10 6 10;"/>
 
-                <Label text="Apellido:"
-                       minWidth="150"/>
+            <Label text="Contacto (Celular)" GridPane.rowIndex="4" GridPane.columnIndex="0"
+                   style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+            <TextField fx:id="txtContacto" promptText="Solo números" prefWidth="280"
+                       GridPane.rowIndex="4" GridPane.columnIndex="1"
+                       style="-fx-background-radius: 8; -fx-border-radius: 8;
+                              -fx-border-color: #c5d5e8; -fx-font-size: 13px;
+                              -fx-padding: 6 10 6 10;"/>
 
-                <TextField fx:id="txtApellido"
-                           promptText="Apellido completo"
-                           HBox.hgrow="ALWAYS"/>
-            </HBox>
+            <Label text="Fecha Alta" GridPane.rowIndex="5" GridPane.columnIndex="0"
+                   style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+            <DatePicker fx:id="dpDiaAlta" prefWidth="280"
+                        disable="true"
+                        GridPane.rowIndex="5" GridPane.columnIndex="1"
+                        style="-fx-background-radius: 8; -fx-border-radius: 8;
+                               -fx-border-color: #c5d5e8; -fx-font-size: 13px;
+                               -fx-background-color: #f0f5fb;"/>
+        </GridPane>
 
-            <!-- DNI -->
-            <HBox spacing="10"
-                   alignment="CENTER_LEFT">
+        <Separator/>
 
-                <Label text="DNI:"
-                       minWidth="150"/>
+        <!-- Botón Guardar -->
+        <Button text="Guardar Cambios" onAction="#guardarCambios"
+                maxWidth="Infinity" prefHeight="40"
+                style="-fx-background-color: #4a7ab5;
+                       -fx-text-fill: white;
+                       -fx-font-size: 14px;
+                       -fx-font-weight: bold;
+                       -fx-background-radius: 10;
+                       -fx-border-radius: 10;
+                       -fx-cursor: hand;"/>
 
-                <TextField fx:id="txtDni"
-                           promptText="Solo números"
-                           editable="false"
-                           HBox.hgrow="ALWAYS"/>
-            </HBox>
+        <!-- Botón Volver -->
+        <HBox alignment="CENTER_RIGHT">
+            <Button text="← Volver" onAction="#volverGestionEmpleado"
+                    style="-fx-background-color: transparent;
+                           -fx-border-color: #4a7ab5;
+                           -fx-border-radius: 8;
+                           -fx-background-radius: 8;
+                           -fx-text-fill: #4a7ab5;
+                           -fx-font-size: 12px;
+                           -fx-cursor: hand;
+                           -fx-padding: 5 12 5 12;"/>
+        </HBox>
 
-            <!-- DIRECCION -->
-            <HBox spacing="10"
-                   alignment="CENTER_LEFT">
-
-                <Label text="Dirección:"
-                       minWidth="150"/>
-
-                <TextField fx:id="txtDireccion"
-                           promptText="Ej: 25 de Mayo 123"
-                           HBox.hgrow="ALWAYS"/>
-            </HBox>
-
-            <!-- FECHA ALTA -->
-            <HBox spacing="10"
-                   alignment="CENTER_LEFT">
-
-                <Label text="Fecha Alta:"
-                       minWidth="150"/>
-
-                <DatePicker fx:id="dpDiaAlta"
-                            disable="true"
-                            HBox.hgrow="ALWAYS"/>
-            </HBox>
-
-            <!-- BOTONES -->
-            <HBox spacing="20"
-                   alignment="CENTER"
-                   style="-fx-padding: 10 0 0 0;">
-
-                <Button text="Volver"
-                        onAction="#volverGestionEmpleado"/>
-
-                <Button text="Guardar Cambios"
-                        onAction="#guardarCambios"/>
-            </HBox>
-
-        </VBox>
-
-    </center>
-
-</BorderPane>
+    </VBox>
+</StackPane>

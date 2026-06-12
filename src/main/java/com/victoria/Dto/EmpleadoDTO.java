@@ -8,20 +8,28 @@ public class EmpleadoDTO {
    private String nombre;
    private String apellido;
    private String direccion;
+   private String contacto;
    private LocalDate fechaInicio;
 
    public EmpleadoDTO(){
 
    };
 
-   public EmpleadoDTO(Integer dni, String nombre, String apellido, String direcc, LocalDate fechaInicio){
+   public EmpleadoDTO(Integer dni, String nombre, String apellido, String direcc, String contacto, LocalDate fechaInicio){
     this.dni= dni;
     this.nombre=nombre;
     this.apellido=apellido;
     this.direccion= direcc;
+    this.contacto = contacto;
     this.fechaInicio=fechaInicio;
    }
 
+   public String getContacto(){
+      return contacto;
+   }
+   public void setContacto(String c){
+      this.contacto=c;
+   }
    public LocalDate getDia_de_alta(){
       return fechaInicio;
    }
