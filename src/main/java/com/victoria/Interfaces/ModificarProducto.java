@@ -42,13 +42,14 @@ public class ModificarProducto {
     private GestorProducto gestorProducto = new GestorProducto();
     private DaoProductoImp daoProducto = new DaoProductoImp();
 
-    // null = no cambió la foto, se mantiene la de la BD
     private byte[] fotoNueva = null;
-
-    Object producto = Navegador.getDato();
+    private Object producto; // ← ya no se asigna acá
 
     @FXML
     public void initialize() {
+
+        // ← se asigna acá, cuando JavaFX ya tiene todo listo
+        producto = Navegador.getDato();
 
         cbTipoRopa.getItems().addAll(
             "Remeras", "Musculosas", "Deportivo", "Pantalones",
@@ -72,8 +73,6 @@ public class ModificarProducto {
             spCantidad.setValueFactory(
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, ropa.getCantidad()));
             cbTipoAccesorio.setDisable(true);
-
-            // Cargar foto existente desde la BD
             cargarFotoExistente(ropa.getIdentificador());
 
         } else if (producto instanceof AccsStockDTO accs) {
@@ -87,26 +86,20 @@ public class ModificarProducto {
             spCantidad.setValueFactory(
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, accs.getCantidad()));
             cbTipoRopa.setDisable(true);
-
-            // Cargar foto existente desde la BD
             cargarFotoExistente(accs.getIdentificador());
         }
 
-        // Solo números en precio
         txtPrecio.textProperty().addListener((obs, oldValue, newValue) -> {
             if (!newValue.matches("[0-9.,]*"))
                 txtPrecio.setText(newValue.replaceAll("[^0-9.,]", ""));
         });
 
-        // Talle en mayúscula
         txtTalle.textProperty().addListener((obs, oldValue, newValue) ->
             txtTalle.setText(newValue.toUpperCase()));
 
-        // Color en mayúscula
         txtColor.textProperty().addListener((obs, oldValue, newValue) ->
             txtColor.setText(newValue.toUpperCase()));
 
-        // Marca capitalizada
         txtMarca.textProperty().addListener((obs, oldValue, newValue) -> {
             if (!newValue.isEmpty()) {
                 String capitalizado = capitalizar(newValue);
@@ -116,7 +109,6 @@ public class ModificarProducto {
         });
     }
 
-    // Recupera la foto guardada en la BD y la muestra en el preview
     private void cargarFotoExistente(Integer idProducto) {
         byte[] foto = daoProducto.obtenerFoto(idProducto);
         if (foto != null && foto.length > 0) {
@@ -142,15 +134,12 @@ public class ModificarProducto {
         if (archivo != null) {
             try {
                 fotoNueva = Files.readAllBytes(archivo.toPath());
-
                 Image imagen = new Image(archivo.toURI().toString());
                 imgPreview.setImage(imagen);
                 imgPreview.setVisible(true);
                 lblSinImagen.setVisible(false);
-
                 String nombre = archivo.getName();
                 lblNombreFoto.setText(nombre.length() > 22 ? nombre.substring(0, 20) + "..." : nombre);
-
             } catch (IOException ex) {
                 mostrarAlerta("No se pudo leer la imagen seleccionada.");
                 ex.printStackTrace();
@@ -162,7 +151,6 @@ public class ModificarProducto {
     private void guardarCambios() {
         try {
             if (producto instanceof RopaStockDTO ropa) {
-
                 ropa.setDescripcion(txtDescripcion.getText());
                 ropa.setTalle(txtTalle.getText());
                 ropa.setPrecio(Double.parseDouble(txtPrecio.getText()));
@@ -180,16 +168,12 @@ public class ModificarProducto {
                 prod.setMarca(ropa.getMarca());
                 prod.setTipo("Ropa");
                 prod.setTipoProducto(ropa.getTipoRopa());
-                // Si eligió foto nueva la seteamos, sino queda null
-                // y el DAO no la sobreescribe
                 prod.setFoto(fotoNueva);
 
                 gestorProducto.actualizarProducto(prod);
                 gestorStock.actualizarRopa(ropa.getIdentificador(), ropa.getCantidad());
-                System.out.println("Ropa actualizada correctamente.");
 
             } else if (producto instanceof AccsStockDTO accs) {
-
                 accs.setDescripcion(txtDescripcion.getText());
                 accs.setTalle(txtTalle.getText());
                 accs.setPrecio(Double.parseDouble(txtPrecio.getText()));
@@ -211,7 +195,6 @@ public class ModificarProducto {
 
                 gestorProducto.actualizarProducto(prod);
                 gestorStock.actualizarAccs(accs.getIdentificador(), accs.getCantidad());
-                System.out.println("Accesorio actualizado correctamente.");
             }
 
             Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");

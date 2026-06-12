@@ -2,6 +2,7 @@ package com.victoria.Interfaces;
 
 
 import com.victoria.Gestores.GestorEmpleado;
+import com.victoria.Gestores.GestorTienda;
 import com.victoria.navegation.Navegador;
 
 import javafx.event.ActionEvent;
@@ -46,20 +47,14 @@ public class InicioSesion {
 
     // Usar el gestor para consultar en la BD
     GestorEmpleado gestor = GestorEmpleado.getInstance();
-        if (gestor.existeEmpleado(dni)) {
+    GestorTienda gestorTienda = GestorTienda.getInstance();
+        if (gestor.existeEmpleado(dni) || gestorTienda.esOwner(dni)) {
             // Aquí podrías cambiar de pantalla
             Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
         
         } else {
             mostrarAlerta("El DNI ingresado no se encuentra registrado.");
         }
-    }
-
-    // Este método se ejecuta cuando el usuario hace clic en "Registrarse"
-        
-    @FXML
-    private void registrarEmpleado() {
-    Navegador.cambiarVista("/com/victoria/Interfaces/SceneRegistroEmpleado.fxml");
     }
 
     // Método para mostrar mensajes en pantalla

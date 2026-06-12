@@ -50,12 +50,6 @@
             <Separator styleClass="divider" maxWidth="Infinity" />
             <Region prefHeight="16" />
 
-            <HBox alignment="CENTER" spacing="12">
-                <Label text="¿No estás registrado?" styleClass="register-label" />
-                <Button text="Registrarse" onAction="#registrarEmpleado"
-                        styleClass="btn-registrar" />
-            </HBox>
-
         </VBox>
     </VBox>
 </StackPane>

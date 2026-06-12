@@ -48,7 +48,7 @@ public class AltaProducto {
 
     @FXML
     public void initialize() {
-
+        
         cbTipoProducto.getItems().addAll("Ropa", "Accesorio");
 
         cbTipoRopa.getItems().addAll(
@@ -77,13 +77,8 @@ public class AltaProducto {
         txtColor.textProperty().addListener((obs, oldValue, newValue) ->
             txtColor.setText(newValue.toUpperCase()));
 
-        txtMarca.textProperty().addListener((obs, oldValue, newValue) -> {
-            if (!newValue.isEmpty()) {
-                String capitalizado = capitalizar(newValue);
-                if (!newValue.equals(capitalizado))
-                    txtMarca.setText(capitalizado);
-            }
-        });
+        txtMarca.textProperty().addListener((obs, oldValue, newValue) ->
+            txtMarca.setText(newValue.toUpperCase()));
 
         spCantidad.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue.isEmpty()) {
@@ -122,14 +117,16 @@ public class AltaProducto {
 
     @FXML
     private void seleccionarFoto() {
+        
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar foto del producto");
         fileChooser.getExtensionFilters().add(
-            new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp", "*.webp")
+            new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg")
         );
 
         Stage stage = (Stage) btnSeleccionarFoto.getScene().getWindow();
         File archivo = fileChooser.showOpenDialog(stage);
+        
 
         if (archivo != null) {
             try {
@@ -138,9 +135,14 @@ public class AltaProducto {
 
                 // Mostrar preview en la UI
                 Image imagen = new Image(archivo.toURI().toString());
+                
                 imgPreview.setImage(imagen);
                 imgPreview.setVisible(true);
+                imgPreview.setManaged(true);
+                imgPreview.toFront();
+
                 lblSinImagen.setVisible(false);
+                lblSinImagen.setManaged(false);
 
                 String nombre = archivo.getName();
                 lblNombreFoto.setText(nombre.length() > 22 ? nombre.substring(0, 20) + "..." : nombre);
@@ -256,8 +258,4 @@ public class AltaProducto {
         alerta.showAndWait();
     }
 
-    private String capitalizar(String texto) {
-        if (texto == null || texto.isEmpty()) return texto;
-        return texto.substring(0, 1).toUpperCase() + texto.substring(1).toLowerCase();
-    }
 }

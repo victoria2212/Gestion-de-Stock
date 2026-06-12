@@ -8,9 +8,6 @@ public class Tienda {
     String claveAdministrador;
    
     public Tienda(){
-    nombre="Dharma.vip";
-    direccion="General Paz 5786";
-    owner="Mariano Bertero";
     claveAdministrador="$BerterO$";
     
     }
