@@ -40,14 +40,6 @@
     -fx-text-fill: #0d47a1;
 }
 
-/* ===== ITEMS DEL MENU ===== */
-.menu-item {
-    -fx-background-color: white;
-}
-
-.menu-item:hover {
-    -fx-background-color: #c8f7c5;
-}
 
 /* ===== BOTONES ===== */
 .button {
@@ -86,10 +78,10 @@
 .login-card {
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 16;
-    -fx-border-color: #85B7EB;
+    -fx-border-color: #C0605A;
     -fx-border-width: 1.5;
     -fx-border-radius: 16;
-    -fx-padding: 40 48 36 48;
+    -fx-padding: 10 48 36 48;
     -fx-min-width: 400px;
     -fx-max-width: 420px;
     -fx-alignment: CENTER;
@@ -101,7 +93,7 @@
     -fx-font-size: 20px;
     -fx-font-weight: bold;
     -fx-text-fill: #0C447C;
-    -fx-padding: 0 0 6 0;
+    -fx-padding: -30 0 6 0;
     -fx-wrap-text: true;
     -fx-text-alignment: CENTER;
     -fx-alignment: CENTER;
@@ -109,7 +101,7 @@
 
 .subtitulo {
     -fx-font-size: 13px;
-    -fx-text-fill: #378ADD;
+    -fx-text-fill: #1B2A4A;
     -fx-wrap-text: true;
     -fx-text-alignment: CENTER;
     -fx-alignment: CENTER;
@@ -118,14 +110,14 @@
 .field-label {
     -fx-font-size: 12px;
     -fx-font-weight: bold;
-    -fx-text-fill: #378ADD;
+    -fx-text-fill: #1B2A4A;
     -fx-padding: 0 0 6 2;
 }
 
 .field-wrap {
-    -fx-background-color: #EBF4FC;
+    -fx-background-color: white;
     -fx-background-radius: 8;
-    -fx-border-color: #85B7EB;
+    -fx-border-color: #C0605A;
     -fx-border-width: 1.5;
     -fx-border-radius: 8;
     -fx-padding: 2 10 2 10;
@@ -137,11 +129,12 @@
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-border-width: 0;
-    -fx-font-size: 14px;
-    -fx-text-fill: #185FA5;
-    -fx-prompt-text-fill: #85B7EB;
+    -fx-font-size: 15px;
+    -fx-text-fill: #344b7c;
+    -fx-prompt-text-fill: #1B2A4A;
     -fx-padding: 6 0 6 0;
 }
+
 
 .field-input:focused {
     -fx-background-color: transparent;
@@ -150,10 +143,10 @@
 
 .btn-ingresar {
     -fx-background-color: #FFFFFF;
-    -fx-text-fill: #378ADD;
+    -fx-text-fill: #1B2A4A;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
-    -fx-border-color: #378ADD;
+    -fx-border-color: #1B2A4A;
     -fx-border-width: 1.5;
     -fx-border-radius: 8;
     -fx-background-radius: 8;
@@ -170,32 +163,11 @@
 }
 
 .divider .line {
-    -fx-border-color: #85B7EB;
+    -fx-border-color: #C0605A;
     -fx-border-width: 1;
 }
 
-.register-label {
-    -fx-font-size: 13px;
-    -fx-text-fill: #378ADD;
-}
 
-.btn-registrar {
-    -fx-background-color: #FFFFFF;
-    -fx-text-fill: #378ADD;
-    -fx-font-size: 13px;
-    -fx-font-weight: bold;
-    -fx-border-color: #378ADD;
-    -fx-border-width: 1.5;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
-    -fx-padding: 6 18 6 18;
-    -fx-cursor: hand;
-}
 
-.btn-registrar:hover {
-    -fx-background-color: #EBF4FC;
-}
 
-.btn-registrar:pressed {
-    -fx-background-color: #D6E6F5;
-}
+

@@ -17,16 +17,16 @@
 
             <!-- Logo -->
             <StackPane styleClass="logo-circle">
-                <ImageView fitWidth="250" fitHeight="250" preserveRatio="true" smooth="true">
+                <ImageView fitWidth="270" fitHeight="270" preserveRatio="true" smooth="true">
                 <image>
                     <Image url="@../images/logodharmavip.png" requestedWidth="400" requestedHeight="400"/>
                 </image>
             </ImageView>
             </StackPane>
 
-            <Region prefHeight="16" />
+            <Region prefHeight="4" />
 
-            <Label text="Sistema de gestión de stock" styleClass="titulo-principal" maxWidth="Infinity" />
+            <Label text="Sistema de Gestión de Stock" styleClass="titulo-principal" maxWidth="Infinity" />
             <Label text="Ingresá tu DNI para continuar" styleClass="subtitulo" maxWidth="Infinity" />
 
             <Region prefHeight="20" />

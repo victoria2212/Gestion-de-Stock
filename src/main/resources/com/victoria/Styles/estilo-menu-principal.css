@@ -1,0 +1,164 @@
+/* =========================================
+   MENU PRINCIPAL - DHARMA VIP
+========================================= */
+
+.root{
+    -fx-font-family: "Segoe UI";
+    -fx-background-color: white;
+}
+
+
+/* =========================
+   BARRA SUPERIOR
+========================= */
+
+.barra-superior{
+
+   
+    -fx-background-color: white;
+
+    -fx-padding: 15;
+
+    -fx-spacing: 10;
+
+    -fx-border-color: transparent transparent #C0605A transparent;
+
+    -fx-border-width: 0 0 1.5 0;
+}
+
+
+/* =========================
+   FONDO CENTRAL
+========================= */
+
+.main-content{
+
+    -fx-background-color: white;
+
+    -fx-alignment: center;
+}
+
+
+/* =========================
+   BOTONES
+========================= */
+
+.button{
+
+    -fx-background-color: white;
+
+    -fx-text-fill: #1B2A4A;
+
+    -fx-font-weight: bold;
+
+    -fx-border-color: #C0605A;
+
+    -fx-border-width: 1.5;
+
+    -fx-border-radius: 8;
+
+    -fx-background-radius: 8;
+
+    -fx-padding: 8 18 8 18;
+
+    -fx-cursor: hand;
+}
+
+.button:hover{
+
+    -fx-background-color: #C0605A;
+
+    -fx-text-fill: white;
+
+    -fx-border-color: #C0605A;
+}
+
+.button:pressed{
+
+    -fx-background-color: #D6E6F5;
+}
+
+
+/* =========================
+   BOTON ACTIVO
+========================= */
+
+.boton-activo{
+
+    -fx-background-color: #C0605A;
+
+    -fx-text-fill: white;
+
+    -fx-border-color: #C0605A;
+}
+
+.boton-activo:hover{
+
+    -fx-background-color: #B15550;
+}
+
+
+/* =========================
+   MENU BAR
+========================= */
+
+.menu-bar{
+
+    -fx-background-color: transparent;
+
+    -fx-padding: 0;
+}
+
+
+/* =========================
+   MENU
+========================= */
+
+.menu-bar .menu{
+
+    -fx-background-color: white;
+
+    -fx-border-color: #C0605A;
+
+    -fx-border-width: 1.5;
+
+    -fx-border-radius: 8;
+
+    -fx-background-radius: 8;
+
+    -fx-padding: 6 12 6 12;
+}
+
+.menu-bar .menu .label{
+
+    -fx-text-fill: #1B2A4A;
+
+    -fx-font-weight: bold;
+}
+
+.menu-bar .menu:hover{
+
+    -fx-background-color: #C0605A;
+}
+.menu-bar .menu:hover .label{
+
+    -fx-text-fill: white;
+}
+
+.menu-bar .menu:showing{
+
+    -fx-background-color: #C0605A;
+}
+.menu-bar .menu:showing .label{
+
+    -fx-text-fill: #1B2A4A;
+}
+
+/* =========================
+   ITEMS DEL MENU
+========================= */
+
+.menu-item:hover{
+
+    -fx-background-color: #b2d8f7;
+}

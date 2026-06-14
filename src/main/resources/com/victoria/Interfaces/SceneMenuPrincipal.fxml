@@ -1,83 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.victoria.Interfaces.MenuPrincipal" stylesheets="@/com/victoria/styles/estilos.css">
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.victoria.Interfaces.MenuPrincipal"
+            stylesheets="@/com/victoria/styles/estilo-menu-principal.css">
 
-    <!-- Barra superior con MenuBar y botones -->
+    <!-- Barra superior -->
     <top>
-        <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-background-color: #e0ffe0;">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10" />
-            </padding>
+        <HBox spacing="15"
+              alignment="CENTER_LEFT"
+              styleClass="barra-superior">
 
-            <!-- MenuBar Gestion -->
-            
             <MenuBar fx:id="menuBarGestion">
                 <menus>
                     <Menu text="Gestión de Stock">
                         <items>
-                            <MenuItem fx:id="menuItemGestionRopa" text="Gestión de Ropa" />
-                            <MenuItem fx:id="menuItemGestionAccs" text="Gestión de Accesorios" />
+                            <MenuItem fx:id="menuItemGestionRopa"
+                                      text="Gestión de Ropa"/>
+                            <MenuItem fx:id="menuItemGestionAccs"
+                                      text="Gestión de Accesorios"/>
                         </items>
                     </Menu>
                 </menus>
             </MenuBar>
 
-            <!-- Botones normales -->
-            <Button fx:id="btnAltaProductos" text="Alta de Productos" prefWidth="140" />
+            <Button fx:id="btnAltaProductos"
+                    text="Alta de Productos"
+                    prefWidth="160"/>
 
-               <!-- MenuBar Stock -->
             <MenuBar>
                 <menus>
                     <Menu text="Visualización de Stock">
                         <items>
-                            <MenuItem fx:id="menuItemVisualizacionRopa" text="Visualización de Ropa" />
-                            <MenuItem fx:id="menuItemVisualizacionAccs" text="Visualización de Accesorios" />
+                            <MenuItem fx:id="menuItemVisualizacionRopa"
+                                      text="Visualización de Ropa"/>
+                            <MenuItem fx:id="menuItemVisualizacionAccs"
+                                      text="Visualización de Accesorios"/>
                         </items>
                     </Menu>
                 </menus>
             </MenuBar>
 
-            <Button fx:id="btnEmpleados" text="Empleados" prefWidth="140" />
+            <Button fx:id="btnEmpleados"
+                    text="Empleados"
+                    prefWidth="130"/>
+
         </HBox>
     </top>
 
-  <!-- Centro de fondo -->
-<center>
-    <StackPane fx:id="mainContent" styleClass="main-content">
+    <!-- CENTRO -->
+    <center>
 
-        <ImageView
-                fitWidth="500"
-                preserveRatio="true"
-                opacity="0.12"
-                mouseTransparent="true">
+        <StackPane fx:id="mainContent"
+                   styleClass="main-content">
 
-            <image>
-                <Image url="@../images/logodharmavip.png"/>
-            </image>
+            <ImageView fitWidth="600"
+                       preserveRatio="true"
+                       opacity="0.40"
+                       mouseTransparent="true">
 
-        </ImageView>
+                <image>
+                    <Image url="@../images/logodharmavip.png"/>
+                </image>
 
-    </StackPane>
-</center>
+            </ImageView>
 
+        </StackPane>
 
-    <!-- Parte inferior: Contacto -->
-    <bottom>
-        <VBox spacing="8" style="-fx-background-color: #f0f0f0; -fx-border-color: #4682b4;">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10" />
-            </padding>
-        </VBox>
-    </bottom>
+    </center>
 
 </BorderPane>
-
 
