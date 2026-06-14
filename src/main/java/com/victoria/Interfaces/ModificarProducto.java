@@ -218,7 +218,12 @@ public class ModificarProducto {
     }
 
     @FXML
-    private void volverMenuPrincipal() {
-        Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
+    private void volverAtras() {
+        if (producto instanceof AccsStockDTO accs){
+            Navegador.cambiarVista("/com/victoria/Interfaces/SceneGestionStockAccs.fxml");
+        } else {
+            Navegador.cambiarVista("/com/victoria/Interfaces/SceneGestionStockRopa.fxml");
+        }
+        
     }
 }

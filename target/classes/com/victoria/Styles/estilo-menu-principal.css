@@ -4,7 +4,7 @@
 
 .root{
     -fx-font-family: "Segoe UI";
-    -fx-background-color: white;
+    -fx-background-color: #ffffff;
 }
 
 
@@ -15,7 +15,7 @@
 .barra-superior{
 
    
-    -fx-background-color: white;
+    -fx-background-color: #ffffff;
 
     -fx-padding: 15;
 
@@ -33,7 +33,7 @@
 
 .main-content{
 
-    -fx-background-color: white;
+    -fx-background-color: #ffffff;
 
     -fx-alignment: center;
 }
@@ -45,6 +45,8 @@
 
 .button{
 
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 12px;
     -fx-background-color: white;
 
     -fx-text-fill: #1B2A4A;
@@ -130,6 +132,8 @@
 }
 
 .menu-bar .menu .label{
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 12px;
 
     -fx-text-fill: #1B2A4A;
 
@@ -160,5 +164,6 @@
 
 .menu-item:hover{
 
-    -fx-background-color: #b2d8f7;
+    -fx-background-color: #cee6fa;
 }
+

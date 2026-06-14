@@ -7,6 +7,7 @@
 
 <StackPane xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.victoria.Interfaces.AltaProducto"
+           stylesheets="@/com/victoria/styles/estilo-alta-producto.css"
            style="-fx-background-color: #BDD5E5;">
 
     <!-- CARD BLANCA centrada -->
@@ -21,7 +22,7 @@
 
         <!-- Título -->
         <Label text="Alta de Producto"
-               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1a2a4a;"
+               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1B2A4A;"
                alignment="CENTER" maxWidth="Infinity"/>
         <Label text="Completá los datos del nuevo producto"
                style="-fx-font-size: 13px; -fx-text-fill: #6b7c99;"
@@ -123,31 +124,22 @@
                                   -fx-border-radius: 10;
                                   -fx-border-style: dashed;">
                     <ImageView fx:id="imgPreview" fitWidth="150" fitHeight="150"
-                               preserveRatio="true"/> 
+                               preserveRatio="true"/>
                     <Label fx:id="lblSinImagen" text="Sin imagen"
                            style="-fx-text-fill: #9aafc7; -fx-font-size: 12px;"/>
                 </StackPane>
 
                 <Button fx:id="btnSeleccionarFoto" text="Seleccionar foto..."
                         onAction="#seleccionarFoto" prefWidth="150"
-                        style="-fx-background-color: transparent;
-                               -fx-border-color: #4a7ab5;
-                               -fx-border-radius: 8;
-                               -fx-background-radius: 8;
-                               -fx-text-fill: #4a7ab5;
-                               -fx-font-size: 12px;
-                               -fx-cursor: hand;
-                               -fx-padding: 6 14 6 14;"/>
+                        styleClass="btn-foto"/>
 
                 <Label fx:id="lblNombreFoto" text="" wrapText="true" prefWidth="150"
                        style="-fx-font-size: 11px; -fx-text-fill: #6b7c99;"/>
-              
-              <Label text="Formatos permitidos para la imagen: .PNG, .JPG, .JPEG"
-                     wrapText="true"
-                     prefWidth="250"
-                     style="-fx-font-size: 12px;
-                            -fx-text-fill: #9aafc7;"
-                     textAlignment="CENTER"/>
+
+                <Label text="Formatos permitidos para la imagen: .PNG, .JPG, .JPEG"
+                       wrapText="true" prefWidth="250"
+                       style="-fx-font-size: 12px; -fx-text-fill: #9aafc7;"
+                       textAlignment="CENTER"/>
             </VBox>
 
         </HBox>
@@ -157,26 +149,13 @@
         <!-- Botón Guardar -->
         <Button text="Guardar Producto" fx:id="guardarButton" onAction="#guardarProducto"
                 maxWidth="Infinity" prefHeight="40"
-                style="-fx-background-color: #4a7ab5;
-                       -fx-text-fill: white;
-                       -fx-font-size: 14px;
-                       -fx-font-weight: bold;
-                       -fx-background-radius: 10;
-                       -fx-border-radius: 10;
-                       -fx-cursor: hand;"/>
+                styleClass="btn-guardar"/>
 
         <!-- Botón Volver -->
         <HBox alignment="CENTER_RIGHT">
             <Button fx:id="btnVolver" text="← Volver al Menú Principal"
                     onAction="#volverMenuPrincipal"
-                    style="-fx-background-color: transparent;
-                           -fx-border-color: #4a7ab5;
-                           -fx-border-radius: 8;
-                           -fx-background-radius: 8;
-                           -fx-text-fill: #4a7ab5;
-                           -fx-font-size: 12px;
-                           -fx-cursor: hand;
-                           -fx-padding: 5 12 5 12;"/>
+                    styleClass="btn-volver"/>
         </HBox>
 
     </VBox>

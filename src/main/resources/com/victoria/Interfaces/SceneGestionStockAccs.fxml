@@ -4,18 +4,24 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.victoria.Interfaces.GestionStockAccs">
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.victoria.Interfaces.GestionStockAccs"
+            stylesheets="@/com/victoria/styles/estilo-gestionar-stock-accs.css">
 
     <!-- Título -->
     <top>
-        <Label text="GESTIONAR STOCK DE ACCESORIOS" BorderPane.alignment="CENTER" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+        <Label text="GESTIONAR STOCK DE ACCESORIOS"
+               styleClass="titulo"
+               maxWidth="Infinity"
+               alignment="CENTER"
+               BorderPane.alignment="CENTER"/>
     </top>
 
     <!-- Tabla -->
     <center>
         <TableView fx:id="tablaStock" prefHeight="400" prefWidth="1000">
             <columns>
-                <TableColumn fx:id="colTipoAccs" text="Tipo de Accesorio" prefWidth="100"/>
+                <TableColumn fx:id="colTipoAccs" text="Tipo de Accesorio" prefWidth="150"/>
                 <TableColumn fx:id="colDescripcion" text="Descripción" prefWidth="150"/>
                 <TableColumn fx:id="colTalle" text="Talle" prefWidth="70"/>
                 <TableColumn fx:id="colPrecio" text="Precio" prefWidth="80"/>
@@ -24,11 +30,8 @@
                 <TableColumn fx:id="colCantidad" text="Cantidad" prefWidth="80"/>
                 <TableColumn fx:id="colCodigo" text="Codigo" prefWidth="120"/>
                 <TableColumn fx:id="colFechaActualizacion" text="Última fecha de Modificación" prefWidth="180"/>
-
-                <!-- Nueva columna Modificar -->
+                <TableColumn fx:id="colImagen" text="Imagen" prefWidth="130"/>
                 <TableColumn fx:id="colModificar" text="Modificar" prefWidth="100"/>
-
-                <!-- Nueva columna Eliminar -->
                 <TableColumn fx:id="colEliminar" text="Eliminar" prefWidth="100"/>
             </columns>
         </TableView>
@@ -40,7 +43,9 @@
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
-            <Button fx:id="btnVolver" text="Volver al Menú Principal" onAction="#volverMenuPrincipal"/>
+            <Button fx:id="btnVolver" text=" ← Volver al Menú Principal"
+                    onAction="#volverMenuPrincipal"
+                    styleClass="btn-volver"/>
         </HBox>
     </bottom>
 

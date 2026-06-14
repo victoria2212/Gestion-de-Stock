@@ -1,0 +1,111 @@
+/* ===== MODIFICAR EMPLEADO ===== */
+
+.background-pane {
+    -fx-background-color: #D6E6F5;
+    -fx-alignment: CENTER;
+}
+
+.card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 16;
+    -fx-border-color: #C0605A;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 16;
+    -fx-padding: 10 48 36 48;
+    -fx-min-width: 400px;
+    -fx-max-width: 500px;
+    -fx-alignment: CENTER;
+    -fx-spacing: 12;
+}
+
+.titulo-principal {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0C447C;
+    -fx-padding: 0 0 4 0;
+    -fx-alignment: CENTER;
+}
+
+.subtitulo {
+    -fx-font-size: 13px;
+    -fx-text-fill: #1B2A4A;
+    -fx-alignment: CENTER;
+}
+
+.divider .line {
+    -fx-border-color: #C0605A;
+    -fx-border-width: 1;
+}
+
+.field-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1B2A4A;
+    -fx-padding: 0 0 4 2;
+}
+
+.field-input {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #344b7c;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-size: 14px;
+    -fx-text-fill: #344b7c;
+    -fx-prompt-text-fill: #a0a0a0;
+    -fx-padding: 8 10 8 10;
+}
+
+.field-input:focused {
+    -fx-border-color: #0C447C;
+    -fx-background-color: #f0f7ff;
+}
+
+.field-input:disabled {
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #888888;
+    -fx-border-color: #cccccc;
+}
+
+/* ===== BOTON GUARDAR ===== */
+.btn-guardar {
+    -fx-background-color: #C0605A;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-color: transparent;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 12 0 12 0;
+    -fx-cursor: hand;
+    -fx-max-width: Infinity;
+}
+
+.btn-guardar:hover {
+    -fx-background-color: #A84E49;
+}
+
+.btn-guardar:pressed {
+    -fx-background-color: #8F3F3A;
+}
+
+/* ===== BOTON VOLVER ===== */
+.btn-volver {
+    -fx-background-color: transparent;
+    -fx-text-fill: #1B2A4A;
+    -fx-font-size: 13px;
+    -fx-border-color: #1B2A4A;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 6 16 6 16;
+    -fx-cursor: hand;
+}
+
+.btn-volver:hover {
+    -fx-background-color: #EBF4FC;
+}
+
+.btn-volver:pressed {
+    -fx-background-color: #D6E6F5;
+}

@@ -4,31 +4,35 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.victoria.Interfaces.GestionStockRopa">
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.victoria.Interfaces.GestionStockRopa"
+            stylesheets="@/com/victoria/styles/estilo-gestionar-stock-ropa.css">
 
     <!-- Título -->
     <top>
-        <Label text="GESTIONAR STOCK DE ROPA" BorderPane.alignment="CENTER" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+        <Label text="GESTIONAR STOCK DE ROPA"
+               styleClass="titulo"
+               maxWidth="Infinity"
+               alignment="CENTER"
+               BorderPane.alignment="CENTER"/>
     </top>
 
     <!-- Tabla -->
     <center>
         <TableView fx:id="tablaStock" prefHeight="400" prefWidth="1000">
+                   
             <columns>
-                <TableColumn fx:id="colTipoRopa" text="Tipo de Ropa" prefWidth="100"/>
+                <TableColumn fx:id="colTipoRopa" text="Tipo de Ropa" prefWidth="120"/>
                 <TableColumn fx:id="colDescripcion" text="Descripción" prefWidth="150"/>
-                <TableColumn fx:id="colTalle" text="Talle" prefWidth="70"/>
-                <TableColumn fx:id="colPrecio" text="Precio" prefWidth="80"/>
-                <TableColumn fx:id="colColor" text="Color" prefWidth="80"/>
-                <TableColumn fx:id="colMarca" text="Marca" prefWidth="100"/>
+                <TableColumn fx:id="colTalle" text="Talle" prefWidth="60"/>
+                <TableColumn fx:id="colPrecio" text="Precio" prefWidth="70"/>
+                <TableColumn fx:id="colColor" text="Color" prefWidth="70"/>
+                <TableColumn fx:id="colMarca" text="Marca" prefWidth="90"/>
                 <TableColumn fx:id="colCantidad" text="Cantidad" prefWidth="80"/>
-                <TableColumn fx:id="colCodigo" text="Codigo" prefWidth="120"/>
+                <TableColumn fx:id="colCodigo" text="Codigo" prefWidth="180"/>
                 <TableColumn fx:id="colFechaActualizacion" text="Última fecha de Modificación" prefWidth="180"/>
-
-                <!-- Nueva columna Modificar -->
+                <TableColumn fx:id="colImagen" text="Imagen" prefWidth="100"/>
                 <TableColumn fx:id="colModificar" text="Modificar" prefWidth="100"/>
-
-                <!-- Nueva columna Eliminar -->
                 <TableColumn fx:id="colEliminar" text="Eliminar" prefWidth="100"/>
             </columns>
         </TableView>
@@ -40,7 +44,9 @@
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
-            <Button fx:id="btnVolver" text="Volver al Menú Principal" onAction="#volverMenuPrincipal"/>
+            <Button fx:id="btnVolver" text="← Volver al Menú Principal"
+                    onAction="#volverMenuPrincipal"
+                    styleClass="btn-volver"/>
         </HBox>
     </bottom>
 

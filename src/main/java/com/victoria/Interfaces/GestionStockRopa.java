@@ -88,70 +88,51 @@ public class GestionStockRopa {
 
     //BOTON DE MODIFICAR
     private void agregarBotonesModificar() {
-    colModificar.setCellFactory(col -> new TableCell<>() {
-        private final Button btn = new Button("Modificar");
-
-        {
-        btn.setOnAction(e -> {
-                
-            RopaStockDTO item = getTableView().getItems().get(getIndex());
-            Navegador.setDato(item);
-            Navegador.cambiarVista("/com/victoria/Interfaces/SceneModificarProducto.fxml");
+        colModificar.setCellFactory(col -> new TableCell<>() {
+            private final Button btn = new Button("Modificar");
+            {
+                btn.getStyleClass().add("btn-modificar"); // <- agregá esto
+                btn.setOnAction(e -> {
+                    RopaStockDTO item = getTableView().getItems().get(getIndex());
+                    Navegador.setDato(item);
+                    Navegador.cambiarVista("/com/victoria/Interfaces/SceneModificarProducto.fxml");
+                });
+                setAlignment(Pos.CENTER);
+            }
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : btn);
+            }
         });
-
-            setAlignment(Pos.CENTER);
-        }
-
-        @Override
-        protected void updateItem(Void item, boolean empty) {
-            super.updateItem(item, empty);
-            setGraphic(empty ? null : btn);
-        }
-    });
-}
-   
+    }
    
     private void agregarBotonesEliminar() {
-        colEliminar.setCellFactory(col -> new TableCell<>() {
+    colEliminar.setCellFactory(col -> new TableCell<>() {
         private final Button btn = new Button("Eliminar");
-
         {
+            btn.getStyleClass().add("btn-eliminar"); // <- agregá esto
             btn.setOnAction(e -> {
                 RopaStockDTO item = getTableView().getItems().get(getIndex());
                 Integer idProducto = item.getIdentificador();
                 Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-
                 alerta.setTitle("Confirmar eliminación");
-
                 alerta.setHeaderText("Eliminar producto");
-
-                alerta.setContentText(
-                    "¿Estás seguro que quieres eliminar el producto: " + item.getTipoRopa() + " "
-                    + item.getDescripcion() +  "?"
-                );
-
+                alerta.setContentText("¿Estás seguro que quieres eliminar el producto: "
+                    + item.getTipoRopa() + " " + item.getDescripcion() + "?");
                 Optional<ButtonType> resultado = alerta.showAndWait();
-
                 if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-                            gestorStock.eliminarProductoStock(idProducto);
-                            gestorProducto.eliminarProducto(idProducto);
-
-                            cargarDatos();
+                    gestorStock.eliminarProductoStock(idProducto);
+                    gestorProducto.eliminarProducto(idProducto);
+                    cargarDatos();
                 }
             });
-            setAlignment(Pos.CENTER); // Centrar contenido
-        
-            
+            setAlignment(Pos.CENTER);
         }
-
         @Override
         protected void updateItem(Void item, boolean empty) {
             super.updateItem(item, empty);
-            if (empty) {
-                setGraphic(null);
-            } else {
-                setGraphic(btn);
-                }
+            setGraphic(empty ? null : btn);
             }
         });
     }

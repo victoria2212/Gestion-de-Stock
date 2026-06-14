@@ -38,6 +38,7 @@ public class MenuPrincipal {
         
         menuItemVisualizacionRopa.setOnAction(this::abrirVisualizacionRopa);
         menuItemVisualizacionAccs.setOnAction(this::abrirVisualizacionAccs);
+       
         
     }
 

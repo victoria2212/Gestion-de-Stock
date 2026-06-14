@@ -7,6 +7,7 @@
 
 <StackPane xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.victoria.Interfaces.ModificarProducto"
+           stylesheets="@/com/victoria/styles/estilo-modificar-producto.css"
            style="-fx-background-color: #BDD5E5;"
            alignment="CENTER">
 
@@ -22,7 +23,7 @@
         <!-- Título -->
         <Label text="Modificar Producto"
                alignment="CENTER" maxWidth="Infinity"
-               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1a2a4a;"/>
+               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1B2A4A;"/>
         <Label text="Editá los datos del producto"
                alignment="CENTER" maxWidth="Infinity"
                style="-fx-font-size: 13px; -fx-text-fill: #6b7c99;"/>
@@ -130,14 +131,7 @@
 
                 <Button fx:id="btnSeleccionarFoto" text="Cambiar foto..."
                         onAction="#seleccionarFoto" prefWidth="150"
-                        style="-fx-background-color: transparent;
-                               -fx-border-color: #4a7ab5;
-                               -fx-border-radius: 8;
-                               -fx-background-radius: 8;
-                               -fx-text-fill: #4a7ab5;
-                               -fx-font-size: 12px;
-                               -fx-cursor: hand;
-                               -fx-padding: 6 14 6 14;"/>
+                        styleClass="btn-foto"/>
 
                 <Label fx:id="lblNombreFoto" text="" wrapText="true" prefWidth="150"
                        style="-fx-font-size: 11px; -fx-text-fill: #6b7c99;"/>
@@ -150,26 +144,13 @@
         <!-- Botón Guardar -->
         <Button text="Guardar Cambios" fx:id="guardarButton" onAction="#guardarCambios"
                 maxWidth="Infinity" prefHeight="40"
-                style="-fx-background-color: #4a7ab5;
-                       -fx-text-fill: white;
-                       -fx-font-size: 14px;
-                       -fx-font-weight: bold;
-                       -fx-background-radius: 10;
-                       -fx-border-radius: 10;
-                       -fx-cursor: hand;"/>
+                styleClass="btn-guardar"/>
 
         <!-- Botón Volver -->
         <HBox alignment="CENTER_RIGHT">
-            <Button fx:id="btnVolver" text="← Volver al Menú Principal"
-                    onAction="#volverMenuPrincipal"
-                    style="-fx-background-color: transparent;
-                           -fx-border-color: #4a7ab5;
-                           -fx-border-radius: 8;
-                           -fx-background-radius: 8;
-                           -fx-text-fill: #4a7ab5;
-                           -fx-font-size: 12px;
-                           -fx-cursor: hand;
-                           -fx-padding: 5 12 5 12;"/>
+            <Button fx:id="btnVolver" text=" ← Volver"
+                    onAction="#volverAtras"
+                    styleClass="btn-volver"/>
         </HBox>
 
     </VBox>

@@ -6,6 +6,7 @@
 
 <StackPane xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.victoria.Interfaces.ModificarEmpleado"
+           stylesheets="@/com/victoria/styles/estilo-modificar-empleado.css"
            style="-fx-background-color: #BDD5E5;"
            alignment="CENTER">
 
@@ -21,7 +22,7 @@
 
         <!-- Título -->
         <Label text="Modificar Empleado"
-               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1a2a4a;"
+               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1B2A4A;"
                alignment="CENTER" maxWidth="Infinity"/>
         <Label text="Editá los datos del empleado"
                style="-fx-font-size: 13px; -fx-text-fill: #6b7c99;"
@@ -93,25 +94,12 @@
         <!-- Botón Guardar -->
         <Button text="Guardar Cambios" onAction="#guardarCambios"
                 maxWidth="Infinity" prefHeight="40"
-                style="-fx-background-color: #4a7ab5;
-                       -fx-text-fill: white;
-                       -fx-font-size: 14px;
-                       -fx-font-weight: bold;
-                       -fx-background-radius: 10;
-                       -fx-border-radius: 10;
-                       -fx-cursor: hand;"/>
+                styleClass="btn-guardar"/>
 
         <!-- Botón Volver -->
         <HBox alignment="CENTER_RIGHT">
             <Button text="← Volver" onAction="#volverGestionEmpleado"
-                    style="-fx-background-color: transparent;
-                           -fx-border-color: #4a7ab5;
-                           -fx-border-radius: 8;
-                           -fx-background-radius: 8;
-                           -fx-text-fill: #4a7ab5;
-                           -fx-font-size: 12px;
-                           -fx-cursor: hand;
-                           -fx-padding: 5 12 5 12;"/>
+                    styleClass="btn-volver"/>
         </HBox>
 
     </VBox>
