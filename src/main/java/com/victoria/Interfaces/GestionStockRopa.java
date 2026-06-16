@@ -1,5 +1,6 @@
 package com.victoria.Interfaces;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +22,9 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import java.io.ByteArrayInputStream;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class GestionStockRopa {
     public GestorStock gestorStock = GestorStock.getInstance();
@@ -36,6 +40,7 @@ public class GestionStockRopa {
     @FXML private TableColumn<RopaStockDTO, Integer> colCantidad;
     @FXML private TableColumn<RopaStockDTO, String> colCodigo;
     @FXML private TableColumn<RopaStockDTO, String> colFechaActualizacion;
+    @FXML private TableColumn<RopaStockDTO, Void> colImagen;
     @FXML private TableColumn<RopaStockDTO, Void> colModificar;
     @FXML private TableColumn<RopaStockDTO, Void> colEliminar;
     // Inicializador del controlador
@@ -74,7 +79,7 @@ public class GestionStockRopa {
         colEliminar.setStyle("-fx-alignment: CENTER;");
 
         // ============================
-
+        agregarColumnaImagen();
         agregarBotonesModificar();
         agregarBotonesEliminar();
 
@@ -84,6 +89,32 @@ public class GestionStockRopa {
     @FXML
     private void volverMenuPrincipal() {
     Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
+    }
+    private void agregarColumnaImagen() {
+    colImagen.setCellFactory(col -> new TableCell<>() {
+        private final ImageView imageView = new ImageView();
+        {
+            imageView.setFitWidth(90);
+            imageView.setFitHeight(90);
+            imageView.setPreserveRatio(true);
+        }
+        @Override
+        protected void updateItem(Void item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty) {
+                setGraphic(null);
+                return;
+            }
+            RopaStockDTO producto = getTableView().getItems().get(getIndex());
+            byte[] foto = producto.getImagen();
+            if (foto != null && foto.length > 0) {
+                imageView.setImage(new Image(new ByteArrayInputStream(foto)));
+                setGraphic(imageView);
+            } else {
+                setGraphic(null);
+                }
+            }
+        });
     }
 
     //BOTON DE MODIFICAR

@@ -73,7 +73,7 @@
 .table-row-cell:focused:selected .btn-modificar,
 .table-row-cell:filled:selected .btn-modificar,
 .table-row-cell:filled:selected:focused .btn-modificar {
-    -fx-background-color: #96453f;
+    -fx-background-color: #813c37;
     -fx-text-fill: white;
 }
 
@@ -81,11 +81,15 @@
 .table-row-cell:focused:selected .btn-eliminar,
 .table-row-cell:filled:selected .btn-eliminar,
 .table-row-cell:filled:selected:focused .btn-eliminar {
-    -fx-background-color: #101c35;
+    -fx-background-color: #0d172c;
     -fx-text-fill: white;
 }
 
 /* ===== BOTONES MODIFICAR / ELIMINAR ===== */
+.btn-modificar .text,
+.btn-eliminar .text {
+    -fx-fill: white;
+}
 .btn-modificar {
     -fx-background-color: #C0605A;
     -fx-text-fill: white;
@@ -103,7 +107,7 @@
 }
 
 .btn-modificar:pressed {
-    -fx-background-color: #8F3F3A;
+    -fx-background-color: #813b36;
 }
 
 .btn-eliminar {
@@ -119,7 +123,7 @@
 }
 
 .btn-eliminar:hover {
-    -fx-background-color: #0C447C;
+    -fx-background-color: #0b4075;
 }
 
 .btn-eliminar:pressed {

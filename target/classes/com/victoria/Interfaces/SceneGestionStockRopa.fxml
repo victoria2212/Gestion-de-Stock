@@ -31,7 +31,7 @@
                 <TableColumn fx:id="colCantidad" text="Cantidad" prefWidth="80"/>
                 <TableColumn fx:id="colCodigo" text="Codigo" prefWidth="180"/>
                 <TableColumn fx:id="colFechaActualizacion" text="Última fecha de Modificación" prefWidth="180"/>
-                <TableColumn fx:id="colImagen" text="Imagen" prefWidth="100"/>
+                <TableColumn fx:id="colImagen" text="Imagen" prefWidth="160"/>
                 <TableColumn fx:id="colModificar" text="Modificar" prefWidth="100"/>
                 <TableColumn fx:id="colEliminar" text="Eliminar" prefWidth="100"/>
             </columns>

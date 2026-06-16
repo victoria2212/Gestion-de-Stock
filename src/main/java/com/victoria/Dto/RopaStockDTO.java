@@ -13,6 +13,7 @@ public class RopaStockDTO {
     String codigoProducto;
     Integer identificador;
     LocalDateTime fechaActualizacion;
+    private byte[] imagen;
 
     public RopaStockDTO(
         String tipoRopa,
@@ -116,6 +117,12 @@ public class RopaStockDTO {
 
     public void setFechaActualizacion(LocalDateTime fechaActualizacion) {
         this.fechaActualizacion = fechaActualizacion;
+    }
+    public byte[] getImagen(){
+        return imagen;
+    }
+    public void setImagen(byte[] i){
+        this.imagen=i;
     }
 
 }

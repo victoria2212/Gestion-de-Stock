@@ -46,5 +46,8 @@ public class GestorProducto {
         productoDao.modificarProducto(producto);
         
     }
+   public byte[] obtenerFoto(Integer idProducto) {
+    return productoDao.obtenerFoto(idProducto);
+    }
 
 }

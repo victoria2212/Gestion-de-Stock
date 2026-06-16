@@ -11,7 +11,7 @@ public interface DaoProducto {
     public ArrayList<Producto> buscarProductos();
     public Integer existeProducto(String descripcion, String marca, String color, String talle, String tipo, String tipoProducto);
     public void modificarProducto(Producto producto);
-    
+    public byte[] obtenerFoto(Integer idProducto);
 }
 
 

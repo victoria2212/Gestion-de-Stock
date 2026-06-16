@@ -85,6 +85,10 @@
 }
 
 /* ===== BOTONES MODIFICAR / ELIMINAR ===== */
+.btn-modificar .text,
+.btn-eliminar .text {
+    -fx-fill: white;
+}
 .btn-modificar {
     -fx-background-color: #C0605A;
     -fx-text-fill: white;

@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import javafx.beans.property.SimpleStringProperty;
 import com.victoria.utils.FormateadorFechas;
-
+import com.victoria.Dao.DaoProductoImp;
 import com.victoria.Dto.AccsStockDTO;
 import com.victoria.Gestores.GestorProducto;
 import com.victoria.Gestores.GestorStock;
@@ -22,11 +22,16 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import java.io.ByteArrayInputStream;
+
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class GestionStockAccs {
     
     public GestorStock gestorStock = GestorStock.getInstance();
     public GestorProducto gestorProducto = GestorProducto.getInstance();
+    //private DaoProductoImp daoProducto = new DaoProductoImp();
     // Tabla y columnas
     @FXML private TableView<AccsStockDTO> tablaStock;
     @FXML private TableColumn<AccsStockDTO, String> colTipoAccs;
@@ -38,6 +43,7 @@ public class GestionStockAccs {
     @FXML private TableColumn<AccsStockDTO, Integer> colCantidad;
     @FXML private TableColumn<AccsStockDTO, String> colCodigo;
     @FXML private TableColumn<AccsStockDTO, String> colFechaActualizacion;
+    @FXML private TableColumn<AccsStockDTO, Void> colImagen;
     @FXML private TableColumn<AccsStockDTO, Void> colModificar;
     @FXML private TableColumn<AccsStockDTO, Void> colEliminar;
     
@@ -68,7 +74,7 @@ public class GestionStockAccs {
         colCantidad.setStyle("-fx-alignment: CENTER;");
         colCodigo.setStyle("-fx-alignment: CENTER;");
         colFechaActualizacion.setStyle("-fx-alignment: CENTER;");
-
+        agregarColumnaImagen();
         // Centrar botones
         colModificar.setStyle("-fx-alignment: CENTER;");
         colEliminar.setStyle("-fx-alignment: CENTER;");
@@ -84,6 +90,46 @@ public class GestionStockAccs {
     @FXML
     private void volverMenuPrincipal() {
     Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
+    }
+      private void agregarColumnaImagen() {
+
+    colImagen.setCellFactory(col -> new TableCell<>() {
+
+        private final ImageView imageView = new ImageView();
+
+        {
+            imageView.setFitWidth(90);
+            imageView.setFitHeight(90);
+            imageView.setPreserveRatio(true);
+        }
+
+        @Override
+        protected void updateItem(Void item, boolean empty) {
+            super.updateItem(item, empty);
+
+            if (empty) {
+                setGraphic(null);
+                return;
+            }
+
+            AccsStockDTO producto =
+                    getTableView().getItems().get(getIndex());
+
+            byte[] foto = producto.getImagen();
+
+            if (foto != null && foto.length > 0) {
+
+                Image imagen =
+                        new Image(new ByteArrayInputStream(foto));
+
+                imageView.setImage(imagen);
+                setGraphic(imageView);
+
+            } else {
+                setGraphic(null);
+                }
+            }
+        });
     }
   
     private void agregarBotonesModificar() {
@@ -105,6 +151,7 @@ public class GestionStockAccs {
             }
         });
     }
+    
     private void agregarBotonesEliminar() {
     colEliminar.setCellFactory(col -> new TableCell<>() {
         private final Button btn = new Button("Eliminar");

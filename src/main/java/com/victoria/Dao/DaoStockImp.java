@@ -65,7 +65,7 @@ public class DaoStockImp implements DaoStock{
 	PreparedStatement ps = null;
 	ResultSet rs = null;
     String consulta = "SELECT p.id, p.tipoProducto, p.descripcion, p.talle, p.precio, " +
-                  "p.color, p.marca, p.codigo_producto ,s.cantidad, s.ultimaActualizacion " +
+                  "p.color, p.marca, p.codigo_producto, p.foto ,s.cantidad, s.ultimaActualizacion " +
                   "FROM producto p " +
                   "JOIN stock s ON p.id = s.producto_id " +
                   "WHERE p.tipo = 'Ropa'" + "ORDER BY 1" ;
@@ -90,6 +90,7 @@ public class DaoStockImp implements DaoStock{
 				rs.getInt("id"), // suponiendo que es el identificador
 				rs.getObject("ultimaActualizacion", LocalDateTime.class)
 				);
+            dto.setImagen(rs.getBytes("foto")); 
     		lista.add(dto);
 		}} catch (SQLException e) {
 			e.printStackTrace();
@@ -104,7 +105,7 @@ public class DaoStockImp implements DaoStock{
 	PreparedStatement ps = null;
 	ResultSet rs = null;
     String consulta = "SELECT p.id, p.tipoProducto, p.descripcion, p.talle, p.precio, " +
-                  "p.color, p.marca, p.codigo_producto ,s.cantidad, s.ultimaActualizacion " +
+                  "p.color, p.marca, p.codigo_producto, p.foto ,s.cantidad, s.ultimaActualizacion " +
                   "FROM producto p " +
                   "JOIN stock s ON p.id = s.producto_id " +
                   "WHERE p.tipo = 'Accesorio'" + "ORDER BY 1" ;
@@ -128,6 +129,7 @@ public class DaoStockImp implements DaoStock{
 				rs.getInt("id"), // suponiendo que es el identificador
 				rs.getObject("ultimaActualizacion", LocalDateTime.class)
 				);
+            dto.setImagen(rs.getBytes("foto"));
     		lista.add(dto);
 		}} catch (SQLException e) {
 			e.printStackTrace();

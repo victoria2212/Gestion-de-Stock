@@ -13,6 +13,7 @@ public class AccsStockDTO {
     Integer identificador;
     LocalDateTime fechaActualizacion;
     private String codigoProducto;
+    private byte[] imagen;
 
     public AccsStockDTO(
         String tipoAccs,
@@ -37,6 +38,12 @@ public class AccsStockDTO {
     this.identificador = identificador;
     this.fechaActualizacion = actualizacion;
 }
+    public byte[] getImagen(){
+        return imagen;
+    }
+    public void setImagen(byte[] i){
+        this.imagen=i;
+    }
 
     public void setcodigoProducto(String codP){
         this.codigoProducto = codP;
