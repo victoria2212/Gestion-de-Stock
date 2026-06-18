@@ -1,5 +1,4 @@
-/* ===== GESTION STOCK ACCESORIOS ===== */
-
+/* ===== VISUALIZAR STOCK  ===== */
 .root {
     -fx-font-family: "Segoe UI";
     -fx-background-color: #D6E6F5;
@@ -34,7 +33,6 @@
     -fx-border-width: 0 0 2 0;
 }
 
-/* Esto hace que la linea roja sea toda la fila */
 .table-view .filler {
     -fx-background-color: #D6E6F5;
     -fx-border-color: transparent transparent #C0605A transparent;
@@ -68,68 +66,6 @@
     -fx-background-color: #90c09c;
 }
 
-/* Mantener botones con su color al seleccionar */
-.table-row-cell:selected .btn-modificar,
-.table-row-cell:focused:selected .btn-modificar,
-.table-row-cell:filled:selected .btn-modificar,
-.table-row-cell:filled:selected:focused .btn-modificar {
-    -fx-background-color: #813c37;
-    -fx-text-fill: white;
-}
-
-.table-row-cell:selected .btn-eliminar,
-.table-row-cell:focused:selected .btn-eliminar,
-.table-row-cell:filled:selected .btn-eliminar,
-.table-row-cell:filled:selected:focused .btn-eliminar {
-    -fx-background-color: #0d172c;
-    -fx-text-fill: white;
-}
-
-/* ===== BOTONES MODIFICAR / ELIMINAR ===== */
-.btn-modificar .text,
-.btn-eliminar .text {
-    -fx-fill: white;
-}
-.btn-modificar {
-    -fx-background-color: #C0605A;
-    -fx-text-fill: white;
-    -fx-font-size: 11px;
-    -fx-font-weight: bold;
-    -fx-border-color: transparent;
-    -fx-border-radius: 6;
-    -fx-background-radius: 6;
-    -fx-padding: 4 10 4 10;
-    -fx-cursor: hand;
-}
-
-.btn-modificar:hover {
-    -fx-background-color: #A84E49;
-}
-
-.btn-modificar:pressed {
-    -fx-background-color: #813b36;
-}
-
-.btn-eliminar {
-    -fx-background-color: #1B2A4A;
-    -fx-text-fill: white;
-    -fx-font-size: 11px;
-    -fx-font-weight: bold;
-    -fx-border-color: transparent;
-    -fx-border-radius: 6;
-    -fx-background-radius: 6;
-    -fx-padding: 4 10 4 10;
-    -fx-cursor: hand;
-}
-
-.btn-eliminar:hover {
-    -fx-background-color: #0b4075;
-}
-
-.btn-eliminar:pressed {
-    -fx-background-color: #083366;
-}
-
 /* ===== BOTON VOLVER ===== */
 .btn-volver {
     -fx-background-color: transparent;
@@ -150,4 +86,26 @@
 
 .btn-volver:pressed {
     -fx-background-color: #D6E6F5;
+}
+/* ===== BUSCADOR ===== */
+
+.text-field {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #C0605A;
+    -fx-border-width: 1.5;
+    -fx-padding: 8 12 8 12;
+    -fx-font-size: 13px;
+}
+
+.text-field:focused {
+    -fx-border-color: #0C447C;
+    -fx-border-width: 2;
+}
+
+/* ===== IMAGENES DE LA TABLA ===== */
+
+.table-row-cell {
+    -fx-cell-size: 130px;
 }

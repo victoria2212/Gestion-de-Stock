@@ -21,15 +21,19 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.ByteArrayInputStream;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class GestionStockRopa {
-    public GestorStock gestorStock = GestorStock.getInstance();
+    private GestorStock gestorStock = GestorStock.getInstance();
     public GestorProducto gestorProducto = GestorProducto.getInstance();
+    private ObservableList<RopaStockDTO> listaOriginal;
     // Tabla y columnas
+    @FXML private TextField txtBuscar;
     @FXML private TableView<RopaStockDTO> tablaStock;
     @FXML private TableColumn<RopaStockDTO, String> colTipoRopa;
     @FXML private TableColumn<RopaStockDTO, String> colDescripcion;
@@ -43,10 +47,13 @@ public class GestionStockRopa {
     @FXML private TableColumn<RopaStockDTO, Void> colImagen;
     @FXML private TableColumn<RopaStockDTO, Void> colModificar;
     @FXML private TableColumn<RopaStockDTO, Void> colEliminar;
+    
     // Inicializador del controlador
 
     @FXML
         private void initialize() {
+        
+        tablaStock.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         /*
            Usar PropertyValueFactory para vincular los nombres de las columnas con los getters de RopaStockDTO
          * El string que le pasas a PropertyValueFactory debe coincidir exactamente con el nombre de la propiedad en el DTO (sin el prefijo get).
@@ -84,6 +91,7 @@ public class GestionStockRopa {
         agregarBotonesEliminar();
 
         cargarDatos();
+        configurarBuscador();
     }
     // Método para volver al menú principal
     @FXML
@@ -121,8 +129,9 @@ public class GestionStockRopa {
     private void agregarBotonesModificar() {
         colModificar.setCellFactory(col -> new TableCell<>() {
             private final Button btn = new Button("Modificar");
+            
             {
-                btn.getStyleClass().add("btn-modificar"); // <- agregá esto
+                btn.getStyleClass().add("btn-modificar"); // estilo
                 btn.setOnAction(e -> {
                     RopaStockDTO item = getTableView().getItems().get(getIndex());
                     Navegador.setDato(item);
@@ -168,8 +177,36 @@ public class GestionStockRopa {
         });
     }
     private void cargarDatos() {
-    List<RopaStockDTO> listaDTO = gestorStock.obtenerStockRopa();
-    ObservableList<RopaStockDTO> listaRopaStock = FXCollections.observableArrayList(listaDTO);
-    tablaStock.setItems(listaRopaStock);
+    
+        List<RopaStockDTO> listaDTO = gestorStock.obtenerStockRopa();
+
+        listaOriginal = FXCollections.observableArrayList(listaDTO);
+
+        tablaStock.setItems(listaOriginal);
+    }
+    private void configurarBuscador() {
+
+    FilteredList<RopaStockDTO> filtrada =
+        new FilteredList<>(listaOriginal, p -> true);
+
+        txtBuscar.textProperty().addListener((obs, oldValue, newValue) -> {
+
+        filtrada.setPredicate(producto -> {
+
+            if (newValue == null || newValue.isBlank()) {
+                return true;
+            }
+
+            String texto = newValue.toLowerCase();
+
+            return producto.getCodigoProducto().toLowerCase().contains(texto)
+                || producto.getDescripcion().toLowerCase().contains(texto)
+                || producto.getMarca().toLowerCase().contains(texto)
+                || producto.getColor().toLowerCase().contains(texto)
+                || producto.getTipoRopa().toLowerCase().contains(texto);
+        });
+    });
+
+        tablaStock.setItems(filtrada);
     }
 }

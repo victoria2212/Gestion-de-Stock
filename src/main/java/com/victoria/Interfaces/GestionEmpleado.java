@@ -38,7 +38,7 @@ public class GestionEmpleado {
 
     @FXML
     private void initialize() {
-
+        tablaEmpleados.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         colDni.setCellValueFactory(new PropertyValueFactory<>("dni"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colApellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
@@ -88,7 +88,8 @@ public class GestionEmpleado {
 
             private final Button btn = new Button("Modificar");
 
-            {
+            {                
+                btn.getStyleClass().add("btn-modificar");
                 btn.setOnAction(e -> {
 
                     EmpleadoDTO empleado =
@@ -122,6 +123,7 @@ public class GestionEmpleado {
             private final Button btn = new Button("Eliminar");
 
             {
+                btn.getStyleClass().add("btn-eliminar");
                 btn.setOnAction(e -> {
 
                     EmpleadoDTO empleado =

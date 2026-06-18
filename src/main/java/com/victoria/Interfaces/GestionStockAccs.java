@@ -23,6 +23,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.ByteArrayInputStream;
+import javafx.scene.control.TextField;
+import javafx.collections.transformation.FilteredList;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,8 +33,10 @@ public class GestionStockAccs {
     
     public GestorStock gestorStock = GestorStock.getInstance();
     public GestorProducto gestorProducto = GestorProducto.getInstance();
+    private ObservableList<AccsStockDTO> listaOriginal;
     //private DaoProductoImp daoProducto = new DaoProductoImp();
     // Tabla y columnas
+    @FXML private TextField txtBuscar;
     @FXML private TableView<AccsStockDTO> tablaStock;
     @FXML private TableColumn<AccsStockDTO, String> colTipoAccs;
     @FXML private TableColumn<AccsStockDTO, String> colDescripcion;
@@ -51,7 +55,7 @@ public class GestionStockAccs {
 
     @FXML
         private void initialize() {
-        
+        tablaStock.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         colTipoAccs.setCellValueFactory(new PropertyValueFactory<>("tipoAccs"));
         colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         colTalle.setCellValueFactory(new PropertyValueFactory<>("talle"));
@@ -83,8 +87,9 @@ public class GestionStockAccs {
 
         agregarBotonesModificar();
         agregarBotonesEliminar();
-
+        
         cargarDatos();
+        configurarBuscador();
     }
     // Método para volver al menú principal
     @FXML
@@ -183,8 +188,35 @@ public class GestionStockAccs {
     }
     private void cargarDatos() {
     List<AccsStockDTO> listaDTO = gestorStock.obtenerStockAccs();
-    ObservableList<AccsStockDTO> listaAccsStock = FXCollections.observableArrayList(listaDTO);
-    tablaStock.setItems(listaAccsStock);
+
+    listaOriginal = FXCollections.observableArrayList(listaDTO);
+
+    tablaStock.setItems(listaOriginal);
+    }
+    private void configurarBuscador() {
+
+    FilteredList<AccsStockDTO> filtrada =
+        new FilteredList<>(listaOriginal, p -> true);
+
+    txtBuscar.textProperty().addListener((obs, oldValue, newValue) -> {
+
+        filtrada.setPredicate(producto -> {
+
+            if (newValue == null || newValue.isBlank()) {
+                return true;
+            }
+
+            String texto = newValue.toLowerCase();
+
+            return producto.getCodigoProducto().toLowerCase().contains(texto)
+                || producto.getDescripcion().toLowerCase().contains(texto)
+                || producto.getMarca().toLowerCase().contains(texto)
+                || producto.getColor().toLowerCase().contains(texto)
+                || producto.getTipoAccs().toLowerCase().contains(texto);
+        });
+    });
+
+    tablaStock.setItems(filtrada);
     }
 
 }
