@@ -1,0 +1,12 @@
+# Maven
+target/
+
+# Logs de crash de la JVM
+hs_err_pid*.log
+
+# VS Code
+.vscode/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
