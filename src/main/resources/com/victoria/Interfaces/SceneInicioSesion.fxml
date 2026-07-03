@@ -9,7 +9,7 @@
     xmlns:fx="http://javafx.com/fxml"
     fx:controller="com.victoria.Interfaces.InicioSesion"
     styleClass="root-pane"
-    stylesheets="@../Styles/estilos.css">
+    stylesheets="@../styles/estilos.css">
 
     <VBox alignment="CENTER" styleClass="background-pane">
 
