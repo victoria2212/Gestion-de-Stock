@@ -64,6 +64,8 @@
     -fx-padding: 8 18 8 18;
 
     -fx-cursor: hand;
+    -fx-min-width: 150px;      /* ← agregado */
+    -fx-alignment: CENTER;     /* ← agregado */
 }
 
 .button:hover{
@@ -118,17 +120,14 @@
 
 .menu-bar .menu{
 
-    -fx-background-color: white;
-
+      -fx-background-color: white;
     -fx-border-color: #C0605A;
-
     -fx-border-width: 1.5;
-
     -fx-border-radius: 8;
-
     -fx-background-radius: 8;
-
     -fx-padding: 6 12 6 12;
+    -fx-min-width: 150px;
+    -fx-alignment: CENTER;
 }
 
 .menu-bar .menu .label{
@@ -167,3 +166,13 @@
     -fx-background-color: #cee6fa;
 }
 
+.nav-slot{
+    -fx-min-width: 170px;
+    -fx-pref-width: 170px;
+    -fx-alignment: CENTER;
+}
+
+.nav-button{
+    -fx-min-width: 170px;
+    -fx-alignment: CENTER;
+}

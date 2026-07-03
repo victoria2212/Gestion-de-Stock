@@ -8,14 +8,19 @@
             fx:controller="com.victoria.Interfaces.GestionStockAccs"
             stylesheets="@/com/victoria/styles/estilo-gestionar-stock.css">
 
-    <top>
-
+   <top>
         <VBox spacing="10">
 
-            <Label text="GESTIONAR STOCK DE ACCESORIOS"
-                   styleClass="titulo"
-                   maxWidth="Infinity"
-                   alignment="CENTER"/>
+           <Label text="GESTIONAR STOCK DE ACCESORIOS"
+                    styleClass="titulo"
+                    maxWidth="Infinity"
+                    alignment="CENTER">
+
+                <VBox.margin>
+                    <Insets top="30"/>
+                </VBox.margin>
+
+            </Label>
 
             <HBox alignment="CENTER_RIGHT">
 

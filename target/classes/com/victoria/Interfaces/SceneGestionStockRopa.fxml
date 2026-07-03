@@ -11,10 +11,16 @@
     <top>
         <VBox spacing="10">
 
-            <Label text="GESTIONAR STOCK DE ROPA"
-                   styleClass="titulo"
-                   maxWidth="Infinity"
-                   alignment="CENTER"/>
+           <Label text="GESTIONAR STOCK DE ROPA"
+                    styleClass="titulo"
+                    maxWidth="Infinity"
+                    alignment="CENTER">
+
+                <VBox.margin>
+                    <Insets top="30"/>
+                </VBox.margin>
+
+            </Label>
 
             <HBox alignment="CENTER_RIGHT">
                 <padding>
