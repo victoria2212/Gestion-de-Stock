@@ -1,5 +1,5 @@
 package com.victoria.Dao;
-
+// el DAO es quien habla con la BD
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,9 +16,9 @@ import com.victoria.Dto.RopaStockDTO;
 public class DaoStockImp implements DaoStock{
 
     @Override
-    public void registrarStock(String id, int cantidad, LocalDateTime actualizacion) {
+    public void registrarStock(Integer id, int cantidad, LocalDateTime actualizacion) {
         
-        String consulta = "INSERT INTO stock (id_producto, cantidad, ultimaactualizacion)" + "VALUES (?, ?, ?);";
+        String consulta = "INSERT INTO stock (producto_id, cantidad, ultimaactualizacion)" + "VALUES (?, ?, ?);";
         
         ConexionDB conexion = new ConexionDB();
 		Connection cn = null; // para conectar a la bd
@@ -31,7 +31,7 @@ public class DaoStockImp implements DaoStock{
 			cn = conexion.conectar();
 			cs = cn.prepareStatement(consulta);
 			//INCORPORAMOS PARAMETROS DE ARRIBA (los values)
-			cs.setString(1, id);
+			cs.setInt(1, id);
 			cs.setInt(2, cantidad);
 			cs.setTimestamp(3, timestamp);
 
@@ -64,10 +64,10 @@ public class DaoStockImp implements DaoStock{
 	Connection cn = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
-    String consulta = "SELECT p.id_producto, p.tipoProducto, p.descripcion, p.talle, p.precio, " +
-                  "p.color, p.marca, s.cantidad, s.ultimaActualizacion " +
+    String consulta = "SELECT p.id, p.tipoProducto, p.descripcion, p.talle, p.precio, " +
+                  "p.color, p.marca, p.codigo_producto, p.foto ,s.cantidad, s.ultimaActualizacion " +
                   "FROM producto p " +
-                  "JOIN stock s ON p.id_producto = s.id_producto " +
+                  "JOIN stock s ON p.id = s.producto_id " +
                   "WHERE p.tipo = 'Ropa'" + "ORDER BY 1" ;
 
     try {
@@ -85,10 +85,12 @@ public class DaoStockImp implements DaoStock{
 				rs.getDouble("precio"),
 				rs.getString("color"),
 				rs.getString("marca"),
+				rs.getString("codigo_producto"),
 				rs.getInt("cantidad"),
-				rs.getString("id_producto"), // suponiendo que es el identificador
+				rs.getInt("id"), // suponiendo que es el identificador
 				rs.getObject("ultimaActualizacion", LocalDateTime.class)
 				);
+            dto.setImagen(rs.getBytes("foto")); 
     		lista.add(dto);
 		}} catch (SQLException e) {
 			e.printStackTrace();
@@ -102,10 +104,10 @@ public class DaoStockImp implements DaoStock{
 	Connection cn = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
-    String consulta = "SELECT p.id_producto, p.tipoProducto, p.descripcion, p.talle, p.precio, " +
-                  "p.color, p.marca, s.cantidad, s.ultimaActualizacion " +
+    String consulta = "SELECT p.id, p.tipoProducto, p.descripcion, p.talle, p.precio, " +
+                  "p.color, p.marca, p.codigo_producto, p.foto ,s.cantidad, s.ultimaActualizacion " +
                   "FROM producto p " +
-                  "JOIN stock s ON p.id_producto = s.id_producto " +
+                  "JOIN stock s ON p.id = s.producto_id " +
                   "WHERE p.tipo = 'Accesorio'" + "ORDER BY 1" ;
 	try {
 		cn = conexion.conectar();
@@ -122,17 +124,163 @@ public class DaoStockImp implements DaoStock{
 				rs.getDouble("precio"),
 				rs.getString("color"),
 				rs.getString("marca"),
+				rs.getString("codigo_producto"),
 				rs.getInt("cantidad"),
-				rs.getString("id_producto"), // suponiendo que es el identificador
+				rs.getInt("id"), // suponiendo que es el identificador
 				rs.getObject("ultimaActualizacion", LocalDateTime.class)
 				);
+            dto.setImagen(rs.getBytes("foto"));
     		lista.add(dto);
 		}} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return lista;
 	}
-	public void bajaProducto(String id_producto){
+
+	//ELIMINACION DE PRODUCTO EN STOCK
+	@Override
+	public void bajaProducto(Integer idProducto){
+	
+	String consulta = "DELETE FROM stock WHERE producto_id = ?";
+
+    ConexionDB conexion = new ConexionDB();
+
+    Connection cn = null;
+    PreparedStatement ps = null;
+
+    try {
+
+        cn = conexion.conectar();
+
+        ps = cn.prepareStatement(consulta);
+
+        ps.setInt(1, idProducto);
+
+        ps.executeUpdate();
+
+    } catch (SQLException e) {
+
+        e.printStackTrace();
+
+    } finally {
+
+        try {
+
+            if(ps != null) ps.close();
+
+            if(cn != null) cn.close();
+
+        } catch (Exception e2) {
+
+            e2.printStackTrace();
+        }
+    }
+	}
+	//funcion que uso para modificar datos de los accesorios
+	public void actualizarAccs(Integer idProducto, int cantidad){
+							    String consulta =
+        "UPDATE stock SET " +
+        "cantidad = ?, " +
+        "ultimaactualizacion = ? " +
+        "WHERE producto_id = ?;";
+
+    ConexionDB conexion = new ConexionDB();
+
+    Connection cn = null;
+    PreparedStatement ps = null;
+
+    try {
+
+        cn = conexion.conectar();
+
+        ps = cn.prepareStatement(consulta);
+
+        ps.setInt(1, cantidad);
+
+        ps.setTimestamp(
+            2,
+            Timestamp.valueOf(LocalDateTime.now())
+        );
+
+        ps.setInt(3, idProducto);
+
+        ps.executeUpdate();
+
+        System.out.println("Stock modificado correctamente.");
+
+    } catch (SQLException e) {
+
+        e.printStackTrace();
+
+    } finally {
+
+        try {
+
+            if(ps != null) ps.close();
+
+            if(cn != null) cn.close();
+
+        } catch (Exception e2) {
+
+            e2.printStackTrace();
+
+        }
+    }
+	
+
+	}
+	//funcion que uso para modificar datos de la ropa
+	public void actualizarRopa(Integer idProducto,
+                           int cantidad){
+		    String consulta =
+        "UPDATE stock SET " +
+        "cantidad = ?, " +
+        "ultimaactualizacion = ? " +
+        "WHERE producto_id = ?;";
+
+    ConexionDB conexion = new ConexionDB();
+
+    Connection cn = null;
+    PreparedStatement ps = null;
+
+    try {
+
+        cn = conexion.conectar();
+
+        ps = cn.prepareStatement(consulta);
+
+        ps.setInt(1, cantidad);
+
+        ps.setTimestamp(
+            2,
+            Timestamp.valueOf(LocalDateTime.now())
+        );
+
+        ps.setInt(3, idProducto);
+
+        ps.executeUpdate();
+
+        System.out.println("Stock modificado correctamente.");
+
+    } catch (SQLException e) {
+
+        e.printStackTrace();
+
+    } finally {
+
+        try {
+
+            if(ps != null) ps.close();
+
+            if(cn != null) cn.close();
+
+        } catch (Exception e2) {
+
+            e2.printStackTrace();
+
+        }
+    }
+		
 	}
 	
 	

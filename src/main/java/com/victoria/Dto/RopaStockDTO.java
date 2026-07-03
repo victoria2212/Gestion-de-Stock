@@ -10,20 +10,41 @@ public class RopaStockDTO {
     String color;
     String marca;
     int cantidad;
-    String identificador;
+    String codigoProducto;
+    Integer identificador;
     LocalDateTime fechaActualizacion;
+    private byte[] imagen;
 
-    public RopaStockDTO(String tipoRopa, String descripcion, String talle, double precio,
-                        String color, String marca, int cantidad, String identificador, LocalDateTime actualizacion) {
-        this.tipoRopa = tipoRopa;
-        this.descripcion = descripcion;
-        this.talle = talle;
-        this.precio = precio;
-        this.color = color;
-        this.marca = marca;
-        this.cantidad = cantidad;
-        this.identificador = identificador;
-        this.fechaActualizacion=actualizacion;
+    public RopaStockDTO(
+        String tipoRopa,
+        String descripcion,
+        String talle,
+        double precio,
+        String color,
+        String marca,
+        String codigoProducto,
+        int cantidad,
+        Integer identificador,
+        LocalDateTime actualizacion) {
+
+    this.tipoRopa = tipoRopa;
+    this.descripcion = descripcion;
+    this.talle = talle;
+    this.precio = precio;
+    this.color = color;
+    this.marca = marca;
+    this.codigoProducto = codigoProducto;
+    this.cantidad = cantidad;
+    this.identificador = identificador;
+    this.fechaActualizacion = actualizacion;
+}
+
+    public String getCodigoProducto(){
+        return this.codigoProducto;
+    }
+
+    public void setcodigoProducto(String codP){
+        this.codigoProducto = codP;
     }
 
     public String getTipoRopa() {
@@ -82,11 +103,11 @@ public class RopaStockDTO {
         this.cantidad = cantidad;
     }
 
-    public String getIdentificador() {
+    public Integer getIdentificador() {
         return identificador;
     }
 
-    public void setIdentificador(String identificador) {
+    public void setIdentificador(Integer identificador) {
         this.identificador = identificador;
     }
 
@@ -97,8 +118,11 @@ public class RopaStockDTO {
     public void setFechaActualizacion(LocalDateTime fechaActualizacion) {
         this.fechaActualizacion = fechaActualizacion;
     }
-
-    
-    // Getters y Setters...
+    public byte[] getImagen(){
+        return imagen;
+    }
+    public void setImagen(byte[] i){
+        this.imagen=i;
+    }
 
 }

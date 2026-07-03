@@ -22,8 +22,8 @@ public class Ropa extends Producto{
     Camisa
     Zapatillas
  */
-    public Ropa(String id, String des, String talle, double precio, String color, String marca,String tipo) {
-        super(id, des, talle, precio, color, marca,"Ropa",tipo);
+    public Ropa(String des, String talle, double precio, String color, String marca,String tipo) {
+        super(des, talle, precio, color, marca,"Ropa",tipo);
         //TODO Auto-generated constructor stub
     }
 
@@ -39,10 +39,11 @@ public class Ropa extends Producto{
         return super.getDescripcion();
     }
 
+   
     @Override
-    public String getId() {
+    public Integer getId_producto() {
         // TODO Auto-generated method stub
-        return super.getId();
+        return super.getId_producto();
     }
 
     @Override

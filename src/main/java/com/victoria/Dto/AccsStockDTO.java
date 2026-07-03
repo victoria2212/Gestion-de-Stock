@@ -10,22 +10,48 @@ public class AccsStockDTO {
     String color;
     String marca;
     int cantidad;
-    String identificador;
+    Integer identificador;
     LocalDateTime fechaActualizacion;
+    private String codigoProducto;
+    private byte[] imagen;
 
-    public AccsStockDTO(String tipoAccs, String descripcion, String talle, double precio,
-                        String color, String marca, int cantidad, String identificador, LocalDateTime actualizacion) {
-        this.tipoAccs = tipoAccs;
-        this.descripcion = descripcion;
-        this.talle = talle;
-        this.precio = precio;
-        this.color = color;
-        this.marca = marca;
-        this.cantidad = cantidad;
-        this.identificador = identificador;
-        this.fechaActualizacion=actualizacion;
+    public AccsStockDTO(
+        String tipoAccs,
+        String descripcion,
+        String talle,
+        double precio,
+        String color,
+        String marca,
+        String codigoProducto,
+        int cantidad,
+        Integer identificador,
+        LocalDateTime actualizacion) {
+
+    this.tipoAccs = tipoAccs;
+    this.descripcion = descripcion;
+    this.talle = talle;
+    this.precio = precio;
+    this.color = color;
+    this.marca = marca;
+    this.codigoProducto = codigoProducto;
+    this.cantidad = cantidad;
+    this.identificador = identificador;
+    this.fechaActualizacion = actualizacion;
+}
+    public byte[] getImagen(){
+        return imagen;
+    }
+    public void setImagen(byte[] i){
+        this.imagen=i;
     }
 
+    public void setcodigoProducto(String codP){
+        this.codigoProducto = codP;
+
+    }
+    public String getCodigoProducto(){
+        return codigoProducto;
+    }
     public String getTipoAccs() {
         return tipoAccs;
     }
@@ -82,11 +108,11 @@ public class AccsStockDTO {
         this.cantidad = cantidad;
     }
 
-    public String getIdentificador() {
+    public Integer getIdentificador() {
         return identificador;
     }
 
-    public void setIdentificador(String identificador) {
+    public void setIdentificador(Integer identificador) {
         this.identificador = identificador;
     }
 

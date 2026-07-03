@@ -1,16 +1,33 @@
 package com.victoria.Clases;
 
+import java.time.LocalDate;
+
 public class Empleado {
     String nombre;
     String apellido;
     String direccion;
     Integer dni;
+    String contacto;
+    private LocalDate dia_de_alta;
 
-    public Empleado(Integer d,String n, String a, String direccion){
+
+   
+    public Empleado(Integer d,String n, String a, String direccion, String contacto){
         this.dni=d;
         this.nombre=n;
         this.apellido=a;
         this.direccion = direccion;
+        this.contacto= contacto;
+         // FECHA AUTOMÁTICA
+        this.dia_de_alta = LocalDate.now();
+
+    }
+
+    public String getContacto(){
+        return contacto;
+    }
+    public void setContacto(String c){
+        this.contacto = c;
     }
     public String getNombre() {
         return nombre;
@@ -29,6 +46,12 @@ public class Empleado {
     }
     public void setDni(Integer dni) {
         this.dni = dni;
+    }
+     public LocalDate getDia_de_alta() {
+        return dia_de_alta;
+    }
+    public void setDia_de_alta(LocalDate dia_de_alta) {
+        this.dia_de_alta = dia_de_alta;
     }
     
     public String getDireccion() {

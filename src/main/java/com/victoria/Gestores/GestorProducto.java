@@ -7,7 +7,7 @@ import com.victoria.Dao.DaoProducto;
 import com.victoria.Dao.DaoProductoImp;
 
 public class GestorProducto {
-    ArrayList<Producto> productos;
+    ArrayList<Producto> productos; // lista de productos
     private static GestorProducto gestorProducto;
     DaoProducto productoDao;
     //constructor
@@ -21,13 +21,33 @@ public class GestorProducto {
 		}
 		return gestorProducto;
 	}
-    public void altaProducto(Producto producto){
-    productoDao.altaProducto(producto);
+
+    public int altaProducto(Producto producto){
+
+    int idGenerado = productoDao.altaProducto(producto);
+
+    producto.setId_producto(idGenerado);
+
     productos.add(producto);
+
+    return idGenerado;
+}
+
+    public void eliminarProducto(Integer id){
+    productoDao.bajaProducto(id);
     }
-    public boolean existeProducto(String id){
-    boolean b =productoDao.existeProducto(id);
-    return b;
+    public Integer existeProducto(String descripcion, String marca, String color, String talle, String tipo, String tipoProducto){
+    
+    Integer id_existente = productoDao.existeProducto(descripcion, marca, color, talle, tipo, tipoProducto);
+    return id_existente;
+    
+    }
+    public void actualizarProducto(Producto producto){
+        productoDao.modificarProducto(producto);
+        
+    }
+   public byte[] obtenerFoto(Integer idProducto) {
+    return productoDao.obtenerFoto(idProducto);
     }
 
 }

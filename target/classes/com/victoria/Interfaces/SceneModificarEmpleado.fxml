@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.victoria.Interfaces.ModificarEmpleado"
+           stylesheets="@/com/victoria/styles/estilo-modificar-empleado.css"
+           style="-fx-background-color: #BDD5E5;"
+           alignment="CENTER">
+
+    <!-- CARD BLANCA centrada -->
+    <VBox spacing="14" alignment="TOP_CENTER"
+          style="-fx-background-color: white;
+                 -fx-background-radius: 16;
+                 -fx-border-radius: 16;
+                 -fx-padding: 28 36 28 36;
+                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 16, 0, 0, 4);"
+          maxWidth="560" maxHeight="560"
+          StackPane.alignment="CENTER">
+
+        <!-- Título -->
+        <Label text="Modificar Empleado"
+               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1B2A4A;"
+               alignment="CENTER" maxWidth="Infinity"/>
+        <Label text="Editá los datos del empleado"
+               style="-fx-font-size: 13px; -fx-text-fill: #6b7c99;"
+               alignment="CENTER" maxWidth="Infinity"/>
+
+        <Separator/>
+
+        <!-- Formulario -->
+        <GridPane hgap="12" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints minWidth="150" halignment="RIGHT"/>
+                <ColumnConstraints minWidth="280"/>
+            </columnConstraints>
+
+            <Label text="Nombre" GridPane.rowIndex="0" GridPane.columnIndex="0"
+                   style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+            <TextField fx:id="txtNombre" promptText="Nombre completo" prefWidth="280"
+                       GridPane.rowIndex="0" GridPane.columnIndex="1"
+                       style="-fx-background-radius: 8; -fx-border-radius: 8;
+                              -fx-border-color: #c5d5e8; -fx-font-size: 13px;
+                              -fx-padding: 6 10 6 10;"/>
+
+            <Label text="Apellido" GridPane.rowIndex="1" GridPane.columnIndex="0"
+                   style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+            <TextField fx:id="txtApellido" promptText="Apellido completo" prefWidth="280"
+                       GridPane.rowIndex="1" GridPane.columnIndex="1"
+                       style="-fx-background-radius: 8; -fx-border-radius: 8;
+                              -fx-border-color: #c5d5e8; -fx-font-size: 13px;
+                              -fx-padding: 6 10 6 10;"/>
+
+            <Label text="DNI" GridPane.rowIndex="2" GridPane.columnIndex="0"
+                   style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+            <TextField fx:id="txtDni" promptText="Solo números" prefWidth="280"
+                       editable="false"
+                       GridPane.rowIndex="2" GridPane.columnIndex="1"
+                       style="-fx-background-radius: 8; -fx-border-radius: 8;
+                              -fx-border-color: #c5d5e8; -fx-font-size: 13px;
+                              -fx-padding: 6 10 6 10;
+                              -fx-background-color: #f0f5fb;"/>
+
+            <Label text="Dirección" GridPane.rowIndex="3" GridPane.columnIndex="0"
+                   style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+            <TextField fx:id="txtDireccion" promptText="Ej: 25 de Mayo 123" prefWidth="280"
+                       GridPane.rowIndex="3" GridPane.columnIndex="1"
+                       style="-fx-background-radius: 8; -fx-border-radius: 8;
+                              -fx-border-color: #c5d5e8; -fx-font-size: 13px;
+                              -fx-padding: 6 10 6 10;"/>
+
+            <Label text="Contacto (Celular)" GridPane.rowIndex="4" GridPane.columnIndex="0"
+                   style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+            <TextField fx:id="txtContacto" promptText="Solo números" prefWidth="280"
+                       GridPane.rowIndex="4" GridPane.columnIndex="1"
+                       style="-fx-background-radius: 8; -fx-border-radius: 8;
+                              -fx-border-color: #c5d5e8; -fx-font-size: 13px;
+                              -fx-padding: 6 10 6 10;"/>
+
+            <Label text="Fecha Alta" GridPane.rowIndex="5" GridPane.columnIndex="0"
+                   style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+            <DatePicker fx:id="dpDiaAlta" prefWidth="280"
+                        disable="true"
+                        GridPane.rowIndex="5" GridPane.columnIndex="1"
+                        style="-fx-background-radius: 8; -fx-border-radius: 8;
+                               -fx-border-color: #c5d5e8; -fx-font-size: 13px;
+                               -fx-background-color: #f0f5fb;"/>
+        </GridPane>
+
+        <Separator/>
+
+        <!-- Botón Guardar -->
+        <Button text="Guardar Cambios" onAction="#guardarCambios"
+                maxWidth="Infinity" prefHeight="40"
+                styleClass="btn-guardar"/>
+
+        <!-- Botón Volver -->
+        <HBox alignment="CENTER_RIGHT">
+            <Button text="← Volver" onAction="#volverGestionEmpleado"
+                    styleClass="btn-volver"/>
+        </HBox>
+
+    </VBox>
+</StackPane>
