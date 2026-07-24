@@ -8,7 +8,7 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.victoria.Interfaces.MenuPrincipal"
-            stylesheets="@/com/victoria/styles/estilo-menu-principal.css">
+            stylesheets="@../styles/estilo-menu-principal.css">   
 
     <!-- Barra superior -->
   <top>
