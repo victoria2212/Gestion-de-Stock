@@ -86,7 +86,7 @@ public class MenuPrincipal {
         ContextMenu menu = new ContextMenu();
 
         MenuItem itemRegistrar = new MenuItem("Registrar Venta");
-        itemRegistrar.setOnAction(e -> Navegador.cambiarVista("/com/victoria/Interfaces/SceneRegistrarVenta.fxml"));
+        itemRegistrar.setOnAction(e -> Navegador.cambiarVista("/com/victoria/Interfaces/SceneRegistrarItemVenta.fxml"));
 
         MenuItem itemHistorial = new MenuItem("Historial de Ventas");
         itemHistorial.setOnAction(e -> Navegador.cambiarVista("/com/victoria/Interfaces/SceneHistorialVentas.fxml"));

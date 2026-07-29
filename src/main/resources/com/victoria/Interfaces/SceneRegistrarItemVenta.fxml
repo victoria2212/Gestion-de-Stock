@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane fx:id="rootVenta" styleClass="root-venta" xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.victoria.Interfaces.RegistrarItemVenta"
+           stylesheets="@../styles/estilo-registro-ItemVenta.css">
+
+    <VBox styleClass="card-venta" maxWidth="900" maxHeight="620" alignment="TOP_LEFT" spacing="0">
+        <StackPane.margin>
+            <Insets top="40" bottom="40" />
+        </StackPane.margin>
+
+        <!-- Encabezado -->
+        <HBox alignment="CENTER_LEFT">
+            <VBox spacing="2">
+                <Label text="Registrar Venta" styleClass="titulo-venta" />
+                <Label text="Cargá los productos vendidos" styleClass="subtitulo-venta" />
+            </VBox>
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="lblComprobante" text="N.º de comprobante: 0001-00003452" styleClass="comprobante-venta" />
+        </HBox>
+
+        <Separator styleClass="separador-venta">
+            <VBox.margin>
+                <Insets top="14" bottom="18" />
+            </VBox.margin>
+        </Separator>
+
+        <!-- Fecha y vendedor -->
+        <HBox spacing="20">
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="Fecha" styleClass="lbl-campo" />
+                <DatePicker fx:id="dpFecha" styleClass="date-venta" maxWidth="Infinity" />
+            </VBox>
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="Vendedor" styleClass="lbl-campo" />
+                <ComboBox fx:id="cbVendedor" styleClass="campo-venta" maxWidth="Infinity" />
+            </VBox>
+        </HBox>
+
+        <!-- Tabla de items -->
+        <TableView fx:id="tablaItems" styleClass="tabla-venta" editable="true" VBox.vgrow="ALWAYS">
+            <VBox.margin>
+                <Insets top="18" bottom="10" />
+            </VBox.margin>
+            <columns>
+                <TableColumn fx:id="colProducto" text="Producto" prefWidth="300" />
+                <TableColumn fx:id="colPrecioUnitario" text="Precio unit." prefWidth="130" />
+                <TableColumn fx:id="colCantidad" text="Cant." prefWidth="90" />
+                <TableColumn fx:id="colSubtotal" text="Subtotal" prefWidth="130" />
+                <TableColumn fx:id="colEliminar" text="" prefWidth="50" sortable="false" />
+            </columns>
+        </TableView>
+
+        <Button fx:id="btnAgregarProducto" text="+ Agregar producto" styleClass="btn-agregar-producto" onAction="#onAgregarProducto">
+            <VBox.margin>
+                <Insets bottom="16" />
+            </VBox.margin>
+        </Button>
+
+        <Separator styleClass="separador-venta" />
+
+        <!-- Totales -->
+        <HBox alignment="CENTER_RIGHT">
+            <VBox.margin>
+                <Insets top="14" bottom="4" />
+            </VBox.margin>
+            <VBox spacing="4" alignment="CENTER_RIGHT" minWidth="220">
+                <HBox spacing="30">
+                    <Label text="Ítems" styleClass="lbl-items-total" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="lblCantidadItems" text="0" styleClass="lbl-items-total" />
+                </HBox>
+                <HBox spacing="30">
+                    <Label text="Total" styleClass="lbl-total-final" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="lblTotal" text="\$0" styleClass="lbl-total-final" />
+                </HBox>
+            </VBox>
+        </HBox>
+
+        <!-- Acciones -->
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <VBox.margin>
+                <Insets top="20" />
+            </VBox.margin>
+            <Button fx:id="btnCancelar" text="Cancelar" styleClass="btn-volver" onAction="#onCancelar" />
+            <Button fx:id="btnGuardar" text="Guardar venta" styleClass="btn-guardar" onAction="#onGuardarVenta" />
+        </HBox>
+
+    </VBox>
+</StackPane>
