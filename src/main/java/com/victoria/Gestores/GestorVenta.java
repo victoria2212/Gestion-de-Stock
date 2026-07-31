@@ -47,23 +47,7 @@ public class GestorVenta {
      * ahora mismo y actualiza con la cantidad restante. GestorVenta nunca toca
      * la tabla de stock directamente: siempre pasa por GestorStock.
      */
-    private void descontarStockVendido(Venta venta) {
-        GestorStock gestorStock = GestorStock.getInstance();
-
-        for (ItemVenta item : venta.getItems()) {
-            Producto producto = item.getProducto();
-            int cantidadVendida = item.getCantidad();
-            Integer idProducto = producto.getId_producto();
-
-            if ("Ropa".equalsIgnoreCase(producto.getTipoProducto())) {
-                int actual = buscarCantidadActual(gestorStock.obtenerStockRopa(), idProducto);
-                gestorStock.actualizarRopa(idProducto, actual - cantidadVendida);
-            } else {
-                int actual = buscarCantidadActualAccs(gestorStock.obtenerStockAccs(), idProducto);
-                gestorStock.actualizarAccs(idProducto, actual - cantidadVendida);
-            }
-        }
-    }
+   
 
     private int buscarCantidadActual(List<RopaStockDTO> stock, Integer idProducto) {
         return stock.stream()
@@ -87,5 +71,32 @@ public class GestorVenta {
 
     public List<Venta> obtenerVentasPorFecha(LocalDate desde, LocalDate hasta) {
         return ventaDao.obtenerVentasPorFecha(desde, hasta);
+    }
+    private void descontarStockVendido(Venta venta) {
+    GestorStock gestorStock = GestorStock.getInstance();
+    List<RopaStockDTO> stockRopa = gestorStock.obtenerStockRopa();
+    List<AccsStockDTO> stockAccs = gestorStock.obtenerStockAccs();
+
+    for (ItemVenta item : venta.getItems()) {
+        Producto producto = item.getProducto();
+        int cantidadVendida = item.getCantidad();
+        Integer idProducto = producto.getId_producto();
+        boolean esRopa = "Ropa".equalsIgnoreCase(producto.getTipoProducto());
+
+        int actual = esRopa
+                ? buscarCantidadActual(stockRopa, idProducto)
+                : buscarCantidadActualAccs(stockAccs, idProducto);
+
+        int restante = actual - cantidadVendida;
+
+        if (restante <= 0) {
+            // se vendió todo lo que quedaba: se da de baja del stock
+            gestorStock.eliminarProductoStock(idProducto);
+        } else if (esRopa) {
+            gestorStock.actualizarRopa(idProducto, restante);
+        } else {
+            gestorStock.actualizarAccs(idProducto, restante);
+            }
+        }
     }
 }

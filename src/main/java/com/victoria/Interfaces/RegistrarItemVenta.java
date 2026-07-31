@@ -12,6 +12,7 @@ import com.victoria.navegation.Navegador;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -22,7 +23,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RegistrarItemVenta{
+public class RegistrarItemVenta {
 
     @FXML private DatePicker dpFecha;
     @FXML private ComboBox<String> cbVendedor;
@@ -31,64 +32,35 @@ public class RegistrarItemVenta{
     @FXML private TableColumn<ItemVenta, Integer> colCantidad;
     @FXML private TableColumn<ItemVenta, Double> colPrecioUnitario;
     @FXML private TableColumn<ItemVenta, Double> colSubtotal;
-    
     @FXML private TableColumn<ItemVenta, Void> colEliminar;
-    
 
     @FXML private Label lblCantidadItems;
     @FXML private Label lblTotal;
 
     private final ObservableList<ItemVenta> items = FXCollections.observableArrayList();
-
-    // Producto -> cantidad disponible, para validar y mostrar en el combo
     private final java.util.Map<Producto, Integer> stockDisponible = new java.util.HashMap<>();
-    private ObservableList<Producto> stockCompleto = FXCollections.observableArrayList();
+    private final ObservableList<Producto> stockCompleto = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
         colSubtotal.setCellFactory(col -> new TableCell<>() {
-
-    @Override
-    protected void updateItem(Double subtotal, boolean empty) {
-
-        super.updateItem(subtotal, empty);
-
-        if(empty || subtotal==null){
-
-            setText(null);
-
-        }else{
-
-            setText("$ " + String.format("%,.0f", subtotal));
-
-         }
-
-        }
-
-    });
-    colPrecioUnitario.setCellFactory(col -> new TableCell<>() {
-    @Override
-    protected void updateItem(Double precio, boolean empty) {
-
-        super.updateItem(precio, empty);
-
-        if(empty || precio==null){
-
-            setText(null);
-
-        }else{
-
-            setText("$ " + String.format("%,.0f", precio));
-
+            @Override
+            protected void updateItem(Double subtotal, boolean empty) {
+                super.updateItem(subtotal, empty);
+                setText(empty || subtotal == null ? null : "$ " + String.format("%,.0f", subtotal));
             }
+        });
 
-        }
+        colPrecioUnitario.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(Double precio, boolean empty) {
+                super.updateItem(precio, empty);
+                setText(empty || precio == null ? null : "$ " + String.format("%,.0f", precio));
+            }
+        });
 
-    });
         dpFecha.setValue(LocalDate.now());
         cbVendedor.setItems(FXCollections.observableArrayList("Victoria", "Otro vendedor"));
-
-        cargarStockDisponible();
 
         tablaItems.setItems(items);
         tablaItems.setEditable(true);
@@ -101,50 +73,58 @@ public class RegistrarItemVenta{
         configurarColumnaCantidad();
         configurarColumnaEliminar();
         configurarTotales();
-        
+
+        cargarStockDisponibleAsync();
     }
 
     /**
-     * Trae el stock de ropa y accesorios vía GestorStock y arma, a partir de los
-     * campos sueltos del DTO, los Producto correspondientes (el DTO no envuelve
-     * un Producto, viene "aplanado" desde la consulta SQL).
-     *
-     * OJO: para RopaStockDTO asumí un campo "tipoRopa" análogo a "tipoAccs" de
-     * AccsStockDTO -- si el getter se llama distinto, avisame y cambio esa línea.
+     * Trae el stock en un hilo aparte para no bloquear el FX Application Thread.
+     * Al terminar, actualiza stockCompleto (que sí es UI) de vuelta en el hilo de FX.
      */
-    private void cargarStockDisponible() {
-        GestorStock gestorStock = GestorStock.getInstance();
+    private void cargarStockDisponibleAsync() {
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() {
+                GestorStock gestorStock = GestorStock.getInstance();
 
-        List<RopaStockDTO> ropa = gestorStock.obtenerStockRopa();
-        List<AccsStockDTO> accs = gestorStock.obtenerStockAccs();
+                List<RopaStockDTO> ropa = gestorStock.obtenerStockRopa();
+                List<AccsStockDTO> accs = gestorStock.obtenerStockAccs();
 
-        ropa.forEach(dto -> {
-            Producto p = new Producto(dto.getDescripcion(), dto.getTalle(), dto.getPrecio(),
-                    dto.getColor(), dto.getMarca(), dto.getTipoRopa(), "Ropa");
-            p.setId_producto(dto.getIdentificador());
-            p.setCodigoProducto(dto.getCodigoProducto());
-            stockDisponible.put(p, dto.getCantidad());
-        });
+                stockDisponible.clear();
 
-        accs.forEach(dto -> {
-            Producto p = new Producto(dto.getDescripcion(), dto.getTalle(), dto.getPrecio(),
-                    dto.getColor(), dto.getMarca(), dto.getTipoAccs(), "Accesorio");
-            p.setId_producto(dto.getIdentificador());
-            p.setCodigoProducto(dto.getCodigoProducto());
-            stockDisponible.put(p, dto.getCantidad());
-        });
+                ropa.forEach(dto -> {
+                    Producto p = new Producto(dto.getDescripcion(), dto.getTalle(), dto.getPrecio(),
+                            dto.getColor(), dto.getMarca(), dto.getTipoRopa(), "Ropa");
+                    p.setId_producto(dto.getIdentificador());
+                    p.setCodigoProducto(dto.getCodigoProducto());
+                    stockDisponible.put(p, dto.getCantidad());
+                });
 
-        // Solo se puede vender lo que tiene cantidad disponible > 0
-        stockCompleto.setAll(
+                accs.forEach(dto -> {
+                    Producto p = new Producto(dto.getDescripcion(), dto.getTalle(), dto.getPrecio(),
+                            dto.getColor(), dto.getMarca(), dto.getTipoAccs(), "Accesorio");
+                    p.setId_producto(dto.getIdentificador());
+                    p.setCodigoProducto(dto.getCodigoProducto());
+                    stockDisponible.put(p, dto.getCantidad());
+                });
+
+                return null;
+            }
+        };
+
+        task.setOnSucceeded(e -> stockCompleto.setAll(
                 stockDisponible.entrySet().stream()
-                        .filter(e -> e.getValue() > 0)
+                        .filter(entry -> entry.getValue() > 0)
                         .map(java.util.Map.Entry::getKey)
                         .collect(Collectors.toList())
-        );
+        ));
+
+        task.setOnFailed(e -> mostrarError("No se pudo cargar el stock disponible."));
+
+        new Thread(task).start();
     }
 
     private String nombreProducto(Producto p) {
-        // Producto no tiene "nombre": lo armamos con marca + tipo + descripción
         return p.getMarca() + " - " + p.getDescripcion();
     }
 
@@ -161,27 +141,24 @@ public class RegistrarItemVenta{
                 configurarAutocompletado(combo);
 
                 combo.setOnAction(e -> {
-                Producto seleccionado = combo.getValue();
-                ItemVenta fila = getTableView().getItems().get(getIndex());
-                boolean repetido = items.stream()
+                    Producto seleccionado = combo.getValue();
+                    if (seleccionado == null) return;
 
-                        .filter(i -> i != fila)
+                    ItemVenta fila = getTableView().getItems().get(getIndex());
+                    boolean repetido = items.stream()
+                            .filter(i -> i != fila)
+                            .anyMatch(i -> i.getProducto() != null
+                                    && i.getProducto().getId_producto().equals(seleccionado.getId_producto()));
 
-                        .anyMatch(i -> i.getProducto()!=null
-                                && i.getProducto().getId_producto()
-                                .equals(seleccionado.getId_producto()));
+                    if (repetido) {
+                        mostrarError("Ese producto ya fue agregado.");
+                        combo.setValue(null);
+                        return;
+                    }
 
-                if(repetido){
-
-                    mostrarError("Ese producto ya fue agregado.");
-
-                    combo.setValue(null);
-
-                    return;
-
-                }
                     fila.setProducto(seleccionado);
                     actualizarTotal();
+                    tablaItems.refresh(); // recalcula el max del spinner de esta fila con el stock real
                 });
             }
 
@@ -216,7 +193,6 @@ public class RegistrarItemVenta{
             }
         });
 
-        // Cada opción del dropdown: marca/descripción + stock disponible + precio
         combo.setCellFactory(lv -> new ListCell<Producto>() {
             @Override
             protected void updateItem(Producto p, boolean empty) {
@@ -237,7 +213,7 @@ public class RegistrarItemVenta{
 
         combo.getEditor().textProperty().addListener((obs, textoAnterior, textoNuevo) -> {
             if (combo.getValue() != null && nombreProducto(combo.getValue()).equals(textoNuevo)) {
-                return; // evita refiltrar apenas se selecciona un producto
+                return;
             }
             List<Producto> filtrados = stockCompleto.stream()
                     .filter(p -> nombreProducto(p).toLowerCase().contains(textoNuevo.toLowerCase())
@@ -247,65 +223,53 @@ public class RegistrarItemVenta{
             combo.show();
         });
     }
+
     private void configurarColumnaCantidad() {
+        colCantidad.setCellFactory(col -> new TableCell<>() {
+            private final Spinner<Integer> spinner = new Spinner<>();
 
-    colCantidad.setCellFactory(col -> new TableCell<>() {
+            {
+                spinner.setEditable(true);
 
-        private final Spinner<Integer> spinner = new Spinner<>();
+                spinner.valueProperty().addListener((obs, anterior, nuevo) -> {
+                    ItemVenta item = getTableView().getItems().get(getIndex());
+                    if (item.getProducto() == null) return;
 
-        {
-            spinner.setEditable(true);
+                    int stock = stockDisponible.getOrDefault(item.getProducto(), 0);
 
-            spinner.valueProperty().addListener((obs, anterior, nuevo) -> {
+                    if (nuevo > stock) {
+                        spinner.getValueFactory().setValue(stock);
+                        item.setCantidad(stock);
+                    } else {
+                        item.setCantidad(nuevo);
+                    }
 
-                ItemVenta item = getTableView().getItems().get(getIndex());
+                    actualizarTotal(); // ya no llamamos a tablaItems.refresh() acá
+                });
+            }
 
-                if (item.getProducto() == null)
+            @Override
+            protected void updateItem(Integer cantidad, boolean empty) {
+                super.updateItem(cantidad, empty);
+
+                if (empty) {
+                    setGraphic(null);
                     return;
-
-                int stock = stockDisponible.getOrDefault(item.getProducto(), 0);
-
-                if (nuevo > stock) {
-                    spinner.getValueFactory().setValue(stock);
-                    item.setCantidad(stock);
-                } else {
-                    item.setCantidad(nuevo);
-                    actualizarTotal();
                 }
 
-                tablaItems.refresh();
-            });
-        }
+                ItemVenta item = getTableView().getItems().get(getIndex());
+                int max = 1;
 
-        @Override
-        protected void updateItem(Integer cantidad, boolean empty) {
+                if (item.getProducto() != null) {
+                    max = stockDisponible.getOrDefault(item.getProducto(), 1);
+                }
 
-            super.updateItem(cantidad, empty);
+                spinner.setValueFactory(
+                        new SpinnerValueFactory.IntegerSpinnerValueFactory(1, max, item.getCantidad()));
 
-            if (empty) {
-                setGraphic(null);
-                return;
-            }
-
-            ItemVenta item = getTableView().getItems().get(getIndex());
-
-            int max = 1;
-
-            if (item.getProducto() != null) {
-                max = stockDisponible.getOrDefault(item.getProducto(), 1);
-            }
-
-            spinner.setValueFactory(
-                    new SpinnerValueFactory.IntegerSpinnerValueFactory(
-                            1,
-                            max,
-                            item.getCantidad()
-                    ));
-
-            setGraphic(spinner);
+                setGraphic(spinner);
             }
         });
-
     }
 
     private void configurarColumnaEliminar() {
@@ -328,22 +292,15 @@ public class RegistrarItemVenta{
         });
     }
 
-   private void configurarTotales() {
-
+    private void configurarTotales() {
         lblCantidadItems.textProperty().bind(Bindings.size(items).asString());
-
         items.addListener((javafx.collections.ListChangeListener<ItemVenta>) c -> actualizarTotal());
-
         actualizarTotal();
     }
-private void actualizarTotal() {
 
-    double total = items.stream()
-            .mapToDouble(ItemVenta::getSubtotal)
-            .sum();
-
+    private void actualizarTotal() {
+        double total = items.stream().mapToDouble(ItemVenta::getSubtotal).sum();
         lblTotal.setText("$" + String.format("%,.0f", total));
-
     }
 
     @FXML
@@ -353,45 +310,43 @@ private void actualizarTotal() {
 
     @FXML
     private void onCancelar() {
-    Navegador.cambiarVista("/com/victoria/Interfaces/MenuPrincipal.fxml");
-    }
-
-   @FXML
-private void onGuardarVenta() {
-
-    if (items.isEmpty()) {
-        mostrarError("Debe agregar al menos un producto.");
-        return;
-    }
-
-    if (cbVendedor.getValue() == null) {
-        mostrarError("Seleccione un vendedor.");
-        return;
-    }
-
-    Venta venta = new Venta();
-    venta.setFecha(dpFecha.getValue());
-    venta.setVendedor(cbVendedor.getValue());
-
-    for (ItemVenta item : items) {
-
-        if (item.getProducto() == null) {
-            mostrarError("Hay productos sin seleccionar.");
-            return;
-        }
-
-        int stock = stockDisponible.getOrDefault(item.getProducto(), 0);
-
-        if (item.getCantidad() > stock) {
-            mostrarError(
-                    "No hay stock suficiente para "
-                            + nombreProducto(item.getProducto()));
-            return;
-        }
-
-        venta.agregarItem(item);
-    }
+        Navegador.cambiarVista("/com/victoria/Interfaces/MenuPrincipal.fxml");
+        
     
+    }
+
+    @FXML
+    private void onGuardarVenta() {
+        if (items.isEmpty()) {
+            mostrarError("Debe agregar al menos un producto.");
+            return;
+        }
+
+        if (cbVendedor.getValue() == null) {
+            mostrarError("Seleccione un vendedor.");
+            return;
+        }
+
+        Venta venta = new Venta();
+        venta.setFecha(dpFecha.getValue());
+        venta.setVendedor(cbVendedor.getValue());
+
+        for (ItemVenta item : items) {
+            if (item.getProducto() == null) {
+                mostrarError("Hay productos sin seleccionar.");
+                return;
+            }
+
+            int stock = stockDisponible.getOrDefault(item.getProducto(), 0);
+
+            if (item.getCantidad() > stock) {
+                mostrarError("No hay stock suficiente para " + nombreProducto(item.getProducto()));
+                return;
+            }
+
+            venta.agregarItem(item);
+        }
+
         GestorVenta.getInstance().registrarVenta(venta);
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -402,26 +357,23 @@ private void onGuardarVenta() {
 
         limpiarFormulario();
     }
-    private void mostrarError(String mensaje) {
 
+    private void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);
         alert.setTitle("Error");
         alert.setContentText(mensaje);
         alert.showAndWait();
-
     }
-    private void limpiarFormulario() {
-        tablaItems.refresh();
 
+    private void limpiarFormulario() {
+        items.clear();
         actualizarTotal();
 
-        items.clear();
-
         dpFecha.setValue(LocalDate.now());
-
         cbVendedor.getSelectionModel().clearSelection();
-
         lblTotal.setText("$0");
+
+        cargarStockDisponibleAsync(); // trae el stock real, ya con lo vendido descontado/borrado
     }
 }
