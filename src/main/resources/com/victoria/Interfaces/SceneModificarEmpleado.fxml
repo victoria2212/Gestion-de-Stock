@@ -6,7 +6,7 @@
 
 <StackPane xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.victoria.Interfaces.ModificarEmpleado"
-           stylesheets="@/com/victoria/styles/estilo-modificar-empleado.css"
+           stylesheets="@../styles/estilo-modificar-empleado.css"
            style="-fx-background-color: #BDD5E5;"
            alignment="CENTER">
 

@@ -310,7 +310,7 @@ public class RegistrarItemVenta {
 
     @FXML
     private void onCancelar() {
-        Navegador.cambiarVista("/com/victoria/Interfaces/MenuPrincipal.fxml");
+        Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
         
     
     }

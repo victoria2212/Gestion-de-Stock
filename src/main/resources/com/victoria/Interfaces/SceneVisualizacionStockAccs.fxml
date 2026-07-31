@@ -6,7 +6,7 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.victoria.Interfaces.VisualizarStockAccs"
-            stylesheets="@/com/victoria/styles/estilo-visualizador-stock.css">
+            stylesheets="@../styles/estilo-visualizador-stock.css">
 
     <!-- Título + Buscador -->
     <top>
