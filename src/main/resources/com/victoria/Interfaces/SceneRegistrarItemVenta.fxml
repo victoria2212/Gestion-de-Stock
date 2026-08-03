@@ -12,6 +12,8 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
 
 <StackPane fx:id="rootVenta" styleClass="root-venta" xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
@@ -39,17 +41,23 @@
             </VBox.margin>
         </Separator>
 
-        <!-- Fecha y vendedor -->
-        <HBox spacing="20">
-            <VBox spacing="4" HBox.hgrow="ALWAYS">
+       <!-- Fecha y vendedor -->
+        <GridPane hgap="20">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="50" hgrow="ALWAYS" />
+                <ColumnConstraints percentWidth="50" hgrow="ALWAYS" />
+            </columnConstraints>
+
+            <VBox spacing="4" GridPane.columnIndex="0">
                 <Label text="Fecha" styleClass="lbl-campo" />
                 <DatePicker fx:id="dpFecha" styleClass="date-venta" maxWidth="Infinity" />
             </VBox>
-            <VBox spacing="4" HBox.hgrow="ALWAYS">
+
+            <VBox spacing="4" GridPane.columnIndex="1">
                 <Label text="Vendedor" styleClass="lbl-campo" />
                 <ComboBox fx:id="cbVendedor" styleClass="campo-venta" maxWidth="Infinity" />
             </VBox>
-        </HBox>
+        </GridPane>
 
         <!-- Tabla de items -->
         <TableView fx:id="tablaItems" styleClass="tabla-venta" editable="true" VBox.vgrow="ALWAYS">
@@ -97,7 +105,7 @@
             <VBox.margin>
                 <Insets top="20" />
             </VBox.margin>
-            <Button fx:id="btnCancelar" text="Cancelar" styleClass="btn-volver" onAction="#onCancelar" />
+            <Button fx:id="btnCancelar" text="Cancelar" styleClass="btn-cancelar" onAction="#onCancelar" />
             <Button fx:id="btnGuardar" text="Guardar venta" styleClass="btn-guardar" onAction="#onGuardarVenta" />
         </HBox>
 

@@ -34,7 +34,7 @@ public class GestionStockAccs {
     public GestorStock gestorStock = GestorStock.getInstance();
     public GestorProducto gestorProducto = GestorProducto.getInstance();
     private ObservableList<AccsStockDTO> listaOriginal;
-    //private DaoProductoImp daoProducto = new DaoProductoImp();
+    
     // Tabla y columnas
     @FXML private TextField txtBuscar;
     @FXML private TableView<AccsStockDTO> tablaStock;

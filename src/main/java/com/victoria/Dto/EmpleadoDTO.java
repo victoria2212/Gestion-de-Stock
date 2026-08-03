@@ -78,6 +78,9 @@ public class EmpleadoDTO {
    public void setFechaInicio(LocalDate fechaInicio) {
     this.fechaInicio = fechaInicio;
    }
+   public String getNombreCompleto() {
+    return nombre + " " + apellido;
+   }
    
 
 }

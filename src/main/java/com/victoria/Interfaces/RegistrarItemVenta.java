@@ -5,6 +5,8 @@ import com.victoria.Clases.Producto;
 import com.victoria.Clases.Venta;
 import com.victoria.Dto.RopaStockDTO;
 import com.victoria.Dto.AccsStockDTO;
+import com.victoria.Dto.EmpleadoDTO;
+import com.victoria.Gestores.GestorEmpleado;
 import com.victoria.Gestores.GestorStock;
 import com.victoria.Gestores.GestorVenta;
 import com.victoria.navegation.Navegador;
@@ -20,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,7 +63,6 @@ public class RegistrarItemVenta {
         });
 
         dpFecha.setValue(LocalDate.now());
-        cbVendedor.setItems(FXCollections.observableArrayList("Victoria", "Otro vendedor"));
 
         tablaItems.setItems(items);
         tablaItems.setEditable(true);
@@ -73,7 +75,7 @@ public class RegistrarItemVenta {
         configurarColumnaCantidad();
         configurarColumnaEliminar();
         configurarTotales();
-
+        cargarVendedores();
         cargarStockDisponibleAsync();
     }
 
@@ -114,6 +116,7 @@ public class RegistrarItemVenta {
 
         task.setOnSucceeded(e -> stockCompleto.setAll(
                 stockDisponible.entrySet().stream()
+                // Solo productos con stock disponible
                         .filter(entry -> entry.getValue() > 0)
                         .map(java.util.Map.Entry::getKey)
                         .collect(Collectors.toList())
@@ -271,6 +274,26 @@ public class RegistrarItemVenta {
             }
         });
     }
+    private void cargarVendedores() {
+
+            List<String> vendedores = new ArrayList<>();
+
+            // Dueño fijo
+            vendedores.add("Mariano Bertero");
+
+            // Empleados cargados en la BD
+            List<EmpleadoDTO> empleados =
+                    GestorEmpleado.getInstance().obtenerEmpleados();
+
+            for (EmpleadoDTO empleado : empleados) {
+
+                vendedores.add(empleado.getNombreCompleto());
+
+            }
+
+            cbVendedor.setItems(
+                    FXCollections.observableArrayList(vendedores));
+        }
 
     private void configurarColumnaEliminar() {
         colEliminar.setCellFactory(col -> new TableCell<ItemVenta, Void>() {

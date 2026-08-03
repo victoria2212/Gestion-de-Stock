@@ -1,3 +1,4 @@
+
 /* ===== REGISTRAR VENTA ===== */
 /* Misma paleta que alta-producto.css: navy #1B2A4A, salmon #C0605A */
 
@@ -178,22 +179,23 @@
     -fx-background-color: #8F3F3A;
 }
 
-.btn-volver {
+.btn-cancelar {
     -fx-background-color: transparent;
     -fx-text-fill: #1B2A4A;
-    -fx-font-size: 12px;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
     -fx-border-color: #1B2A4A;
     -fx-border-width: 1.5;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
-    -fx-padding: 5 12 5 12;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 12 26 12 26;
     -fx-cursor: hand;
 }
 
-.btn-volver:hover {
+.btn-cancelar:hover {
     -fx-background-color: #EBF4FC;
 }
 
-.btn-volver:pressed {
+.btn-cancelar:pressed {
     -fx-background-color: #D6E6F5;
 }

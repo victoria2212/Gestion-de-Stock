@@ -73,29 +73,32 @@ public class GestorVenta {
         return ventaDao.obtenerVentasPorFecha(desde, hasta);
     }
     private void descontarStockVendido(Venta venta) {
-    GestorStock gestorStock = GestorStock.getInstance();
-    List<RopaStockDTO> stockRopa = gestorStock.obtenerStockRopa();
-    List<AccsStockDTO> stockAccs = gestorStock.obtenerStockAccs();
 
-    for (ItemVenta item : venta.getItems()) {
-        Producto producto = item.getProducto();
-        int cantidadVendida = item.getCantidad();
-        Integer idProducto = producto.getId_producto();
-        boolean esRopa = "Ropa".equalsIgnoreCase(producto.getTipoProducto());
+        GestorStock gestorStock = GestorStock.getInstance();
 
-        int actual = esRopa
-                ? buscarCantidadActual(stockRopa, idProducto)
-                : buscarCantidadActualAccs(stockAccs, idProducto);
+        List<RopaStockDTO> stockRopa = gestorStock.obtenerStockRopa();
+        List<AccsStockDTO> stockAccs = gestorStock.obtenerStockAccs();
 
-        int restante = actual - cantidadVendida;
+        for (ItemVenta item : venta.getItems()) {
 
-        if (restante <= 0) {
-            // se vendió todo lo que quedaba: se da de baja del stock
-            gestorStock.eliminarProductoStock(idProducto);
-        } else if (esRopa) {
-            gestorStock.actualizarRopa(idProducto, restante);
-        } else {
-            gestorStock.actualizarAccs(idProducto, restante);
+            Producto producto = item.getProducto();
+            Integer idProducto = producto.getId_producto();
+            int cantidadVendida = item.getCantidad();
+
+            boolean esRopa =
+                    "Ropa".equalsIgnoreCase(producto.getTipoProducto());
+
+            int actual = esRopa
+                    ? buscarCantidadActual(stockRopa, idProducto)
+                    : buscarCantidadActualAccs(stockAccs, idProducto);
+
+            // Nunca dejar un stock negativo. La variable restante para ver cuanta cantidad queda de stock
+            int restante = Math.max(actual - cantidadVendida, 0);
+
+            if (esRopa) {
+                gestorStock.actualizarRopa(idProducto, restante);
+            } else {
+                gestorStock.actualizarAccs(idProducto, restante);
             }
         }
     }
