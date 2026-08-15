@@ -172,6 +172,7 @@ public class ModificarProducto {
 
                 gestorProducto.actualizarProducto(prod);
                 gestorStock.actualizarRopa(ropa.getIdentificador(), ropa.getCantidad());
+                Navegador.cambiarVista("/com/victoria/Interfaces/SceneGestionStockRopa.fxml");
 
             } else if (producto instanceof AccsStockDTO accs) {
                 accs.setDescripcion(txtDescripcion.getText());
@@ -195,9 +196,10 @@ public class ModificarProducto {
 
                 gestorProducto.actualizarProducto(prod);
                 gestorStock.actualizarAccs(accs.getIdentificador(), accs.getCantidad());
+                Navegador.cambiarVista("/com/victoria/Interfaces/SceneGestionStockAccs.fxml");
             }
 
-            Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
+            
 
         } catch (Exception e) {
             e.printStackTrace();

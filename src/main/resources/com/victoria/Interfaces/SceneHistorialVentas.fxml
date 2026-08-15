@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane styleClass="root"
+           xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.victoria.Interfaces.HistorialVentas"
+           stylesheets="@../styles/estilo-historial-ventas.css">
+
+    <VBox styleClass="contenedor-principal"
+          maxWidth="1100"
+          maxHeight="700"
+          alignment="TOP_LEFT"
+          spacing="0">
+
+        <StackPane.margin>
+            <Insets top="40" bottom="40" left="40" right="40"/>
+        </StackPane.margin>
+
+
+        <!-- ENCABEZADO -->
+
+        <HBox alignment="CENTER_LEFT">
+
+            <VBox spacing="2">
+
+                <Label text="Historial de ventas"
+                       styleClass="titulo"/>
+
+                <Label text="Consultá y filtrá las ventas registradas"
+                       styleClass="subtitulo"/>
+
+            </VBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+        </HBox>
+
+
+        <!-- SEPARACIÓN -->
+
+        <HBox prefHeight="20"/>
+
+
+        <!-- FILTROS -->
+
+        <HBox spacing="14"
+              styleClass="filtros">
+
+            <!-- VENDEDOR -->
+
+            <VBox spacing="5"
+                  HBox.hgrow="ALWAYS">
+
+                <Label text="Vendedor"
+                       styleClass="label-filtro"/>
+
+                <ComboBox fx:id="cbVendedor"
+                          promptText="Todos"
+                          maxWidth="Infinity"
+                          styleClass="combo-filtro"/>
+
+            </VBox>
+
+
+            <!-- PRODUCTO -->
+
+            <VBox spacing="5"
+                  HBox.hgrow="ALWAYS">
+
+                <Label text="Producto"
+                       styleClass="label-filtro"/>
+
+                <ComboBox fx:id="cbProducto"
+                          promptText="Todos"
+                          maxWidth="Infinity"
+                          styleClass="combo-filtro"/>
+
+            </VBox>
+
+
+            <!-- FECHA -->
+
+            <VBox spacing="5"
+                  HBox.hgrow="ALWAYS">
+
+                <Label text="Fecha"
+                       styleClass="label-filtro"/>
+
+                <DatePicker fx:id="dpFecha"
+                            promptText="Todas"
+                            maxWidth="Infinity"
+                            styleClass="date-filtro"/>
+
+            </VBox>
+
+
+            <!-- LIMPIAR -->
+
+            <VBox alignment="BOTTOM_CENTER">
+
+                <Button fx:id="btnLimpiar"
+                        text="Limpiar"
+                        styleClass="boton-limpiar"/>
+
+            </VBox>
+
+        </HBox>
+
+
+        <!-- SEPARACIÓN -->
+
+        <HBox prefHeight="18"/>
+
+
+        <!-- LISTA DE VENTAS -->
+
+        <ScrollPane fitToWidth="true"
+                    VBox.vgrow="ALWAYS"
+                    styleClass="scroll-ventas">
+
+            <content>
+
+                <VBox fx:id="contenedorVentas"
+                      spacing="8"
+                      styleClass="lista-ventas"/>
+
+            </content>
+
+        </ScrollPane>
+
+    </VBox>
+
+</StackPane>
