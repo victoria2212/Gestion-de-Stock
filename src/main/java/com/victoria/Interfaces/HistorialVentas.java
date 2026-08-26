@@ -4,6 +4,7 @@ import com.victoria.Clases.ItemVenta;
 import com.victoria.Clases.Producto;
 import com.victoria.Clases.Venta;
 import com.victoria.Gestores.GestorVenta;
+import com.victoria.navegation.Navegador;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,20 +26,19 @@ import java.util.stream.Collectors;
 
 public class HistorialVentas {
 
-    @FXML
-    private ComboBox<String> cbVendedor;
+    @FXML private ComboBox<String> cbVendedor;
 
-    @FXML
-    private ComboBox<String> cbProducto;
+    @FXML private ComboBox<String> cbProducto;
 
-    @FXML
-    private DatePicker dpFecha;
+    @FXML private DatePicker dpFecha;
 
-    @FXML
-    private Button btnLimpiar;
+    @FXML private Button btnLimpiar;
+    @FXML private void volverMenuPrincipal() {
+        Navegador.cambiarVista(
+        "/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
+        }
 
-    @FXML
-    private VBox contenedorVentas;
+    @FXML private VBox contenedorVentas;
 
 
     private final ObservableList<Venta> ventas =
@@ -60,12 +60,10 @@ public class HistorialVentas {
         cargarFiltros();
 
         cbVendedor.setOnAction(e -> aplicarFiltros());
-
         cbProducto.setOnAction(e -> aplicarFiltros());
-
         dpFecha.setOnAction(e -> aplicarFiltros());
-
         btnLimpiar.setOnAction(e -> limpiarFiltros());
+        
 
         mostrarVentas(ventas);
     }

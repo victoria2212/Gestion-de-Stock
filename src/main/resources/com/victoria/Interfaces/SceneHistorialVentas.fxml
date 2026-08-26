@@ -138,6 +138,12 @@
             </content>
 
         </ScrollPane>
+          <!-- BOTÓN VOLVER AL MENÚ -->
+
+        <Button fx:id="btnVolverMenu"
+        text="Volver al menú principal"
+        styleClass="boton-volver"
+        onAction="#volverMenuPrincipal"/>
 
     </VBox>
 

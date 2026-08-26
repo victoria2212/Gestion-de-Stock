@@ -256,10 +256,15 @@
 
 
 /* Datos de productos */
-
-.detalle-venta > .hbox > .label {
+.detalle-venta .label {
     -fx-font-size: 13px;
     -fx-text-fill: #30394a;
+}
+
+.detalle-venta .cabecera-detalle .label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #737b89;
 }
 
 
