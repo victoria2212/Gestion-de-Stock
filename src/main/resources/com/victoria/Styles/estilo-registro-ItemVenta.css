@@ -199,3 +199,12 @@
 .btn-cancelar:pressed {
     -fx-background-color: #D6E6F5;
 }
+/* Centrar texto de los encabezados de columna */
+.tabla-venta .column-header .label {
+    -fx-alignment: CENTER;
+}
+
+/* Centrar contenido de cada celda */
+.tabla-venta .table-cell {
+    -fx-alignment: CENTER;
+}

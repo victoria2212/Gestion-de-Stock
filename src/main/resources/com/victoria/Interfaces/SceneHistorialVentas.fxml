@@ -18,8 +18,8 @@
            stylesheets="@../styles/estilo-historial-ventas.css">
 
     <VBox styleClass="contenedor-principal"
-          maxWidth="1100"
-          maxHeight="700"
+          maxWidth="1250"
+          maxHeight="780"
           alignment="TOP_LEFT"
           spacing="0">
 
@@ -73,15 +73,31 @@
             </VBox>
 
 
-            <!-- PRODUCTO -->
+            <!-- TIPO DE PRODUCTO -->
 
             <VBox spacing="5"
                   HBox.hgrow="ALWAYS">
 
-                <Label text="Producto"
+                <Label text="Tipo de producto"
                        styleClass="label-filtro"/>
 
                 <ComboBox fx:id="cbProducto"
+                          promptText="Todos"
+                          maxWidth="Infinity"
+                          styleClass="combo-filtro"/>
+
+            </VBox>
+
+
+            <!-- MEDIO DE PAGO -->
+
+            <VBox spacing="5"
+                  HBox.hgrow="ALWAYS">
+
+                <Label text="Medio de pago"
+                       styleClass="label-filtro"/>
+
+                <ComboBox fx:id="cbMedioPago"
                           promptText="Todos"
                           maxWidth="Infinity"
                           styleClass="combo-filtro"/>
@@ -138,12 +154,21 @@
             </content>
 
         </ScrollPane>
-          <!-- BOTÓN VOLVER AL MENÚ -->
 
-        <Button fx:id="btnVolverMenu"
-        text="Volver al menú principal"
-        styleClass="boton-volver"
-        onAction="#volverMenuPrincipal"/>
+
+        <!-- SEPARACIÓN -->
+
+        <HBox prefHeight="14"/>
+
+
+        <!-- BOTÓN VOLVER AL MENÚ -->
+
+        <HBox alignment="CENTER_RIGHT">
+            <Button fx:id="btnVolverMenu"
+                    text="← Volver al Menú Principal"
+                    styleClass="btn-volver"
+                    onAction="#volverMenuPrincipal"/>
+        </HBox>
 
     </VBox>
 

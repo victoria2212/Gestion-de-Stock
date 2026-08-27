@@ -28,15 +28,18 @@ public class HistorialVentas {
 
     @FXML private ComboBox<String> cbVendedor;
 
-    @FXML private ComboBox<String> cbProducto;
+    @FXML private ComboBox<String> cbProducto;      // ahora filtra por TIPO de producto (Ropa/Accesorio)
+
+    @FXML private ComboBox<String> cbMedioPago;      // NUEVO
 
     @FXML private DatePicker dpFecha;
 
     @FXML private Button btnLimpiar;
+
     @FXML private void volverMenuPrincipal() {
         Navegador.cambiarVista(
-        "/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
-        }
+                "/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
+    }
 
     @FXML private VBox contenedorVentas;
 
@@ -61,9 +64,10 @@ public class HistorialVentas {
 
         cbVendedor.setOnAction(e -> aplicarFiltros());
         cbProducto.setOnAction(e -> aplicarFiltros());
+        cbMedioPago.setOnAction(e -> aplicarFiltros());   // NUEVO
         dpFecha.setOnAction(e -> aplicarFiltros());
         btnLimpiar.setOnAction(e -> limpiarFiltros());
-        
+
 
         mostrarVentas(ventas);
     }
@@ -106,22 +110,35 @@ public class HistorialVentas {
 
 
         // ------------------------------------------------------
-        // PRODUCTOS
+        // TIPO DE PRODUCTO (Ropa / Accesorio)
         // ------------------------------------------------------
 
-        List<String> productos = ventas.stream()
+        List<String> tiposProducto = ventas.stream()
                 .flatMap(venta -> venta.getItems().stream())
-                .map(this::nombreProducto)
-                .filter(nombre ->
-                        nombre != null &&
-                        !nombre.isBlank()
-                )
+                .map(this::tipoProducto)
+                .filter(tipo -> tipo != null && !tipo.isBlank())
                 .distinct()
                 .sorted()
                 .collect(Collectors.toList());
 
         cbProducto.setItems(
-                FXCollections.observableArrayList(productos)
+                FXCollections.observableArrayList(tiposProducto)
+        );
+
+
+        // ------------------------------------------------------
+        // MEDIO DE PAGO
+        // ------------------------------------------------------
+
+        List<String> mediosPago = ventas.stream()
+                .map(Venta::getMedioPago)
+                .filter(m -> m != null && !m.isBlank())
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+
+        cbMedioPago.setItems(
+                FXCollections.observableArrayList(mediosPago)
         );
     }
 
@@ -135,8 +152,11 @@ public class HistorialVentas {
         String vendedorSeleccionado =
                 cbVendedor.getValue();
 
-        String productoSeleccionado =
+        String tipoSeleccionado =
                 cbProducto.getValue();
+
+        String medioPagoSeleccionado =
+                cbMedioPago.getValue();
 
         LocalDate fechaSeleccionada =
                 dpFecha.getValue();
@@ -177,22 +197,38 @@ public class HistorialVentas {
 
 
                 // ------------------------------------------------
-                // PRODUCTO
+                // TIPO DE PRODUCTO
                 // ------------------------------------------------
 
                 .filter(venta -> {
 
-                    if (productoSeleccionado == null) {
+                    if (tipoSeleccionado == null) {
                         return true;
                     }
 
                     return venta.getItems()
                             .stream()
                             .anyMatch(item ->
-                                    productoSeleccionado.equals(
-                                            nombreProducto(item)
+                                    tipoSeleccionado.equals(
+                                            tipoProducto(item)
                                     )
                             );
+                })
+
+
+                // ------------------------------------------------
+                // MEDIO DE PAGO
+                // ------------------------------------------------
+
+                .filter(venta -> {
+
+                    if (medioPagoSeleccionado == null) {
+                        return true;
+                    }
+
+                    return medioPagoSeleccionado.equals(
+                            venta.getMedioPago()
+                    );
                 })
 
 
@@ -269,7 +305,7 @@ public class HistorialVentas {
             );
         }
 
-        lblFecha.setPrefWidth(130);
+        lblFecha.setPrefWidth(110);
 
         lblFecha.getStyleClass()
                 .add("dato-fecha");
@@ -285,9 +321,25 @@ public class HistorialVentas {
                         : ""
         );
 
-        lblVendedor.setPrefWidth(150);
+        lblVendedor.setPrefWidth(140);
 
         lblVendedor.getStyleClass()
+                .add("dato-vendedor");
+
+
+        // ------------------------------------------------------
+        // MEDIO DE PAGO (NUEVO en el encabezado también)
+        // ------------------------------------------------------
+
+        Label lblMedioPago = new Label(
+                venta.getMedioPago() != null
+                        ? venta.getMedioPago()
+                        : ""
+        );
+
+        lblMedioPago.setPrefWidth(130);
+
+        lblMedioPago.getStyleClass()
                 .add("dato-vendedor");
 
 
@@ -301,7 +353,7 @@ public class HistorialVentas {
                 )
         );
 
-        lblCantidad.setPrefWidth(120);
+        lblCantidad.setPrefWidth(100);
 
         lblCantidad.getStyleClass()
                 .add("dato-cantidad");
@@ -330,6 +382,7 @@ public class HistorialVentas {
         encabezado.getChildren().addAll(
                 lblFecha,
                 lblVendedor,
+                lblMedioPago,
                 lblCantidad,
                 lblTotal
         );
@@ -363,6 +416,53 @@ public class HistorialVentas {
 
         detalle.getStyleClass()
                 .add("detalle-venta");
+
+
+        // ======================================================
+        // RESUMEN: MEDIO DE PAGO Y DESCUENTO
+        // ======================================================
+
+        HBox resumen = new HBox();
+
+        resumen.setSpacing(30);
+
+        resumen.getStyleClass()
+                .add("resumen-detalle");
+
+
+        Label lblMedioPago = new Label(
+                "Medio de pago: "
+                        + (venta.getMedioPago() != null
+                                ? venta.getMedioPago()
+                                : "-")
+        );
+
+        lblMedioPago.getStyleClass()
+                .add("texto-detalle");
+
+
+        Label lblDescuento = new Label(
+                "Descuento: "
+                        + String.format(
+                                "%,.0f",
+                                venta.getDescuentoPorcentaje()
+                        )
+                        + "%"
+        );
+
+        lblDescuento.getStyleClass()
+                .add("texto-detalle");
+
+
+        resumen.getChildren().addAll(
+                lblMedioPago,
+                lblDescuento
+        );
+
+
+        detalle.getChildren().add(
+                resumen
+        );
 
 
         // ======================================================
@@ -535,6 +635,23 @@ public class HistorialVentas {
 
 
     // ==========================================================
+    // TIPO DE PRODUCTO (Ropa / Accesorio) — NUEVO
+    // ==========================================================
+
+    private String tipoProducto(ItemVenta item) {
+
+        Producto producto =
+                item.getProducto();
+
+        if (producto == null) {
+            return "";
+        }
+
+        return producto.getTipoProducto();
+    }
+
+
+    // ==========================================================
     // LIMPIAR FILTROS
     // ==========================================================
 
@@ -547,9 +664,11 @@ public class HistorialVentas {
         cbProducto.getSelectionModel()
                 .clearSelection();
 
+        cbMedioPago.getSelectionModel()
+                .clearSelection();
+
         dpFecha.setValue(null);
 
         mostrarVentas(ventas);
     }
 }
-

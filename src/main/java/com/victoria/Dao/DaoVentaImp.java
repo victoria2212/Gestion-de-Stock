@@ -25,97 +25,100 @@ public class DaoVentaImp implements DaoVenta {
     @Override
     public int altaVenta(Venta venta) {
 
-        String insertVenta = "INSERT INTO ventas (fecha, vendedor, total) VALUES (?, ?, ?);";
-        String insertDetalle = "INSERT INTO detalle_venta (venta_id, producto_id, cantidad, precio_unitario, subtotal) " +
-                "VALUES (?, ?, ?, ?, ?);";
+    String insertVenta =
+        "INSERT INTO ventas (fecha, vendedor, medio_pago, descuento_porcentaje, total) " +
+        "VALUES (?, ?, ?, ?, ?);";
 
-        ConexionDB conexion = new ConexionDB();
-        Connection cn = null;
-        PreparedStatement psVenta = null;
-        PreparedStatement psDetalle = null;
-        ResultSet rsKeys = null;
-        int idVentaGenerado = -1;
+    String insertDetalle = "INSERT INTO detalle_venta (venta_id, producto_id, cantidad, precio_unitario, subtotal) " +
+            "VALUES (?, ?, ?, ?, ?);";
 
-        try {
-            cn = conexion.conectar();
-            cn.setAutoCommit(false); // arranca la transacción
+    ConexionDB conexion = new ConexionDB();
+    Connection cn = null;
+    PreparedStatement psVenta = null;
+    PreparedStatement psDetalle = null;
+    ResultSet rsKeys = null;
+    int idVentaGenerado = -1;
 
-            psVenta = cn.prepareStatement(insertVenta, Statement.RETURN_GENERATED_KEYS);
-            psVenta.setDate(1, java.sql.Date.valueOf(venta.getFecha()));
-            psVenta.setString(2, venta.getVendedor());
-            psVenta.setDouble(3, venta.getTotal());
-            psVenta.executeUpdate();
+    try {
+        cn = conexion.conectar();
+        cn.setAutoCommit(false);
 
-            rsKeys = psVenta.getGeneratedKeys();
-            if (rsKeys.next()) {
-                idVentaGenerado = rsKeys.getInt(1);
-            }
+        psVenta = cn.prepareStatement(insertVenta, Statement.RETURN_GENERATED_KEYS);
+        psVenta.setDate(1, java.sql.Date.valueOf(venta.getFecha()));
+        psVenta.setString(2, venta.getVendedor());
+        psVenta.setString(3, venta.getMedioPago());           // NUEVO
+        psVenta.setDouble(4, venta.getDescuentoPorcentaje());  // NUEVO
+        psVenta.setDouble(5, venta.getTotal());
+        psVenta.executeUpdate();
 
-            psDetalle = cn.prepareStatement(insertDetalle);
-            for (ItemVenta item : venta.getItems()) {
-                psDetalle.setInt(1, idVentaGenerado);
-                psDetalle.setInt(2, item.getProducto().getId_producto());
-                psDetalle.setInt(3, item.getCantidad());
-                psDetalle.setDouble(4, item.getPrecioUnitario());
-                psDetalle.setDouble(5, item.getSubtotal());
-                psDetalle.addBatch();
-            }
-            psDetalle.executeBatch();
-
-            cn.commit();
-            System.out.println("Venta registrada correctamente.");
-
-        } catch (SQLException e) {
-            try {
-                if (cn != null) cn.rollback();
-            } catch (SQLException e2) {
-                e2.printStackTrace();
-            }
-            e.printStackTrace();
-        } finally {
-            try {
-                if (rsKeys != null) rsKeys.close();
-                if (psDetalle != null) psDetalle.close();
-                if (psVenta != null) psVenta.close();
-                if (cn != null) {
-                    cn.setAutoCommit(true);
-                    cn.close();
-                }
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
+        rsKeys = psVenta.getGeneratedKeys();
+        if (rsKeys.next()) {
+            idVentaGenerado = rsKeys.getInt(1);
         }
+
+        psDetalle = cn.prepareStatement(insertDetalle);
+        for (ItemVenta item : venta.getItems()) {
+            psDetalle.setInt(1, idVentaGenerado);
+            psDetalle.setInt(2, item.getProducto().getId_producto());
+            psDetalle.setInt(3, item.getCantidad());
+            psDetalle.setDouble(4, item.getPrecioUnitario());
+            psDetalle.setDouble(5, item.getSubtotal());
+            psDetalle.addBatch();
+        }
+        psDetalle.executeBatch();
+
+        cn.commit();
+
+    } catch (SQLException e) {
+        try {
+            if (cn != null) cn.rollback();
+        } catch (SQLException e2) {
+            e2.printStackTrace();
+        }
+        e.printStackTrace();
+    } finally {
+        try {
+            if (rsKeys != null) rsKeys.close();
+            if (psDetalle != null) psDetalle.close();
+            if (psVenta != null) psVenta.close();
+            if (cn != null) {
+                cn.setAutoCommit(true);
+                cn.close();
+            }
+        } catch (Exception e2) {
+            e2.printStackTrace();
+        }
+    }
 
         return idVentaGenerado;
     }
 
     @Override
     public List<Venta> obtenerHistorialVentas() {
-        String consulta =
-                "SELECT v.id_venta, v.fecha, v.vendedor, v.total, " +
-                "d.cantidad, d.precio_unitario, d.subtotal, " +
-                "p.id AS producto_id, p.tipoProducto, p.descripcion, p.talle, p.precio, " +
-                "p.color, p.marca, p.codigo_producto " +
-                "FROM ventas v " +
-                "JOIN detalle_venta d ON d.venta_id = v.id_venta " +
-                "JOIN producto p ON p.id = d.producto_id " +
-                "ORDER BY v.id_venta;";
+       String consulta =
+        "SELECT v.id_venta, v.fecha, v.vendedor, v.medio_pago, v.descuento_porcentaje, v.total, " +
+        "d.cantidad, d.precio_unitario, d.subtotal, " +
+        "p.id AS producto_id, p.tipoProducto, p.descripcion, p.talle, p.precio, " +
+        "p.color, p.marca, p.codigo_producto " +
+        "FROM ventas v " +
+        "JOIN detalle_venta d ON d.venta_id = v.id_venta " +
+        "JOIN producto p ON p.id = d.producto_id " +
+        "ORDER BY v.id_venta;";
 
         return ejecutarConsultaAgrupada(consulta, null, null);
     }
 
     @Override
     public List<Venta> obtenerVentasPorFecha(LocalDate desde, LocalDate hasta) {
-        String consulta =
-                "SELECT v.id_venta, v.fecha, v.vendedor, v.total, " +
-                "d.cantidad, d.precio_unitario, d.subtotal, " +
-                "p.id AS producto_id, p.tipoProducto, p.descripcion, p.talle, p.precio, " +
-                "p.color, p.marca, p.codigo_producto " +
-                "FROM ventas v " +
-                "JOIN detalle_venta d ON d.venta_id = v.id_venta " +
-                "JOIN producto p ON p.id = d.producto_id " +
-                "WHERE v.fecha BETWEEN ? AND ? " +
-                "ORDER BY v.id_venta;";
+       String consulta =
+        "SELECT v.id_venta, v.fecha, v.vendedor, v.medio_pago, v.descuento_porcentaje, v.total, " +
+        "d.cantidad, d.precio_unitario, d.subtotal, " +
+        "p.id AS producto_id, p.tipoProducto, p.descripcion, p.talle, p.precio, " +
+        "p.color, p.marca, p.codigo_producto " +
+        "FROM ventas v " +
+        "JOIN detalle_venta d ON d.venta_id = v.id_venta " +
+        "JOIN producto p ON p.id = d.producto_id " +
+        "ORDER BY v.id_venta;";
 
         return ejecutarConsultaAgrupada(consulta, desde, hasta);
     }
@@ -144,15 +147,17 @@ public class DaoVentaImp implements DaoVenta {
             Integer idVentaActual = null;
 
             while (rs.next()) {
-                int idVentaFila = rs.getInt("id_venta");
+                 int idVentaFila = rs.getInt("id_venta");
 
                 if (!Integer.valueOf(idVentaFila).equals(idVentaActual)) {
                     ventaActual = new Venta(rs.getDate("fecha").toLocalDate(), rs.getString("vendedor"));
                     ventaActual.setId_venta(idVentaFila);
+                    ventaActual.setMedioPago(rs.getString("medio_pago"));
+                    ventaActual.setDescuentoPorcentaje(rs.getDouble("descuento_porcentaje"));
+                    ventaActual.setTotal(rs.getDouble("total"));   // ← ACÁ, la línea que faltaba
                     ventas.add(ventaActual);
                     idVentaActual = idVentaFila;
                 }
-
                 Producto producto = new Producto(
                         rs.getString("descripcion"),
                         rs.getString("talle"),

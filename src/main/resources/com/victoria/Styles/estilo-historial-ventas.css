@@ -287,3 +287,40 @@
 .venta > .title > .arrow-button > .arrow {
     -fx-background-color: #667085;
 }
+
+/* =====================================================
+   BOTÓN VOLVER AL MENÚ
+   ===================================================== */
+
+.btn-volver {
+    -fx-background-color: transparent;
+    -fx-text-fill: #1B2A4A;
+    -fx-font-size: 12px;
+    -fx-border-color: #1B2A4A;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 5 12 5 12;
+    -fx-cursor: hand;
+}
+
+.btn-volver:hover {
+    -fx-background-color: #EBF4FC;
+}
+
+.btn-volver:pressed {
+    -fx-background-color: #D6E6F5;
+}
+/* =====================================================
+   RESUMEN DEL DETALLE (medio de pago / descuento)
+   ===================================================== */
+
+.resumen-detalle {
+    -fx-padding: 0 0 8px 0;
+}
+
+.resumen-detalle .texto-detalle {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #596273;
+}
