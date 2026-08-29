@@ -477,10 +477,8 @@ public class HistorialVentas {
                 .add("cabecera-detalle");
 
 
-        Label lblProducto =
-                new Label("Producto");
-
-        lblProducto.setPrefWidth(240);
+        Label lblProducto = new Label("Producto");
+        lblProducto.setPrefWidth(280);
 
 
         Label lblPrecio =
@@ -542,18 +540,17 @@ public class HistorialVentas {
         HBox fila = new HBox();
 
         fila.setSpacing(10);
+        fila.setAlignment(Pos.TOP_LEFT);
 
 
         // ------------------------------------------------------
         // PRODUCTO
         // ------------------------------------------------------
 
-        Label lblProducto =
-                new Label(
-                        nombreProducto(item)
-                );
+        Label lblProducto = new Label(nombreProducto(item));
 
-        lblProducto.setPrefWidth(240);
+        lblProducto.setPrefWidth(280);
+        lblProducto.setWrapText(true);
 
 
         // ------------------------------------------------------

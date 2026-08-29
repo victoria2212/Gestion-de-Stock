@@ -488,14 +488,10 @@ public class RegistrarItemVenta {
                         combo.setEditable(true);
 
 
-                        combo.setMaxWidth(
-                                Double.MAX_VALUE
-                        );
+                        combo.setMaxWidth(Double.MAX_VALUE);
 
 
-                        configurarAutocompletado(
-                                combo
-                        );
+                        configurarAutocompletado(combo);
 
 
                         combo.setOnAction(
@@ -750,75 +746,35 @@ public class RegistrarItemVenta {
         );
 
 
-        combo.getEditor()
-                .textProperty()
-                .addListener(
-                        (
-                                observable,
-                                textoAnterior,
-                                textoNuevo
-                        ) -> {
+        combo.getEditor().textProperty().addListener((observable,textoAnterior,textoNuevo) -> {
+                        
+                        if (!combo.isFocused()) {return;}
 
-                            if (
-                                    textoNuevo == null
-                                            || textoNuevo.isEmpty()
-                            ) {
+                        if (textoNuevo == null || textoNuevo.isEmpty()) {
 
-                                combo.setItems(
-                                        stockCompleto
-                                );
-
+                                combo.setItems(stockCompleto);
                                 combo.show();
+                                return;
+                            }
 
+                        if (combo.getValue() != null && nombreProducto(combo.getValue()).equals(textoNuevo)) {
                                 return;
                             }
 
 
-                            if (
-                                    combo.getValue() != null
-                                            && nombreProducto(
-                                            combo.getValue()
-                                    ).equals(
-                                            textoNuevo
-                                    )
-                            ) {
-
-                                return;
-                            }
-
-
-                            List<Producto> filtrados =
-                                    stockCompleto
-                                            .stream()
-
-                                            .filter(
-                                                    producto ->
-
-                                                            nombreProducto(
-                                                                    producto
-                                                            )
+                        List<Producto> filtrados = stockCompleto.stream().filter(
+                                                producto -> nombreProducto(producto)
                                                                     .toLowerCase()
-                                                                    .contains(
-                                                                            textoNuevo
-                                                                                    .toLowerCase()
-                                                                    )
+                                                                    .contains(textoNuevo.toLowerCase())
 
-                                                                    ||
+                                                                ||
 
-                                                            producto.getTalle()
-                                                                    .toLowerCase()
-                                                                    .contains(
-                                                                            textoNuevo
-                                                                                    .toLowerCase()
-                                                                    )
-                                            )
+                                                producto.getTalle().toLowerCase()
+                                                                .contains(textoNuevo.toLowerCase()))
 
-                                            .collect(
-                                                    Collectors.toList()
-                                            );
+                                                .collect( Collectors.toList());
 
-
-                            combo.setItems(
+                                        combo.setItems(
                                     FXCollections.observableArrayList(
                                             filtrados
                                     )
@@ -1331,34 +1287,21 @@ public class RegistrarItemVenta {
         }
 
 
-        for (
-                ItemVenta item :
-                items
-        ) {
+        for (ItemVenta item :items) {
 
-            if (
-                    item.getProducto() == null
-            ) {
+            if (item.getProducto() == null) {
 
-                mostrarError(
-                        "Hay productos sin seleccionar."
-                );
-
+                mostrarError("Hay productos sin seleccionar.");
                 return;
             }
         }
 
 
 
-        if (
-                cbVendedor.getValue() == null
-        ) {
+        if (cbVendedor.getValue() == null) {
 
-            mostrarError(
-                    "Seleccione un vendedor."
-            );
-
-            return;
+            mostrarError("Seleccione un vendedor.");
+                return;
         }
 
 
@@ -1375,10 +1318,7 @@ public class RegistrarItemVenta {
         double porcentajeDescuento = obtenerPorcentajeDescuento();
 
 
-        if (
-                porcentajeDescuento < 0
-                        || porcentajeDescuento > 100
-        ) {
+        if (porcentajeDescuento < 0 || porcentajeDescuento > 100) {
 
             mostrarError(
                     "El descuento debe ser un porcentaje "
@@ -1394,16 +1334,9 @@ public class RegistrarItemVenta {
                 items
         ) {
 
-            int stock =
-                    stockDisponible.getOrDefault(
-                            item.getProducto(),
-                            0
-                    );
+            int stock = stockDisponible.getOrDefault( item.getProducto(), 0);
 
-
-            if (
-                    item.getCantidad() > stock
-            ) {
+            if (item.getCantidad() > stock) {
 
                 mostrarError(
                         "No hay stock suficiente para "
@@ -1428,51 +1361,24 @@ public class RegistrarItemVenta {
         venta.agregarItem(item);
         }
 
+        GestorVenta.getInstance().registrarVenta(venta);
 
-        for (
-                ItemVenta item :
-                items
-        ) {
-
-            venta.agregarItem(
-                    item
-            );
-        }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
 
-        GestorVenta
-                .getInstance()
-                .registrarVenta(
-                        venta
-                );
-
-        Alert alert =
-                new Alert(
-                        Alert.AlertType.INFORMATION
-                );
+        alert.setHeaderText(null);
 
 
-        alert.setHeaderText(
-                null
-        );
+        alert.setTitle("Venta");
 
 
-        alert.setTitle(
-                "Venta"
-        );
-
-
-        alert.setContentText(
-                "La venta se registró correctamente."
-        );
+        alert.setContentText("La venta se registró correctamente.");
 
         alert.showAndWait();
         limpiarFormulario();
     }
 
-    private void mostrarError(
-            String mensaje
-    ) {
+    private void mostrarError(String mensaje) {
 
         Alert alert =
                 new Alert(
@@ -1499,34 +1405,36 @@ public class RegistrarItemVenta {
     }
     private void configurarDescuentoPorMedioPago() {
 
-    cbMedioPago.valueProperty()
-            .addListener(
-                    (observable, valorAnterior, valorNuevo) -> {
+    cbMedioPago.valueProperty().addListener((observable, valorAnterior, valorNuevo) -> {
 
-                        if (valorNuevo == null) {
-                            return;
-                        }
+        if (valorNuevo == null) {
+                return;
+        }
 
-                        if (valorNuevo.equals("Efectivo")) {
+        if (valorNuevo.equals("Efectivo")) {
 
-                            cbDescuento.setValue("15%");
-                            cbDescuento.getEditor().setText("15%");
+                cbDescuento.setValue("15%");
+                cbDescuento.getEditor().setText("15%");
 
-                        } else if (valorNuevo.equals("Transferencia")) {
+        } else if (valorNuevo.equals("Transferencia")) {
 
-                            cbDescuento.setValue("10%");
-                            cbDescuento.getEditor().setText("10%");
-                        }
+                cbDescuento.setValue("10%");
+                cbDescuento.getEditor().setText("10%");
 
-                        actualizarTotal();
-                    }
-            );}
+        } else {
+                // Tarjeta de Débito o Tarjeta de Crédito: sin descuento
+                cbDescuento.setValue("0%");
+                cbDescuento.getEditor().setText("0%");
+        }
 
-    private void limpiarFormulario() {
+        actualizarTotal();});
+        }
 
-        items.clear();
-        actualizarTotal();
-        dpFecha.setValue(LocalDate.now());
+        private void limpiarFormulario() {
+
+                items.clear();
+                actualizarTotal();
+                dpFecha.setValue(LocalDate.now());
 
         cbVendedor
                 .getSelectionModel()
