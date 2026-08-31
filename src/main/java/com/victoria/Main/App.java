@@ -31,18 +31,12 @@ public void start(Stage stage) throws Exception {
     
     Platform.runLater(() -> {
     Navegador.cambiarVista("/com/victoria/Interfaces/SceneInicioSesion.fxml");
-});
+    });
 
-    /*  MOSTRAR PRIMERA VISTA
-    Navegador.cambiarVista("/com/victoria/Interfaces/SceneInicioSesion.fxml");
-    */
 }
     
      public static void main(String[] args) {
         launch(args);  // Llama a start()
     }
     
-
-    
-   
 }

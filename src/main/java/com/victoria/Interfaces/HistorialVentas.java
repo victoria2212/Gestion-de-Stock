@@ -79,12 +79,12 @@ public class HistorialVentas {
 
     private void cargarVentas() {
 
-        List<Venta> historial =
-                GestorVenta.getInstance()
-                        .obtenerHistorialVentas();
+        List<Venta> historial = GestorVenta.getInstance().obtenerHistorialVentas();
+
+        historial.sort((v1, v2) -> v2.getFecha().compareTo(v1.getFecha()));
 
         ventas.setAll(historial);
-    }
+        }
 
 
     // ==========================================================
