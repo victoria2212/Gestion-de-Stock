@@ -1,5 +1,4 @@
 package com.victoria.Dao;
-// el DAO es quien habla con la BD
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

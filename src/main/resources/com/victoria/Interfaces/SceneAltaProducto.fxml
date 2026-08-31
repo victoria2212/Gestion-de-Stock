@@ -7,7 +7,8 @@
 
 <StackPane xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.victoria.Interfaces.AltaProducto"
-           stylesheets="@/com/victoria/styles/estilo-alta-producto.css"
+           stylesheets="@../styles/estilo-alta-producto.css"
+           
            style="-fx-background-color: #BDD5E5;">
 
     <!-- CARD BLANCA centrada -->
