@@ -1,6 +1,9 @@
 # Maven
 target/
 
+# Configuración local (contiene contraseña, no subir)
+config.properties
+
 # Logs de crash de la JVM
 hs_err_pid*.log
 

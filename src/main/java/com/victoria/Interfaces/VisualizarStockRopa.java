@@ -105,17 +105,17 @@ public class VisualizarStockRopa {
             contenedor.setCursor(Cursor.HAND);
 
             contenedor.setOnMouseClicked(event -> {
-                System.out.println(">>> CLICK DETECTADO EN CELDA, index=" + getIndex());
+               // System.out.println(">>> CLICK DETECTADO EN CELDA, index=" + getIndex());
 
                 if (getIndex() < 0 || getIndex() >= getTableView().getItems().size()) {
-                    System.out.println(">>> Index invalido, saliendo.");
+                  //  System.out.println(">>> Index invalido, saliendo.");
                     return;
                 }
 
                 RopaStockDTO producto = getTableView().getItems().get(getIndex());
-                System.out.println(">>> Producto: " + producto.getCodigoProducto());
+               /*  System.out.println(">>> Producto: " + producto.getCodigoProducto());
                 System.out.println(">>> Foto = " +
-                    (producto.getImagen() == null ? "null" : producto.getImagen().length + " bytes"));
+                    (producto.getImagen() == null ? "null" : producto.getImagen().length + " bytes"));*/
 
                 VisorImagen.mostrar(producto.getImagen());
             });
