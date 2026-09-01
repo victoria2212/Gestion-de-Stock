@@ -27,9 +27,12 @@ import com.victoria.navegation.Navegador;
 import com.victoria.utils.FormateadorFechas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.control.TextField;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import com.victoria.utils.VisorImagen;
+import javafx.scene.Cursor;
 
 public class VisualizarStockRopa {
     public GestorStock gestorStock = GestorStock.getInstance();
@@ -90,18 +93,36 @@ public class VisualizarStockRopa {
     colImagen.setCellFactory(col -> new TableCell<>() {
 
         private final ImageView imageView = new ImageView();
+        private final StackPane contenedor = new StackPane(imageView);
 
         {
-            imageView.setFitWidth(140);
-            imageView.setFitHeight(140);
+            setAlignment(Pos.CENTER);
+
+            imageView.setFitWidth(120);
+            imageView.setFitHeight(120);
             imageView.setPreserveRatio(true);
 
-            setAlignment(javafx.geometry.Pos.CENTER);
+            contenedor.setCursor(Cursor.HAND);
+
+            contenedor.setOnMouseClicked(event -> {
+                System.out.println(">>> CLICK DETECTADO EN CELDA, index=" + getIndex());
+
+                if (getIndex() < 0 || getIndex() >= getTableView().getItems().size()) {
+                    System.out.println(">>> Index invalido, saliendo.");
+                    return;
+                }
+
+                RopaStockDTO producto = getTableView().getItems().get(getIndex());
+                System.out.println(">>> Producto: " + producto.getCodigoProducto());
+                System.out.println(">>> Foto = " +
+                    (producto.getImagen() == null ? "null" : producto.getImagen().length + " bytes"));
+
+                VisorImagen.mostrar(producto.getImagen());
+            });
         }
 
         @Override
         protected void updateItem(Void item, boolean empty) {
-
             super.updateItem(item, empty);
 
             if (empty) {
@@ -109,26 +130,19 @@ public class VisualizarStockRopa {
                 return;
             }
 
-            RopaStockDTO producto =
-                    getTableView().getItems().get(getIndex());
-
+            RopaStockDTO producto = getTableView().getItems().get(getIndex());
             byte[] foto = producto.getImagen();
 
             if (foto != null && foto.length > 0) {
-
-                imageView.setImage(
-                        new Image(
-                                new ByteArrayInputStream(foto)));
-
-                setGraphic(imageView);
-
+                imageView.setImage(new Image(new ByteArrayInputStream(foto)));
             } else {
-
-                setGraphic(null);
+                imageView.setImage(null);
             }
+
+            setGraphic(contenedor);
         }
     });
-    }
+}
     // Método para volver al menú principal
     @FXML
     private void volverMenuPrincipal() {

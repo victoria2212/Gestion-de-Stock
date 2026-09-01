@@ -73,12 +73,12 @@
             </VBox>
 
 
-            <!-- TIPO DE PRODUCTO -->
+            <!-- PRODUCTO -->
 
             <VBox spacing="5"
                   HBox.hgrow="ALWAYS">
 
-                <Label text="Tipo de producto"
+                <Label text="Producto"
                        styleClass="label-filtro"/>
 
                 <ComboBox fx:id="cbProducto"

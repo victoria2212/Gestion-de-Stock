@@ -1,13 +1,12 @@
 package com.victoria.Interfaces;
-
-import java.io.ByteArrayInputStream;
-import java.util.List;
-
-import com.victoria.Dto.AccsStockDTO;
-
+import com.victoria.utils.VisorImagen;
 import com.victoria.Gestores.GestorStock;
 import com.victoria.navegation.Navegador;
 import com.victoria.utils.FormateadorFechas;
+import com.victoria.Dto.AccsStockDTO;
+
+import java.io.ByteArrayInputStream;
+import java.util.List;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -23,6 +22,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.Cursor;
+import javafx.scene.layout.StackPane;
 
 
 public class VisualizarStockAccs {
@@ -82,43 +83,56 @@ public class VisualizarStockAccs {
     private void agregarColumnaImagen() {
     colImagen.setCellFactory(col -> new TableCell<>() {
 
-    private final ImageView imageView = new ImageView();
+        private final ImageView imageView = new ImageView();
+        private final StackPane contenedor = new StackPane(imageView);
 
-    {
-        setAlignment(Pos.CENTER);
+        {
+            setAlignment(Pos.CENTER);
 
-        imageView.setFitWidth(120);
-        imageView.setFitHeight(120);
-        imageView.setPreserveRatio(true);
-    }
+            imageView.setFitWidth(120);
+            imageView.setFitHeight(120);
+            imageView.setPreserveRatio(true);
 
-    @Override
-    protected void updateItem(Void item, boolean empty) {
-        super.updateItem(item, empty);
+            contenedor.setCursor(Cursor.HAND);
 
-        if (empty) {
-            setGraphic(null);
-            return;
+            contenedor.setOnMouseClicked(event -> {
+                System.out.println(">>> CLICK DETECTADO EN CELDA, index=" + getIndex());
+
+                if (getIndex() < 0 || getIndex() >= getTableView().getItems().size()) {
+                    System.out.println(">>> Index invalido, saliendo.");
+                    return;
+                }
+
+                AccsStockDTO producto = getTableView().getItems().get(getIndex());
+                System.out.println(">>> Producto: " + producto.getCodigoProducto());
+                System.out.println(">>> Foto = " +
+                    (producto.getImagen() == null ? "null" : producto.getImagen().length + " bytes"));
+
+                VisorImagen.mostrar(producto.getImagen());
+            });
         }
 
-        AccsStockDTO producto =
-                getTableView().getItems().get(getIndex());
+        @Override
+        protected void updateItem(Void item, boolean empty) {
+            super.updateItem(item, empty);
 
-        byte[] foto = producto.getImagen();
-
-        if (foto != null && foto.length > 0) {
-
-            imageView.setImage(
-                new Image(new ByteArrayInputStream(foto))
-            );
-
-            setGraphic(imageView);
-
-        } else {
-            setGraphic(null);
+            if (empty) {
+                setGraphic(null);
+                return;
             }
-        }
-    });
+
+            AccsStockDTO producto = getTableView().getItems().get(getIndex());
+            byte[] foto = producto.getImagen();
+
+            if (foto != null && foto.length > 0) {
+                imageView.setImage(new Image(new ByteArrayInputStream(foto)));
+            } else {
+                imageView.setImage(null);
+            }
+
+            setGraphic(contenedor);
+            }
+        });
     }
     // Método para volver al menú principal
     @FXML

@@ -27,6 +27,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.geometry.Pos;
+import java.io.ByteArrayInputStream;
 
 
 public class RegistrarItemVenta {
@@ -340,35 +345,31 @@ public class RegistrarItemVenta {
                 // ROPA
                 // =================================================
 
-                ropa.forEach(dto -> {
+           ropa.forEach(dto -> {
 
-                    Producto producto =
-                            new Producto(
-                                    dto.getDescripcion(),
-                                    dto.getTalle(),
-                                    dto.getPrecio(),
-                                    dto.getColor(),
-                                    dto.getMarca(),
-                                    dto.getTipoRopa(),
-                                    "Ropa"
-                            );
+                Producto producto =
+                        new Producto(
+                                dto.getDescripcion(),
+                                dto.getTalle(),
+                                dto.getPrecio(),
+                                dto.getColor(),
+                                dto.getMarca(),
+                                dto.getTipoRopa(),
+                                "Ropa"
+                        );
 
+                producto.setId_producto(
+                        dto.getIdentificador());
 
-                    producto.setId_producto(
-                            dto.getIdentificador()
-                    );
+                producto.setCodigoProducto(
+                        dto.getCodigoProducto());
 
+                producto.setFoto(dto.getImagen());  
 
-                    producto.setCodigoProducto(
-                            dto.getCodigoProducto()
-                    );
-
-
-                    stockDisponible.put(
-                            producto,
-                            dto.getCantidad()
-                    );
-                });
+                stockDisponible.put(
+                        producto,
+                        dto.getCantidad());
+        });
 
 
                 // =================================================
@@ -377,32 +378,29 @@ public class RegistrarItemVenta {
 
                 accs.forEach(dto -> {
 
-                    Producto producto =
-                            new Producto(
-                                    dto.getDescripcion(),
-                                    dto.getTalle(),
-                                    dto.getPrecio(),
-                                    dto.getColor(),
-                                    dto.getMarca(),
-                                    dto.getTipoAccs(),
-                                    "Accesorio"
-                            );
+                Producto producto =
+                        new Producto(
+                                dto.getDescripcion(),
+                                dto.getTalle(),
+                                dto.getPrecio(),
+                                dto.getColor(),
+                                dto.getMarca(),
+                                dto.getTipoAccs(),
+                                "Accesorio"
+                        );
 
+                producto.setId_producto(
+                        dto.getIdentificador());
 
-                    producto.setId_producto(
-                            dto.getIdentificador()
-                    );
+                producto.setCodigoProducto(
+                        dto.getCodigoProducto());
 
+                producto.setFoto(dto.getImagen());  
 
-                    producto.setCodigoProducto(
-                            dto.getCodigoProducto()
-                    );
-
-
-                    stockDisponible.put(
-                            producto,
-                            dto.getCantidad()
-                    );
+                stockDisponible.put(
+                        producto,
+                        dto.getCantidad()
+                );
                 });
 
 
@@ -486,13 +484,8 @@ public class RegistrarItemVenta {
 
 
                         combo.setEditable(true);
-
-
                         combo.setMaxWidth(Double.MAX_VALUE);
-
-
                         configurarAutocompletado(combo);
-
 
                         combo.setOnAction(
                                 e -> {
@@ -613,9 +606,7 @@ public class RegistrarItemVenta {
     // AUTOCOMPLETADO DE PRODUCTOS
     // =========================================================
 
-    private void configurarAutocompletado(
-            ComboBox<Producto> combo
-    ) {
+    private void configurarAutocompletado(ComboBox<Producto> combo) {
 
         combo.setItems(
                 stockCompleto
@@ -694,52 +685,46 @@ public class RegistrarItemVenta {
                             );
 
                         } else {
+                                Label nombre =
+                                new Label(nombreProducto(producto)
+                                                + " (talle "
+                                                + producto.getTalle()
+                                                + ")"
+                                );
 
-                            Label nombre =
-                                    new Label(
-                                            nombreProducto(
-                                                    producto
-                                            )
-                                                    + " (talle "
-                                                    + producto.getTalle()
-                                                    + ")"
-                                    );
+                        nombre.getStyleClass().add("item-venta-nombre");
 
+                        int disponible = stockDisponible.getOrDefault(producto,
+                                        0
+                                );
 
-                            nombre.setStyle(
-                                    "-fx-font-size: 13px; "
-                                            + "-fx-text-fill: #1B2A4A;"
-                            );
+                        Label detalle =new Label("Stock: "
+                                                + disponible
+                                                + " · $"
+                                                + producto.getPrecio()
+                                                + " · "
+                                                + producto.getCodigoProducto()
+                                );
 
+                        detalle.getStyleClass().add("item-venta-detalle");
 
-                            int disponible =
-                                    stockDisponible.getOrDefault(
-                                            producto,
-                                            0
-                                    );
+                        ImageView imagen = new ImageView();
+                        imagen.setFitWidth(40);
+                        imagen.setFitHeight(40);
+                        imagen.setPreserveRatio(true);
 
+                        if (producto.getFoto() != null) {
+                        imagen.setImage(
+                                new Image(new ByteArrayInputStream(producto.getFoto()))
+                        );
+                        }
 
-                            Label detalle =
-                                    new Label(
-                                            "Stock: "
-                                                    + disponible
-                                                    + " · $"
-                                                    + producto.getPrecio()
-                                    );
+                        VBox textos = new VBox(nombre, detalle);
 
+                        HBox contenedor = new HBox(8, imagen, textos);
+                        contenedor.setAlignment(Pos.CENTER_LEFT);
 
-                            detalle.setStyle(
-                                    "-fx-font-size: 11px; "
-                                            + "-fx-text-fill: #7C8AA0;"
-                            );
-
-
-                            setGraphic(
-                                    new VBox(
-                                            nombre,
-                                            detalle
-                                    )
-                            );
+                        setGraphic(contenedor);
                         }
                     }
                 }

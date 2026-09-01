@@ -208,3 +208,25 @@
 .tabla-venta .table-cell {
     -fx-alignment: CENTER;
 }
+/* ===== Combo de productos: labels del dropdown ===== */
+
+.item-venta-nombre {
+    -fx-font-size: 13px;
+    -fx-text-fill: #1B2A4A;
+}
+
+.item-venta-detalle {
+    -fx-font-size: 11px;
+    -fx-text-fill: #7C8AA0;
+}
+
+/* Al pasar el mouse (hover) o seleccionar la fila del dropdown */
+.combo-producto .list-cell:hover .item-venta-detalle,
+.combo-producto .list-cell:filled:selected .item-venta-detalle {
+    -fx-text-fill: #FFFFFF;
+}
+
+.combo-producto .list-cell:hover .item-venta-nombre,
+.combo-producto .list-cell:filled:selected .item-venta-nombre {
+    -fx-text-fill: #FFFFFF;
+}

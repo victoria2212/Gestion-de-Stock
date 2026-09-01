@@ -61,7 +61,8 @@ public class DaoProductoImp implements DaoProducto {
             String tipoNorm = producto.getTipo().trim().toUpperCase().replaceAll("\\s+", "");
             String marcaNorm = producto.getMarca().trim().toUpperCase().replaceAll("\\s+", "");
             String ropaNorm = producto.getTipoProducto().trim().toUpperCase().replaceAll("\\s+", "");
-            String codigoProducto = tipoNorm + "-" + marcaNorm + "-" + ropaNorm + "-" + idGenerado;
+            String colorNorm = producto.getColor().trim().toUpperCase().replaceAll("\\s+", "");
+            String codigoProducto = tipoNorm + "-" + marcaNorm + "-" + ropaNorm + "-" + colorNorm + "-" + idGenerado;
 
             String update = "UPDATE producto SET codigo_producto = ? WHERE id = ?";
             csUpdate = cn.prepareStatement(update);
@@ -203,12 +204,12 @@ public class DaoProductoImp implements DaoProducto {
 
             ps.executeUpdate();
 
-            // REGENERAR CÓDIGO
+           // REGENERAR CÓDIGO
             String tipoNorm = producto.getTipo().trim().toUpperCase().replaceAll("\\s+", "");
             String marcaNorm = producto.getMarca().trim().toUpperCase().replaceAll("\\s+", "");
             String tipoProductoNorm = producto.getTipoProducto().trim().toUpperCase().replaceAll("\\s+", "");
-            String codigoProducto = tipoNorm + "-" + marcaNorm + "-" + tipoProductoNorm + "-" + producto.getId_producto();
-
+            String colorNorm = producto.getColor().trim().toUpperCase().replaceAll("\\s+", "");
+            String codigoProducto = tipoNorm + "-" + marcaNorm + "-" + tipoProductoNorm + "-" + colorNorm + "-" + producto.getId_producto();
             String updateCodigo = "UPDATE producto SET codigo_producto = ? WHERE id = ?";
             psUpdate = cn.prepareStatement(updateCodigo);
             psUpdate.setString(1, codigoProducto);
