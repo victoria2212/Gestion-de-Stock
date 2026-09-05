@@ -3,35 +3,47 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.victoria.Interfaces.VisualizarStockAccs"
             stylesheets="@../styles/estilo-visualizador-stock.css">
 
-    <!-- Título + Buscador -->
     <top>
-
         <VBox spacing="10">
 
-            <Label text="STOCK DE ACCESORIOS"
-                   styleClass="titulo"
-                   maxWidth="Infinity"
-                   alignment="CENTER"/>
+            <HBox alignment="CENTER_LEFT" spacing="16" styleClass="cabecera-titulo">
 
-            <HBox alignment="CENTER_RIGHT">
+                <VBox.margin>
+                    <Insets top="30" left="20" right="20"/>
+                </VBox.margin>
 
-                <padding>
-                    <Insets right="20"/>
-                </padding>
+                <HBox alignment="CENTER" spacing="6" styleClass="badge-contador">
+                    <ImageView fitWidth="16" fitHeight="16" preserveRatio="true">
+                        <image>
+                            <Image url="@../images/iconomochila.png"/>
+                        </image>
+                    </ImageView>
+                    <Label fx:id="lblCantidadProductos" text="0 productos" styleClass="badge-texto"/>
+                </HBox>
+
+                <VBox styleClass="bloque-titulo">
+                    <Label text="Stock de Accesorios"
+                        styleClass="titulo"/>
+                    <Label text="Consultá el inventario disponible"
+                        styleClass="subtitulo-stock"/>
+                </VBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
 
                 <TextField fx:id="txtBuscar"
-                           promptText="🔍 Buscar accesorio..."
-                           prefWidth="280"/>
+                        promptText="🔍 Buscar accesorio..."
+                        prefWidth="280"/>
 
             </HBox>
 
         </VBox>
-
     </top>
 
     <!-- Tabla -->

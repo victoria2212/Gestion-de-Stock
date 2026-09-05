@@ -50,6 +50,7 @@ public class VisualizarStockRopa {
     @FXML private TableColumn<RopaStockDTO, String> colCodigo;
     @FXML private TableColumn<RopaStockDTO, String> colFechaActualizacion;
     @FXML private TableColumn<RopaStockDTO, Void> colImagen;
+    @FXML private javafx.scene.control.Label lblCantidadProductos;
 
     // Inicializador del controlador
 
@@ -88,6 +89,14 @@ public class VisualizarStockRopa {
         agregarColumnaImagen();
         cargarDatos();
         configurarBuscador();
+    }
+    private void actualizarContador(int cantidad) {
+
+    String texto = cantidad == 1
+            ? "1 producto"
+            : cantidad + " productos";
+
+        lblCantidadProductos.setText(texto);
     }
     private void agregarColumnaImagen() {
     colImagen.setCellFactory(col -> new TableCell<>() {
@@ -157,7 +166,8 @@ public class VisualizarStockRopa {
     listaOriginal =
         FXCollections.observableArrayList(listaDTO);
 
-    tablaStock.setItems(listaOriginal);
+        tablaStock.setItems(listaOriginal);
+        actualizarContador(listaOriginal.size());  
     }
     private void configurarBuscador() {
 
@@ -197,7 +207,7 @@ public class VisualizarStockRopa {
                     .contains(filtro);
         });
     });
-
+    actualizarContador(filtrada.size());   // ← NUEVO
     SortedList<RopaStockDTO> ordenada =
         new SortedList<>(filtrada);
 

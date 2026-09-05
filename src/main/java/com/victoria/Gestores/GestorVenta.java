@@ -102,4 +102,7 @@ public class GestorVenta {
             }
         }
     }
+    public int contarVentasPorVendedor(String nombreCompleto) {
+        return ventaDao.contarVentasPorVendedor(nombreCompleto);
+    }
 }

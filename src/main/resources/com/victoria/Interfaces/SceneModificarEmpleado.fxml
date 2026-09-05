@@ -79,7 +79,14 @@
                               -fx-border-color: #c5d5e8; -fx-font-size: 13px;
                               -fx-padding: 6 10 6 10;"/>
 
-            <Label text="Fecha Alta" GridPane.rowIndex="5" GridPane.columnIndex="0"
+              <Label text="Rol" GridPane.rowIndex="5" GridPane.columnIndex="0"
+                     style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
+              <ComboBox fx:id="cbRol" promptText="Seleccione un rol" prefWidth="280"
+                     GridPane.rowIndex="5" GridPane.columnIndex="1"
+                     style="-fx-background-radius: 8; -fx-border-radius: 8;
+                            -fx-border-color: #c5d5e8; -fx-font-size: 13px;"/>
+
+            <Label text="Fecha Alta" GridPane.rowIndex="6" GridPane.columnIndex="0"
                    style="-fx-font-size: 13px; -fx-text-fill: #1a2a4a;"/>
             <DatePicker fx:id="dpDiaAlta" prefWidth="280"
                         disable="true"

@@ -78,7 +78,7 @@ public class RegistroEmpleado {
 
         if (!gestorEmpleado.existeEmpleado(documento)) {
             // Pasá contacto al constructor de Empleado si ya lo agregaste al modelo
-            Empleado nuevoEmpleado = new Empleado(documento, nombre, apellido, direc, contacto);
+            Empleado nuevoEmpleado = new Empleado(documento, nombre, apellido, direc, contacto, rol);
             gestorEmpleado.agregarEmpleado(nuevoEmpleado);
             mostrarAlerta("Empleado registrado con éxito.");
             limpiarCampos();

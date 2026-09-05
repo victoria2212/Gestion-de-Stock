@@ -13,6 +13,7 @@ public interface DaoEmpleado {
     public boolean existeEmpleado(Integer dni);
     void modificarEmpleado(EmpleadoDTO empleado);
     void eliminarEmpleado(Integer dni);
+    void actualizarUltimaConexion(Integer dni);
 
 
 }

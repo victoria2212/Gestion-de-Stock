@@ -42,7 +42,7 @@ public class VisualizarStockAccs {
     @FXML private TableColumn<AccsStockDTO, String> colCodigo;
     @FXML private TableColumn<AccsStockDTO, String> colFechaActualizacion;
     @FXML private TableColumn<AccsStockDTO, Void> colImagen;
-
+    @FXML private javafx.scene.control.Label lblCantidadProductos;
     // Inicializador del controlador
 
     @FXML
@@ -79,6 +79,14 @@ public class VisualizarStockAccs {
         agregarColumnaImagen();
         cargarDatos();
         configurarBuscador();
+    }
+    private void actualizarContador(int cantidad) {
+
+    String texto = cantidad == 1
+            ? "1 producto"
+            : cantidad + " productos";
+
+        lblCantidadProductos.setText(texto);
     }
     private void agregarColumnaImagen() {
     colImagen.setCellFactory(col -> new TableCell<>() {
@@ -144,10 +152,10 @@ public class VisualizarStockAccs {
         List<AccsStockDTO> listaDTO =
             gestorStock.obtenerStockAccs();
 
-    listaOriginal =
-            FXCollections.observableArrayList(listaDTO);
+        listaOriginal = FXCollections.observableArrayList(listaDTO);
 
-    tablaStock.setItems(listaOriginal);
+        tablaStock.setItems(listaOriginal);
+        actualizarContador(listaOriginal.size());   // ← NUEVO
     }
     private void configurarBuscador() {
 
@@ -171,6 +179,7 @@ public class VisualizarStockAccs {
                     || producto.getCodigoProducto().toLowerCase().contains(filtro);
         });
     });
+    actualizarContador(filtrada.size());   // ← NUEVO
 
     SortedList<AccsStockDTO> ordenada =
             new SortedList<>(filtrada);
@@ -179,6 +188,7 @@ public class VisualizarStockAccs {
             .bind(tablaStock.comparatorProperty());
 
     tablaStock.setItems(ordenada);
+    
 }
 
 }

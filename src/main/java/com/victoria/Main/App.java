@@ -25,7 +25,7 @@ public void start(Stage stage) throws Exception {
     Scene scene = new Scene(root);
 
     stage.setScene(scene);
-    stage.setTitle("Sistema de Gestión de Stock");
+    stage.setTitle("Sistema de Gestión");
     stage.setMaximized(true);
     stage.show();
     

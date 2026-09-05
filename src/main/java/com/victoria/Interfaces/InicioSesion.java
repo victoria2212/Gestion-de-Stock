@@ -36,24 +36,29 @@ public class InicioSesion {
     @FXML
     private void handleIngresar() {
 
-        String dniTexto = campoDni.getText().trim();
-       // Validar que no esté vacío
-        if (dniTexto.isEmpty()) {
-            mostrarAlerta("Debe ingresar su DNI.");
-            return;
-        }
+    String dniTexto = campoDni.getText().trim();
 
-        int dni=Integer.parseInt(dniTexto);  
+    if (dniTexto.isEmpty()) {
+        mostrarAlerta("Debe ingresar su DNI.");
+        return;
+    }
 
-    // Usar el gestor para consultar en la BD
+    int dni = Integer.parseInt(dniTexto);
+
     GestorEmpleado gestor = GestorEmpleado.getInstance();
     GestorTienda gestorTienda = GestorTienda.getInstance();
-        if (gestor.existeEmpleado(dni) || gestorTienda.esOwner(dni)) {
-            // Aquí podrías cambiar de pantalla
-            Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
-        
-        } else {
-            mostrarAlerta("El DNI ingresado no se encuentra registrado.");
+
+    if (gestor.existeEmpleado(dni)) {
+
+        gestor.actualizarUltimaConexion(dni);   // ← NUEVO
+        Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
+
+    } else if (gestorTienda.esOwner(dni)) {
+
+        Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
+
+    } else {
+        mostrarAlerta("El DNI ingresado no se encuentra registrado.");
         }
     }
 

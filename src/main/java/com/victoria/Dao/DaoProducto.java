@@ -1,6 +1,7 @@
 package com.victoria.Dao;
 // el DAO es quien habla con la BD
 import java.util.ArrayList;
+import java.util.List;
 
 import com.victoria.Clases.Producto;
 
@@ -12,6 +13,7 @@ public interface DaoProducto {
     public Integer existeProducto(String descripcion, String marca, String color, String talle, String tipo, String tipoProducto);
     public void modificarProducto(Producto producto);
     public byte[] obtenerFoto(Integer idProducto);
+    public List<String> obtenerTiposExistentes(String tipoProducto);
 }
 
 

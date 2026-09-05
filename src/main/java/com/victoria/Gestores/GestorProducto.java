@@ -1,6 +1,7 @@
 package com.victoria.Gestores;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.victoria.Clases.Producto;
 import com.victoria.Dao.DaoProducto;
@@ -48,6 +49,9 @@ public class GestorProducto {
     }
    public byte[] obtenerFoto(Integer idProducto) {
     return productoDao.obtenerFoto(idProducto);
+    }
+    public List<String> obtenerTiposExistentes(String tipoProducto) {
+        return productoDao.obtenerTiposExistentes(tipoProducto);
     }
 
 }

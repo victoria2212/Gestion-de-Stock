@@ -9,4 +9,5 @@ public interface DaoVenta {
     public int altaVenta(Venta venta);
     public List<Venta> obtenerHistorialVentas();
     public List<Venta> obtenerVentasPorFecha(LocalDate desde, LocalDate hasta);
+    int contarVentasPorVendedor(String nombreCompleto);
 }

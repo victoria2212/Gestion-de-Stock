@@ -5,70 +5,104 @@
     -fx-background-color: #D6E6F5;
 }
 
-/* ===== TITULO ===== */
+/* ===== CABECERA ===== */
+
+.bloque-titulo {
+    -fx-border-color: transparent transparent transparent #C0605A;
+    -fx-border-width: 0 0 0 4;
+    -fx-padding: 2 0 2 14;
+}
 
 .titulo {
-    -fx-font-size: 18px;
+    -fx-font-size: 22px;
     -fx-font-weight: bold;
     -fx-text-fill: #0C447C;
-    -fx-padding: 16 0 10 0;
 }
 
-/* ===== TABLA ===== */
+.subtitulo-stock {
+    -fx-font-size: 13px;
+    -fx-text-fill: #6C7A8C;
+    -fx-padding: 4 0 0 0;
+}
 
-.table-view {
+.badge-contador {
+    -fx-background-color: #0C447C;
+    -fx-background-radius: 20;
+    -fx-padding: 8 16 8 16;
+}
+
+.badge-icono {
+    -fx-font-size: 14px;
+}
+
+.badge-texto {
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+/* ===== SCROLL Y GRILLA DE TARJETAS ===== */
+
+.scroll-empleados {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.scroll-empleados .viewport {
+    -fx-background-color: transparent;
+}
+
+.grid-empleados {
+    -fx-background-color: transparent;
+}
+
+/* ===== TARJETA DE EMPLEADO ===== */
+
+.tarjeta-empleado {
     -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
     -fx-border-color: #C0605A;
-    -fx-border-width: 1.5;
+    -fx-border-width: 1;
+    -fx-padding: 14;
+    -fx-pref-width: 300;
 }
 
-.table-view .column-header-background {
-    -fx-background-color: #D6E6F5;
+.avatar-empleado {
+    -fx-background-color: #E6F1FB;
+    -fx-background-radius: 50%;
+    -fx-min-width: 36;
+    -fx-min-height: 36;
+    -fx-max-width: 36;
+    -fx-max-height: 36;
+    -fx-alignment: center;
 }
 
-.table-view .column-header .label {
+.avatar-empleado .label {
     -fx-text-fill: #0C447C;
     -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.nombre-empleado {
+    -fx-text-fill: #1B2A4A;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.dni-empleado {
+    -fx-text-fill: #6C7A8C;
     -fx-font-size: 12px;
 }
 
-.table-view .column-header {
-    -fx-border-color: transparent transparent #C0605A transparent;
-    -fx-border-width: 0 0 2 0;
+.dato-empleado {
+    -fx-text-fill: #6C7A8C;
+    -fx-font-size: 12px;
 }
 
-.table-view .filler {
-    -fx-background-color: #D6E6F5;
-    -fx-border-color: transparent transparent #C0605A transparent;
-    -fx-border-width: 0 0 2 0;
-}
-
-.table-row-cell {
-    -fx-border-color: transparent transparent #d0dce8 transparent;
-    -fx-border-width: 0 0 1 0;
-    -fx-cell-size: 36px;
-}
-
-.table-row-cell:odd {
-    -fx-background-color: #F0F5FB;
-}
-
-.table-row-cell:even {
-    -fx-background-color: white;
-}
-
-/* ===== FILA SELECCIONADA ===== */
-
-.table-row-cell:selected {
-    -fx-background-color: #0C447C;
-}
-
-.table-row-cell:selected .text {
-    -fx-fill: white;
-}
-
-.table-row-cell:focused:selected {
-    -fx-background-color: #90C09C;
+.separador-tarjeta {
+    -fx-background-color: #E5E5E5;
+    -fx-pref-height: 1;
 }
 
 /* ===== BOTON MODIFICAR ===== */
@@ -81,8 +115,9 @@
     -fx-border-color: transparent;
     -fx-border-radius: 6;
     -fx-background-radius: 6;
-    -fx-padding: 4 10 4 10;
+    -fx-padding: 6 0 6 0;
     -fx-cursor: hand;
+    -fx-max-width: Infinity;
 }
 
 .btn-modificar:hover {
@@ -103,8 +138,9 @@
     -fx-border-color: transparent;
     -fx-border-radius: 6;
     -fx-background-radius: 6;
-    -fx-padding: 4 10 4 10;
+    -fx-padding: 6 0 6 0;
     -fx-cursor: hand;
+    -fx-max-width: Infinity;
 }
 
 .btn-eliminar:hover {
@@ -115,22 +151,9 @@
     -fx-background-color: #083366;
 }
 
-/* Mantener colores de botones cuando la fila está seleccionada */
-
-.table-row-cell:selected .btn-modificar,
-.table-row-cell:focused:selected .btn-modificar,
-.table-row-cell:filled:selected .btn-modificar,
-.table-row-cell:filled:selected:focused .btn-modificar {
-    -fx-background-color: #96453F;
-    -fx-text-fill: white;
-}
-
-.table-row-cell:selected .btn-eliminar,
-.table-row-cell:focused:selected .btn-eliminar,
-.table-row-cell:filled:selected .btn-eliminar,
-.table-row-cell:filled:selected:focused .btn-eliminar {
-    -fx-background-color: #101C35;
-    -fx-text-fill: white;
+.btn-modificar .text,
+.btn-eliminar .text {
+    -fx-fill: white;
 }
 
 /* ===== BOTONES INFERIORES ===== */
@@ -155,14 +178,26 @@
 .btn-principal:pressed {
     -fx-background-color: #D6E6F5;
 }
-.btn-modificar,
-.btn-modificar .text {
+.badge-rol-admin {
+    -fx-background-color: #C0605A;
     -fx-text-fill: white;
-    -fx-fill: white;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 3 10 3 10;
 }
 
-.btn-eliminar,
-.btn-eliminar .text {
+.badge-rol-empleado {
+    -fx-background-color: #6C7A8C;
     -fx-text-fill: white;
-    -fx-fill: white;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 3 10 3 10;
+}
+
+.dato-empleado-destacado {
+    -fx-text-fill: #0C447C;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
 }

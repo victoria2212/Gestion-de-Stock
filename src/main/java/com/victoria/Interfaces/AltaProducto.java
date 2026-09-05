@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 import com.victoria.Clases.Accesorio;
 import com.victoria.Clases.Producto;
@@ -13,6 +15,8 @@ import com.victoria.Gestores.GestorProducto;
 import com.victoria.Gestores.GestorStock;
 import com.victoria.navegation.Navegador;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -44,22 +48,22 @@ public class AltaProducto {
     @FXML private Label lblNombreFoto;
     @FXML private Label lblSinImagen;
 
-    private byte[] fotoBytes = null; // ← guardamos los bytes, no el File
+    private byte[] fotoBytes = null;
+
+    // Listas completas (sugerencias base + lo ya cargado en la BD)
+    private final ObservableList<String> tiposRopaCompleto = FXCollections.observableArrayList();
+    private final ObservableList<String> tiposAccesorioCompleto = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
-        
+
         cbTipoProducto.getItems().addAll("Ropa", "Accesorio");
 
-        cbTipoRopa.getItems().addAll(
-            "Remeras", "Musculosas", "Deportivo", "Pantalones", "Buzos",
-            "Pulovers", "Chombas", "Boxer", "Campera", "Malla",
-            "Bermuda", "Camisa", "Zapatillas"
-        );
+        cargarTiposRopa();
+        cargarTiposAccesorio();
 
-        cbTipoAccesorio.getItems().addAll(
-            "Gorra", "Gorro", "Medias", "Lentes", "Cinto", "Mochila", "Pulsera", "Collar"
-        );
+        configurarComboEditable(cbTipoRopa, tiposRopaCompleto);
+        configurarComboEditable(cbTipoAccesorio, tiposAccesorioCompleto);
 
         SpinnerValueFactory<Integer> valueFactory =
             new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, 0);
@@ -105,19 +109,102 @@ public class AltaProducto {
                 cbTipoRopa.setDisable(false);
                 cbTipoAccesorio.setDisable(true);
                 cbTipoAccesorio.setValue(null);
+                cbTipoAccesorio.getEditor().clear();
             } else if ("Accesorio".equals(seleccion)) {
                 cbTipoRopa.setDisable(true);
                 cbTipoAccesorio.setDisable(false);
                 cbTipoRopa.setValue(null);
+                cbTipoRopa.getEditor().clear();
             }
         });
 
         guardarButton.setOnAction(e -> guardarProducto());
     }
 
+    // =========================================================
+    // CARGAR TIPOS DE ROPA (sugerencias base + ya cargados en BD)
+    // =========================================================
+
+    private void cargarTiposRopa() {
+
+        LinkedHashSet<String> combinados = new LinkedHashSet<>();
+
+        combinados.addAll(List.of(
+            "Remeras", "Musculosas", "Deportivo", "Pantalones", "Buzos",
+            "Pulovers", "Chombas", "Boxer", "Campera", "Malla",
+            "Bermuda", "Camisa", "Zapatillas"
+        ));
+
+        combinados.addAll(gestorProducto.obtenerTiposExistentes("Ropa"));
+
+        tiposRopaCompleto.setAll(combinados);
+    }
+
+    // =========================================================
+    // CARGAR TIPOS DE ACCESORIO (sugerencias base + ya cargados en BD)
+    // =========================================================
+
+    private void cargarTiposAccesorio() {
+
+        LinkedHashSet<String> combinados = new LinkedHashSet<>();
+
+        combinados.addAll(List.of(
+            "Gorra", "Gorro", "Medias", "Lentes", "Cinto", "Mochila", "Pulsera", "Collar"
+        ));
+
+        combinados.addAll(gestorProducto.obtenerTiposExistentes("Accesorio"));
+
+        tiposAccesorioCompleto.setAll(combinados);
+    }
+
+    // =========================================================
+    // CONFIGURAR COMBO EDITABLE CON AUTOCOMPLETADO
+    // =========================================================
+
+    private void configurarComboEditable(ComboBox<String> combo, ObservableList<String> opcionesCompletas) {
+
+        combo.setEditable(true);
+        combo.setItems(opcionesCompletas);
+
+        combo.getEditor().textProperty().addListener((observable, textoAnterior, textoNuevo) -> {
+
+            if (!combo.isFocused()) {
+                return;
+            }
+
+            if (textoNuevo == null || textoNuevo.isEmpty()) {
+                combo.setItems(opcionesCompletas);
+                combo.show();
+                return;
+            }
+
+            List<String> filtrados = opcionesCompletas.stream()
+                    .filter(tipo -> tipo.toLowerCase().contains(textoNuevo.toLowerCase()))
+                    .toList();
+
+            combo.setItems(FXCollections.observableArrayList(filtrados));
+            combo.show();
+        });
+    }
+
+    // =========================================================
+    // OBTENER EL VALOR ESCRITO/SELECCIONADO DE UN COMBO EDITABLE
+    // =========================================================
+
+    private String obtenerValorCombo(ComboBox<String> combo) {
+
+        String texto = combo.getEditor().getText();
+
+        if (texto == null || texto.trim().isEmpty()) {
+            return null;
+        }
+
+        return texto.trim();
+    }
+
     @FXML
     private void seleccionarFoto() {
-        
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar foto del producto");
         fileChooser.getExtensionFilters().add(
@@ -126,16 +213,13 @@ public class AltaProducto {
 
         Stage stage = (Stage) btnSeleccionarFoto.getScene().getWindow();
         File archivo = fileChooser.showOpenDialog(stage);
-        
 
         if (archivo != null) {
             try {
-                // Convertir el archivo a bytes para guardar en la BD
                 fotoBytes = Files.readAllBytes(archivo.toPath());
 
-                // Mostrar preview en la UI
                 Image imagen = new Image(archivo.toURI().toString());
-                
+
                 imgPreview.setImage(imagen);
                 imgPreview.setVisible(true);
                 imgPreview.setManaged(true);
@@ -171,12 +255,16 @@ public class AltaProducto {
             mostrarAlerta("Por favor, completá todos los campos obligatorios.");
             return;
         }
-        if ("Ropa".equals(tipoProducto) && cbTipoRopa.getValue() == null) {
-            mostrarAlerta("Seleccioná un tipo de ropa.");
+
+        String tipoRopa = obtenerValorCombo(cbTipoRopa);
+        String tipoAccesorio = obtenerValorCombo(cbTipoAccesorio);
+
+        if ("Ropa".equals(tipoProducto) && tipoRopa == null) {
+            mostrarAlerta("Seleccioná o escribí un tipo de ropa.");
             return;
         }
-        if ("Accesorio".equals(tipoProducto) && cbTipoAccesorio.getValue() == null) {
-            mostrarAlerta("Seleccioná un tipo de accesorio.");
+        if ("Accesorio".equals(tipoProducto) && tipoAccesorio == null) {
+            mostrarAlerta("Seleccioná o escribí un tipo de accesorio.");
             return;
         }
 
@@ -189,26 +277,24 @@ public class AltaProducto {
         }
 
         if ("Ropa".equals(tipoProducto)) {
-            String tipoRopa = cbTipoRopa.getValue();
             Integer id_existe = gestorProducto.existeProducto(descripcion, marca, color, talle, "Ropa", tipoRopa);
             if (id_existe != null) {
                 mostrarAlerta("El producto ya existe en el Sistema.");
             } else {
                 Ropa ropa = new Ropa(descripcion, talle, precio, color, marca, tipoRopa);
-                ropa.setFoto(fotoBytes); // ← asignamos los bytes
+                ropa.setFoto(fotoBytes);
                 producto = ropa;
                 id = gestorProducto.altaProducto(producto);
                 gestorStock.registrarStock(id, cantidad, LocalDateTime.now());
                 mostrarAlerta("Producto guardado correctamente.");
             }
         } else if ("Accesorio".equals(tipoProducto)) {
-            String tipoAccesorio = cbTipoAccesorio.getValue();
             Integer id_existe = gestorProducto.existeProducto(descripcion, marca, color, talle, "Accesorio", tipoAccesorio);
             if (id_existe != null) {
                 mostrarAlerta("El producto ya existe en el Sistema.");
             } else {
                 Accesorio accs = new Accesorio(descripcion, talle, precio, color, marca, tipoAccesorio);
-                accs.setFoto(fotoBytes); // ← asignamos los bytes
+                accs.setFoto(fotoBytes);
                 producto = accs;
                 id = gestorProducto.altaProducto(producto);
                 gestorStock.registrarStock(id, cantidad, LocalDateTime.now());
@@ -216,13 +302,19 @@ public class AltaProducto {
             }
         }
 
+        // Refrescar las listas para que el nuevo tipo (si era nuevo) quede disponible la próxima vez
+        cargarTiposRopa();
+        cargarTiposAccesorio();
+
         limpiarFormulario();
     }
 
     private void limpiarFormulario() {
         cbTipoProducto.setValue(null);
         cbTipoRopa.setValue(null);
+        cbTipoRopa.getEditor().clear();
         cbTipoAccesorio.setValue(null);
+        cbTipoAccesorio.getEditor().clear();
         cbTipoRopa.setDisable(true);
         cbTipoAccesorio.setDisable(true);
         txtDescripcion.clear();

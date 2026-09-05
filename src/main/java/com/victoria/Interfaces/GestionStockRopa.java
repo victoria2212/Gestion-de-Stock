@@ -47,7 +47,7 @@ public class GestionStockRopa {
     @FXML private TableColumn<RopaStockDTO, Void> colImagen;
     @FXML private TableColumn<RopaStockDTO, Void> colModificar;
     @FXML private TableColumn<RopaStockDTO, Void> colEliminar;
-    
+    @FXML private javafx.scene.control.Label lblCantidadProductos;
     // Inicializador del controlador
 
     @FXML
@@ -97,6 +97,14 @@ public class GestionStockRopa {
     @FXML
     private void volverMenuPrincipal() {
     Navegador.cambiarVista("/com/victoria/Interfaces/SceneMenuPrincipal.fxml");
+    }
+    private void actualizarContador(int cantidad) {
+
+    String texto = cantidad == 1
+            ? "1 Producto en Catalogo"
+            : cantidad + " Productos en Catalogo";
+
+        lblCantidadProductos.setText(texto);
     }
     private void agregarColumnaImagen() {
     colImagen.setCellFactory(col -> new TableCell<>() {
@@ -183,6 +191,7 @@ public class GestionStockRopa {
         listaOriginal = FXCollections.observableArrayList(listaDTO);
 
         tablaStock.setItems(listaOriginal);
+        actualizarContador(listaOriginal.size());  
     }
     private void configurarBuscador() {
 
@@ -205,6 +214,8 @@ public class GestionStockRopa {
                 || producto.getColor().toLowerCase().contains(texto)
                 || producto.getTipoRopa().toLowerCase().contains(texto);
         });
+
+        actualizarContador(filtrada.size());
     });
 
         tablaStock.setItems(filtrada);

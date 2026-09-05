@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.victoria.Clases.Producto;
 import com.victoria.Conexion.ConexionDB;
@@ -262,6 +263,42 @@ public class DaoProductoImp implements DaoProducto {
             }
         }
         return foto;
+    }
+    @Override
+    public List<String> obtenerTiposExistentes(String tipoProducto) {
+
+        List<String> tipos = new ArrayList<>();
+
+        String consulta = "SELECT DISTINCT tipo FROM producto WHERE tipoproducto = ? ORDER BY tipo;";
+
+        ConexionDB conexion = new ConexionDB();
+        Connection cn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            cn = conexion.conectar();
+            ps = cn.prepareStatement(consulta);
+            ps.setString(1, tipoProducto);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                tipos.add(rs.getString("tipo"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (cn != null) cn.close();
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+
+        return tipos;
     }
 }
 

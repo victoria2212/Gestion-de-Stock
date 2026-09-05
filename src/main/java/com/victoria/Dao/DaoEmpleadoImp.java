@@ -18,122 +18,91 @@ public class DaoEmpleadoImp implements DaoEmpleado {
 @Override
 public ArrayList<EmpleadoDTO> buscarEmpleados() {
 
-    ArrayList<EmpleadoDTO> empleados = new ArrayList<>();
+        ArrayList<EmpleadoDTO> empleados = new ArrayList<>();
 
-    String consulta =
-        "SELECT dni, nombre, apellido, direccion, contacto, dia_de_alta " +
-        "FROM empleado " +
-        "ORDER BY apellido";
+        String consulta =
+            "SELECT dni, nombre, apellido, direccion, contacto, dia_de_alta, rol, ultima_conexion " +
+            "FROM empleado " +
+            "ORDER BY apellido";
 
-    ConexionDB conexion = new ConexionDB();
-
-    Connection cn = null;
-    PreparedStatement ps = null;
-    ResultSet rs = null;
-
-    try {
-
-        cn = conexion.conectar();
-
-        ps = cn.prepareStatement(consulta);
-
-        rs = ps.executeQuery();
-
-        while (rs.next()) {
-
-            Integer dni = rs.getInt("dni");
-
-            String nombre = rs.getString("nombre");
-
-            String apellido = rs.getString("apellido");
-
-            String direccion = rs.getString("direccion");
-            
-            String contacto = rs.getString("contacto");
-
-            LocalDate fechaAlta =
-                rs.getObject("dia_de_alta", LocalDate.class);
-
-            EmpleadoDTO emp = new EmpleadoDTO(
-                dni,
-                nombre,
-                apellido,
-                direccion,
-                contacto,
-                fechaAlta
-            );
-
-            empleados.add(emp);
-        }
-
-    } catch (SQLException e) {
-
-        e.printStackTrace();
-
-    } finally {
+        ConexionDB conexion = new ConexionDB();
+        Connection cn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
         try {
+            cn = conexion.conectar();
+            ps = cn.prepareStatement(consulta);
+            rs = ps.executeQuery();
 
-            if (rs != null) rs.close();
+            while (rs.next()) {
 
-            if (ps != null) ps.close();
+                Integer dni = rs.getInt("dni");
+                String nombre = rs.getString("nombre");
+                String apellido = rs.getString("apellido");
+                String direccion = rs.getString("direccion");
+                String contacto = rs.getString("contacto");
+                LocalDate fechaAlta = rs.getObject("dia_de_alta", LocalDate.class);
 
-            if (cn != null) cn.close();
+                EmpleadoDTO emp = new EmpleadoDTO(dni, nombre, apellido, direccion, contacto, fechaAlta);
 
-        } catch (Exception e2) {
+                emp.setRol(rs.getString("rol"));
+                emp.setUltimaConexion(rs.getObject("ultima_conexion", java.time.LocalDateTime.class));
 
-            e2.printStackTrace();
+                empleados.add(emp);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (cn != null) cn.close();
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
         }
-    }
 
         return empleados;
     }
 
-    @Override
+   @Override
     public void crearEmpleado(Empleado empleado) {
-        Connection cn = null; //para conectar a la bd
-		PreparedStatement cs = null;//para hacer las consultas SQL
-		ResultSet rs = null; 
-        // DOY DE ALTA A UN EMPLEADO/ CREO UN EMPLEADO
-        String consulta = "INSERT INTO empleado (dni, nombre, apellido, direccion, contacto, dia_de_alta)" 
-                        + "VALUES (?,?,?,?,?,?);";
+        Connection cn = null;
+        PreparedStatement cs = null;
+        ResultSet rs = null;
+
+        String consulta = "INSERT INTO empleado (dni, nombre, apellido, direccion, contacto, dia_de_alta, rol) "
+                        + "VALUES (?,?,?,?,?,?,?);";
         ConexionDB conexion = new ConexionDB();
         try {
-			cn = conexion.conectar();
-			cs = cn.prepareStatement(consulta);
-			
-			//INCORPORAMOS PARAMETROS DE ARRIBA (los values)
-			cs.setInt(1, empleado.getDni());
-			cs.setString(2, empleado.getNombre());
-			cs.setString(3, empleado.getApellido());
+            cn = conexion.conectar();
+            cs = cn.prepareStatement(consulta);
+
+            cs.setInt(1, empleado.getDni());
+            cs.setString(2, empleado.getNombre());
+            cs.setString(3, empleado.getApellido());
             cs.setString(4, empleado.getDireccion());
             cs.setString(5, empleado.getContacto());
             cs.setObject(6, empleado.getDia_de_alta());
+            cs.setString(7, empleado.getRol());
 
-			cs.executeUpdate();
+            cs.executeUpdate();
             System.out.println("Empleado creado correctamente.");
-            System.out.println("Se ejecutó el INSERT correctamente.");
-		}catch (SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Error al guardar en base:");
-			e.printStackTrace();
-		}finally {
-			//Para liberar recursos
-			try {
-				if(rs != null) {
-					rs.close();
-				}
-				if(cs != null) {
-					cs.close();
-				}
-				if(cn != null) {
-					cn.close();
-				}
-				
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
-		}
-	}
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (cs != null) cs.close();
+                if (cn != null) cn.close();
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+    }
 
     public boolean existeEmpleado(Integer dni) {
     boolean b = false;
@@ -165,83 +134,38 @@ public ArrayList<EmpleadoDTO> buscarEmpleados() {
     }
         return b; // devuelve true si existe, false si no
     }
-    @Override
+   @Override
     public void modificarEmpleado(EmpleadoDTO empleado) {
 
     String consulta =
         "UPDATE empleado SET " +
-        "nombre = ?, " +
-        "apellido = ?, " +
-        "direccion = ?, " +
-        "contacto = ? " +
+        "nombre = ?, apellido = ?, direccion = ?, contacto = ?, rol = ? " +
         "WHERE dni = ?;";
 
     ConexionDB conexion = new ConexionDB();
-
     Connection cn = null;
-
     PreparedStatement ps = null;
 
     try {
-
         cn = conexion.conectar();
-
         ps = cn.prepareStatement(consulta);
 
-        // =========================
-        // DATOS A MODIFICAR
-        // =========================
-
-        ps.setString(
-            1,
-            empleado.getNombre()
-        );
-
-        ps.setString(
-            2,
-            empleado.getApellido()
-        );
-
-        ps.setString(
-            3,
-            empleado.getDireccion()
-        );
-        ps.setString(
-            4,
-            empleado.getContacto()
-        );
-
-        // =========================
-        // WHERE DNI
-        // =========================
-
-        ps.setInt(
-            5,
-            empleado.getDni()
-        );
+        ps.setString(1, empleado.getNombre());
+        ps.setString(2, empleado.getApellido());
+        ps.setString(3, empleado.getDireccion());
+        ps.setString(4, empleado.getContacto());
+        ps.setString(5, empleado.getRol());
+        ps.setInt(6, empleado.getDni());
 
         ps.executeUpdate();
-
-        System.out.println(
-            "Empleado modificado correctamente."
-        );
-
+        System.out.println("Empleado modificado correctamente.");
     } catch (SQLException e) {
-
         e.printStackTrace();
-
     } finally {
-
         try {
-
-            if(ps != null)
-                ps.close();
-
-            if(cn != null)
-                cn.close();
-
+            if (ps != null) ps.close();
+            if (cn != null) cn.close();
         } catch (Exception e2) {
-
             e2.printStackTrace();
             }
         }
@@ -283,6 +207,32 @@ public ArrayList<EmpleadoDTO> buscarEmpleados() {
             }
         }
 
+    }
+    @Override
+    public void actualizarUltimaConexion(Integer dni) {
+
+    String consulta = "UPDATE empleado SET ultima_conexion = ? WHERE dni = ?;";
+
+    ConexionDB conexion = new ConexionDB();
+    Connection cn = null;
+    PreparedStatement ps = null;
+
+    try {
+        cn = conexion.conectar();
+        ps = cn.prepareStatement(consulta);
+        ps.setTimestamp(1, java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
+        ps.setInt(2, dni);
+        ps.executeUpdate();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        try {
+            if (ps != null) ps.close();
+            if (cn != null) cn.close();
+        } catch (Exception e2) {
+            e2.printStackTrace();
+            }
+        }
     }
          
     

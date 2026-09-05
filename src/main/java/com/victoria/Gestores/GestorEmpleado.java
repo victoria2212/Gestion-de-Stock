@@ -55,4 +55,7 @@ public class GestorEmpleado {
     public void eliminarEmpleado(Integer dni){
     empleadoDao.eliminarEmpleado(dni);
     }
+    public void actualizarUltimaConexion(Integer dni) {
+        empleadoDao.actualizarUltimaConexion(dni);
+    }
 }

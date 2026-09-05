@@ -50,6 +50,7 @@ public class GestionStockAccs {
     @FXML private TableColumn<AccsStockDTO, Void> colImagen;
     @FXML private TableColumn<AccsStockDTO, Void> colModificar;
     @FXML private TableColumn<AccsStockDTO, Void> colEliminar;
+    @FXML private javafx.scene.control.Label lblCantidadProductos;
     
     // Inicializador del controlador
 
@@ -136,7 +137,14 @@ public class GestionStockAccs {
             }
         });
     }
-  
+    private void actualizarContador(int cantidad) {
+
+        String texto = cantidad == 1
+                ? "1 Producto en Catalogo"
+                : cantidad + " Productos en Catalogo";
+
+        lblCantidadProductos.setText(texto);
+    }
     private void agregarBotonesModificar() {
     colModificar.setCellFactory(col -> new TableCell<>() {
         private final Button btn = new Button("Modificar");
@@ -192,31 +200,34 @@ public class GestionStockAccs {
     listaOriginal = FXCollections.observableArrayList(listaDTO);
 
     tablaStock.setItems(listaOriginal);
+    actualizarContador(listaOriginal.size());  
     }
     private void configurarBuscador() {
 
-    FilteredList<AccsStockDTO> filtrada =
-        new FilteredList<>(listaOriginal, p -> true);
+        FilteredList<AccsStockDTO> filtrada =
+            new FilteredList<>(listaOriginal, p -> true);
 
-    txtBuscar.textProperty().addListener((obs, oldValue, newValue) -> {
+        txtBuscar.textProperty().addListener((obs, oldValue, newValue) -> {
 
-        filtrada.setPredicate(producto -> {
+            filtrada.setPredicate(producto -> {
 
-            if (newValue == null || newValue.isBlank()) {
-                return true;
-            }
+                if (newValue == null || newValue.isBlank()) {
+                    return true;
+                }
 
-            String texto = newValue.toLowerCase();
+                String texto = newValue.toLowerCase();
 
-            return producto.getCodigoProducto().toLowerCase().contains(texto)
-                || producto.getDescripcion().toLowerCase().contains(texto)
-                || producto.getMarca().toLowerCase().contains(texto)
-                || producto.getColor().toLowerCase().contains(texto)
-                || producto.getTipoAccs().toLowerCase().contains(texto);
+                return producto.getCodigoProducto().toLowerCase().contains(texto)
+                    || producto.getDescripcion().toLowerCase().contains(texto)
+                    || producto.getMarca().toLowerCase().contains(texto)
+                    || producto.getColor().toLowerCase().contains(texto)
+                    || producto.getTipoAccs().toLowerCase().contains(texto);
+            });
+
+            actualizarContador(filtrada.size());   // ← NUEVO
         });
-    });
 
-    tablaStock.setItems(filtrada);
+        tablaStock.setItems(filtrada);
     }
 
 }

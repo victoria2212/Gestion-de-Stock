@@ -3,6 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.victoria.Interfaces.GestionEmpleado"
@@ -10,30 +12,71 @@
 
     <!-- Título -->
     <top>
-        <Label text="GESTIÓN DE EMPLEADOS"
-               styleClass="titulo"
-               maxWidth="Infinity"
-               alignment="CENTER"
-               BorderPane.alignment="CENTER"/>
+        <VBox spacing="10">
+
+            <HBox alignment="CENTER_LEFT" spacing="16" styleClass="cabecera-titulo">
+
+                <VBox.margin>
+                    <Insets top="30" left="20" right="20" bottom="20"/>
+                </VBox.margin>
+
+                <HBox alignment="CENTER" spacing="6" styleClass="badge-contador">
+                    <ImageView fitWidth="16" fitHeight="16" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/iconopersona.png"/>
+                    </image>
+                </ImageView>
+                    <Label fx:id="lblCantidadEmpleados" text="0 empleados" styleClass="badge-texto"/>
+                </HBox>
+
+                <VBox styleClass="bloque-titulo">
+                    <Label text="Gestión de empleados"
+                           styleClass="titulo"/>
+                    <Label text="Gestioná los datos y la información de tu equipo"
+                           styleClass="subtitulo-stock"/>
+                </VBox>
+
+            </HBox>
+
+        </VBox>
     </top>
 
-    <!-- Tabla -->
+    <!-- Tarjetas de empleados -->
     <center>
-        <TableView fx:id="tablaEmpleados" prefHeight="400" prefWidth="900">
+        <StackPane>
 
-            <columns>
-                <TableColumn fx:id="colDni" text="DNI" prefWidth="120"/>
-                <TableColumn fx:id="colNombre" text="Nombre" prefWidth="140"/>
-                <TableColumn fx:id="colApellido" text="Apellido" prefWidth="140"/>
-                <TableColumn fx:id="colDireccion" text="Dirección" prefWidth="220"/>
-                <TableColumn fx:id="colContacto" text="Contacto" prefWidth="140"/>
-                <TableColumn fx:id="colFechaAlta" text="Fecha de Alta" prefWidth="180"/>
+            <!-- Logo de fondo, como marca de agua -->
+                <ImageView fitWidth="520" preserveRatio="true"
+                    opacity="0.09"
+                    smooth="true"
+                    mouseTransparent="true">
+                <image>
+                    <Image url="@../images/logodharmavip.png"
+                        backgroundLoading="false"/>
+                </image>
+            </ImageView>
 
-                <TableColumn fx:id="colModificar" text="Modificar" prefWidth="100"/>
-                <TableColumn fx:id="colEliminar" text="Eliminar" prefWidth="100"/>
-            </columns>
+            <!-- Contenido real, por encima del logo -->
+            <ScrollPane fitToWidth="true" styleClass="scroll-empleados">
 
-        </TableView>
+                <content>
+
+                    <FlowPane fx:id="contenedorEmpleados"
+                            hgap="16"
+                            vgap="16"
+                            styleClass="grid-empleados">
+
+                        <padding>
+                            <Insets top="10" right="20" bottom="20" left="20"/>
+                        </padding>
+
+                    </FlowPane>
+
+                </content>
+
+            </ScrollPane>
+
+        </StackPane>
     </center>
 
     <!-- Botones inferiores -->

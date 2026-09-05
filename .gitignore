@@ -13,3 +13,5 @@ hs_err_pid*.log
 # Sistema operativo
 .DS_Store
 Thumbs.db
+
+salida-app/

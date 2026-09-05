@@ -192,4 +192,39 @@ public class DaoVentaImp implements DaoVenta {
 
         return ventas;
     }
+    @Override
+    public int contarVentasPorVendedor(String nombreCompleto) {
+
+    int cantidad = 0;
+    String consulta = "SELECT COUNT(*) AS total FROM ventas WHERE vendedor = ?;";
+
+    ConexionDB conexion = new ConexionDB();
+    Connection cn = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+
+    try {
+        cn = conexion.conectar();
+        ps = cn.prepareStatement(consulta);
+        ps.setString(1, nombreCompleto);
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            cantidad = rs.getInt("total");
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        try {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+            if (cn != null) cn.close();
+        } catch (Exception e2) {
+            e2.printStackTrace();
+        }
+    }
+
+        return cantidad;
+    }
 }

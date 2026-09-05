@@ -1,7 +1,7 @@
 package com.victoria.Dto;
 
 import java.time.LocalDate;
-
+import java.time.LocalDateTime;
 
 public class EmpleadoDTO {
    private Integer dni;
@@ -10,10 +10,10 @@ public class EmpleadoDTO {
    private String direccion;
    private String contacto;
    private LocalDate fechaInicio;
+   private String rol;
+   private LocalDateTime ultimaConexion;
 
-   public EmpleadoDTO(){
-
-   };
+   public EmpleadoDTO(){};
 
    public EmpleadoDTO(Integer dni, String nombre, String apellido, String direcc, String contacto, LocalDate fechaInicio){
     this.dni= dni;
@@ -24,63 +24,25 @@ public class EmpleadoDTO {
     this.fechaInicio=fechaInicio;
    }
 
-   public String getContacto(){
-      return contacto;
-   }
-   public void setContacto(String c){
-      this.contacto=c;
-   }
-   public LocalDate getDia_de_alta(){
-      return fechaInicio;
-   }
+   public String getRol() { return rol; }
+   public void setRol(String rol) { this.rol = rol; }
 
-   public void setDia_de_alta(LocalDate fecha) {
-    this.fechaInicio = fecha;
-   }
+   public LocalDateTime getUltimaConexion() { return ultimaConexion; }
+   public void setUltimaConexion(LocalDateTime ultimaConexion) { this.ultimaConexion = ultimaConexion; }
 
-
-   public Integer getDni() {
-    return dni;
-   }
-
-   public void setDni(Integer dni) {
-    this.dni = dni;
-   }
-
-   public String getNombre() {
-    return nombre;
-   }
-
-   public void setNombre(String nombre) {
-    this.nombre = nombre;
-   }
-
-   public String getApellido() {
-    return apellido;
-   }
-
-   public void setApellido(String apellido) {
-    this.apellido = apellido;
-   }
-
-   public String getDireccion() {
-    return direccion;
-   }
-
-   public void setDireccion(String direccion) {
-    this.direccion = direccion;
-   }
-
-   public LocalDate getFechaInicio() {
-    return fechaInicio;
-   }
-
-   public void setFechaInicio(LocalDate fechaInicio) {
-    this.fechaInicio = fechaInicio;
-   }
-   public String getNombreCompleto() {
-    return nombre + " " + apellido;
-   }
-   
-
+   public String getContacto(){ return contacto; }
+   public void setContacto(String c){ this.contacto=c; }
+   public LocalDate getDia_de_alta(){ return fechaInicio; }
+   public void setDia_de_alta(LocalDate fecha) { this.fechaInicio = fecha; }
+   public Integer getDni() { return dni; }
+   public void setDni(Integer dni) { this.dni = dni; }
+   public String getNombre() { return nombre; }
+   public void setNombre(String nombre) { this.nombre = nombre; }
+   public String getApellido() { return apellido; }
+   public void setApellido(String apellido) { this.apellido = apellido; }
+   public String getDireccion() { return direccion; }
+   public void setDireccion(String direccion) { this.direccion = direccion; }
+   public LocalDate getFechaInicio() { return fechaInicio; }
+   public void setFechaInicio(LocalDate fechaInicio) { this.fechaInicio = fechaInicio; }
+   public String getNombreCompleto() { return nombre + " " + apellido; }
 }
