@@ -92,7 +92,7 @@ public class GestionEmpleado {
     Label lblNombre = new Label(empleado.getNombre() + " " + empleado.getApellido());
     lblNombre.getStyleClass().add("nombre-empleado");
     lblNombre.setWrapText(true);
-    lblNombre.setMaxWidth(150);
+    lblNombre.setMaxWidth(190);
     Label lblDni = new Label("DNI " + empleado.getDni());
     lblDni.getStyleClass().add("dni-empleado");
     nombreDni.getChildren().addAll(lblNombre, lblDni);

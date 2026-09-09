@@ -83,8 +83,8 @@ public class VisualizarStockAccs {
     private void actualizarContador(int cantidad) {
 
     String texto = cantidad == 1
-            ? "1 producto"
-            : cantidad + " productos";
+            ? "1 Producto disponible"
+            : cantidad + " Productos disponibles";
 
         lblCantidadProductos.setText(texto);
     }
@@ -149,13 +149,17 @@ public class VisualizarStockAccs {
     }
   
     private void cargarDatos() {
-        List<AccsStockDTO> listaDTO =
-            gestorStock.obtenerStockAccs();
+    List<AccsStockDTO> listaDTO =
+        gestorStock.obtenerStockAccs();
 
-        listaOriginal = FXCollections.observableArrayList(listaDTO);
+    List<AccsStockDTO> disponibles = listaDTO.stream()
+            .filter(p -> p.getCantidad() > 0)
+            .toList();
+
+        listaOriginal = FXCollections.observableArrayList(disponibles);
 
         tablaStock.setItems(listaOriginal);
-        actualizarContador(listaOriginal.size());   // ← NUEVO
+        actualizarContador(listaOriginal.size());
     }
     private void configurarBuscador() {
 
